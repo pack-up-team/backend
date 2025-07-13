@@ -9,8 +9,6 @@ public class PackUpApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(PackUpApplication.class, args);
-
-//		Test
 	}
 
 }
