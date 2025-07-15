@@ -4,3 +4,38 @@ spring:
 
   profiles:
     active: local
+
+  security:
+    user:
+      name: admin
+      password: 1234
+
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+    static-path-pattern: /static/**
+  
+  web:
+    resources:
+      static-locations:
+      - classpath:/static/
+
+  # 데이터소스 설정
+  datasource:
+    url: jdbc:mysql://3.35.147.68:3306/SWYP6?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: swyp6
+    password: Swyp10_6group
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: update  # create, create-drop, validate, update, none
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: 80
