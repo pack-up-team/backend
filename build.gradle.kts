@@ -38,6 +38,8 @@ dependencies {
 	implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api")
     implementation("org.glassfish.web:jakarta.servlet.jsp.jstl")
+    implementation("org.mybatis:mybatis:3.5.15")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

@@ -1,0 +1,30 @@
+package com.swygbro.packup.user.dto;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDto {
+    private int userNo;
+    private String userId;
+    private String userPw;
+    private String email;
+    private String userNm;
+    private String phoneNum;
+    private String gender;
+    private Date lastLoginDt;
+    private Date regDt;
+    private String regId;
+    private Date updDt;
+    private String updId;
+    private String Role;
+    private char useYn;
+    private char delYn;
+    private int lgnFailCnt;
+    private String personalInfoAcq;
+}
