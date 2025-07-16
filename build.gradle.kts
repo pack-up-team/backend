@@ -40,6 +40,7 @@ dependencies {
     implementation("org.glassfish.web:jakarta.servlet.jsp.jstl")
     implementation("org.mybatis:mybatis:3.5.15")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+	implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

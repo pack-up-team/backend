@@ -3,10 +3,10 @@
 <mapper namespace="com.swygbro.packup.user.Mapper.UserMapper">
 	<select id="selectUserById" parameterType="String" resultType="com.swygbro.packup.config.CustomUserDetails">
 		/**
-		 * kr.or.seoulphil.cms.common.lgn.mapper.LoginMapper > selectUserById
-		 * 작성자 : ahyun
+		 * com.swygbro.packup.user.Mapper.UserMapper > selectUserById
+		 * 작성자 : 홍섭
 		 * 설명 : 로그인용 사용자 조회
-		 * 사용여부는 서비스 로직에 판별하고 다른 메시지를 표출해야 하기 때문에 빼둠
+		 * 
 		 */
 		 SELECT
 			 TU.*

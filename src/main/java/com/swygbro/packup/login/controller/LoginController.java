@@ -18,7 +18,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        System.out.println("로그인 이곳은 들어오냐??");
         return "login/login";
     }
 
