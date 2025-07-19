@@ -19,6 +19,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/login*").permitAll()     // lgn* → login*
                         .requestMatchers("/test*").permitAll()
