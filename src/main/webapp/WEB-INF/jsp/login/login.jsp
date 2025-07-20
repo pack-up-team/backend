@@ -23,10 +23,11 @@ Login Page
     </div>
 </c:if>
 
-<form action="/loginProcess" method="post" name="loginForm">
+<form action="/login/loginProcess" method="post" name="loginForm">
   <input id="username" type="text" name="username" placeholder="username" required />
   <input id="password" type="password" name="password" placeholder="password" required />
   <button type="submit" value="login">Submit</button>
+  <button type="button" value="login" onclick="location.href='/login/register'">Register</button>
 </form>
 </body>
 </html>

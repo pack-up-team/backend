@@ -8,8 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.swygbro.packup.user.Mapper.UserMapper;
-import com.swygbro.packup.user.dto.UserDto;
 import com.swygbro.packup.user.entity.User;
+import com.swygbro.packup.user.vo.UserVo;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +20,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public int insertUser(UserDto userDto){
+    public int insertUser(UserVo userDto){
         //패스워드 암호화
 
         userDto.setUserPw(passwordEncoder.encode(userDto.getUserPw()));

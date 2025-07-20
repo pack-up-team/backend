@@ -1,4 +1,4 @@
-package com.swygbro.packup.user.dto;
+package com.swygbro.packup.user.vo;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserVo {
     private int userNo;
     private String userId;
     private String userPw;
@@ -27,4 +27,5 @@ public class UserDto {
     private char delYn;
     private int lgnFailCnt;
     private String personalInfoAcq;
+    private String infoAcq;
 }
