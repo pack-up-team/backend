@@ -49,7 +49,7 @@
 			#{phoneNum},
 			#{gender},
 			#{personalInfoAcq},
-			#{regId},
+			#{userId},
 			NOW(),
 			'N',
 			#{infoAcq},

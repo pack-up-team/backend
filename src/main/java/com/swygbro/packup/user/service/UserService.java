@@ -31,6 +31,7 @@ public class UserService {
     }
 
     public int updateUser(UserVo userVo) {
+        System.out.println("userVO : "+userVo);
         return userMapper.updateUser(userVo);
     }
 
