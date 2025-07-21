@@ -61,7 +61,8 @@
 		SET USER_NM = #{userNm},
 			EMAIL = #{email},
 			PHONE_NUM = #{phoneNum},
-			UPT_DT = NOW()
+			UPD_DT = NOW(),
+			UPD_ID = #{updId}
 			<if test="userPw != null and userPw != ''">
 			, USER_PW = #{userPw}
 			</if>
