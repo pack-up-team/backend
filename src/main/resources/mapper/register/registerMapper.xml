@@ -38,7 +38,8 @@
 			REG_ID,
 			REG_DT,
 			DEL_YN,
-			INFO_ACQ
+			INFO_ACQ,
+			ROLE
 		) VALUES (
 			#{userNo},
 			#{userId},
@@ -51,7 +52,8 @@
 			#{regId},
 			NOW(),
 			'N',
-			#{infoAcq}
+			#{infoAcq},
+			#{role}
 		)
 	</insert>
 </mapper>
