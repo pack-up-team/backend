@@ -12,4 +12,6 @@ public interface UserMapper {
 
     CustomUserDetails selectUserById(String userId);
 
+    int updateLastLoginDate(String userId);
+
 }

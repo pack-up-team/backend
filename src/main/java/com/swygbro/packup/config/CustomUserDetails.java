@@ -6,29 +6,33 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
-
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
-@Service
+@Getter
+@Setter
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails{
     
-
     private String userId;
-    
-    @Setter
     private String userPw;
     private String role;
     private int enabled;
 
+    public CustomUserDetails(String userId, String userPw, String role, int enabled) {
+        this.userId = userId;
+        this.userPw = userPw;
+        this.role = role;
+        this.enabled = enabled;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         ArrayList<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
-        authList.add(new SimpleGrantedAuthority(role));
-
+        String roleWithPrefix = role.startsWith("ROLE_") ? role : "ROLE_" + role;
+        authList.add(new SimpleGrantedAuthority(roleWithPrefix));
         return authList;
     }
 
@@ -41,5 +45,24 @@ public class CustomUserDetails implements UserDetails{
     public String getUsername() {
         return userId;
     }
-    
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled == 1;
+    }
 }

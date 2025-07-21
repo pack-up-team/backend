@@ -12,6 +12,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -33,6 +39,8 @@ public class SecurityConfig {
                         .loginProcessingUrl("/loginProcess")        // lgn/lgn → loginProcess
                         .usernameParameter("username")              // mngrId → username
                         .passwordParameter("password")              // pswd → password
+                        .successHandler(customAuthenticationSuccessHandler)
+                        .failureUrl("/login/login?error=true")
                         .permitAll()
                 )
                 

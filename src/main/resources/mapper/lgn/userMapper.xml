@@ -9,9 +9,25 @@
 		 * 
 		 */
 		 SELECT
-			 TU.*
+			 USER_ID,
+			 USER_PW,
+			 ROLE,
+			 CASE WHEN USE_YN = 'Y' THEN 1 ELSE 0 END as enabled
 		   FROM TBL_USER TU
 		  WHERE USER_ID = #{userId}
 		 	AND DEL_YN = 'N'
 	</select>
+
+	<update id="updateLastLoginDate" parameterType="String">
+		/**
+		 * com.swygbro.packup.user.Mapper.UserMapper > updateLastLoginDate
+		 * 작성자 : 홍섭
+		 * 설명 : 로그인 시 최종 로그인 일시 업데이트
+		 * 
+		 */
+		UPDATE TBL_USER 
+		   SET LAST_LOGIN_DT = NOW()
+		 WHERE USER_ID = #{userId}
+		   AND DEL_YN = 'N'
+	</update>
 </mapper>

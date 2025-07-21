@@ -27,6 +27,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
         System.out.println("**************Found user***************");
         System.out.println("   userId : " + users.getUsername());
+        System.out.println("   enabled : " + users.isEnabled());
+        System.out.println("   role : " + users.getRole());
         System.out.println("***************************************");
 
         return users;

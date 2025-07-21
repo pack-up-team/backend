@@ -2,6 +2,7 @@ package com.swygbro.packup.login.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.swygbro.packup.user.service.UserService;
@@ -38,7 +39,7 @@ public class LoginController {
         return "login/loginError";
     }
 
-    @GetMapping("/insertUser")
+    @PostMapping("/insertUser")
     public String insertUser(UserVo userDto) {
         log.info("insertUser ::: {}",userDto);
         int res = userService.insertUser(userDto);

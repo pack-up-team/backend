@@ -26,12 +26,17 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
     @PostMapping("/userRegister")
     public ResponseEntity<Map<String, Object>> userRegister(@RequestBody UserVo userVo) {
         try {
             System.out.println("userVo : "+userVo);
+
+            userVo.setUserPw(encoder.encode(userVo.getUserPw()));
+            userVo.setRole("USER");
+            
+            System.out.println("userVo1212121212 : "+userVo);
 
             // 회원가입 처리 로직
             registerService.registerUser(userVo);
