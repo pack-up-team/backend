@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/test*").permitAll()
                         .requestMatchers("/sample/**").permitAll()
                         .requestMatchers("/component/**").permitAll()
+                        .requestMatchers("/mypage/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/**").hasAnyRole("ADMIN", "USER")
                 )
                 
@@ -41,6 +42,14 @@ public class SecurityConfig {
                         .passwordParameter("password")              // pswd → password
                         .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/login/login?error=true")
+                        .permitAll()
+                )
+                
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
                 

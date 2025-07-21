@@ -14,4 +14,8 @@ public interface UserMapper {
 
     int updateLastLoginDate(String userId);
 
+    UserVo getUserInfo(String userId);
+
+    int updateUser(UserVo userVo);
+
 }

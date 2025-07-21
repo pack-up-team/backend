@@ -30,4 +30,42 @@
 		 WHERE USER_ID = #{userId}
 		   AND DEL_YN = 'N'
 	</update>
+
+	<select id="getUserInfo" parameterType="String" resultType="com.swygbro.packup.user.vo.UserVo">
+		/**
+		 * com.swygbro.packup.user.Mapper.UserMapper > getUserInfo
+		 * 작성자 : 홍섭
+		 * 설명 : 사용자 정보 조회
+		 * 
+		 */
+		SELECT
+			USER_ID,
+			USER_NM,
+			EMAIL,
+			PHONE_NUM,
+			GENDER,
+			ROLE
+		FROM TBL_USER
+		WHERE USER_ID = #{userId}
+		  AND DEL_YN = 'N'
+	</select>
+
+	<update id="updateUser" parameterType="com.swygbro.packup.user.vo.UserVo">
+		/**
+		 * com.swygbro.packup.user.Mapper.UserMapper > updateUser
+		 * 작성자 : 홍섭
+		 * 설명 : 사용자 정보 수정
+		 * 
+		 */
+		UPDATE TBL_USER
+		SET USER_NM = #{userNm},
+			EMAIL = #{email},
+			PHONE_NUM = #{phoneNum},
+			UPT_DT = NOW()
+			<if test="userPw != null and userPw != ''">
+			, USER_PW = #{userPw}
+			</if>
+		WHERE USER_ID = #{userId}
+		  AND DEL_YN = 'N'
+	</update>
 </mapper>

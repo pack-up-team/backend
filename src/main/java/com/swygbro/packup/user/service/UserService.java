@@ -22,11 +22,16 @@ public class UserService {
 
     public int insertUser(UserVo userDto){
         //패스워드 암호화
-
         userDto.setUserPw(passwordEncoder.encode(userDto.getUserPw()));
-
         return userMapper.insertUser(userDto);
+    }
 
+    public UserVo getUserInfo(String userId) {
+        return userMapper.getUserInfo(userId);
+    }
+
+    public int updateUser(UserVo userVo) {
+        return userMapper.updateUser(userVo);
     }
 
 }
