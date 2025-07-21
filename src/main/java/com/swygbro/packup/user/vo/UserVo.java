@@ -22,7 +22,7 @@ public class UserVo {
     private String regId;
     private Date updDt;
     private String updId;
-    private String Role;
+    private String role;
     private char useYn;
     private char delYn;
     private int lgnFailCnt;
