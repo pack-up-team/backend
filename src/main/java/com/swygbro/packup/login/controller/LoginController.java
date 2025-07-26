@@ -10,7 +10,9 @@ import com.swygbro.packup.user.vo.UserVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @Slf4j
 @Controller
 @RequiredArgsConstructor
