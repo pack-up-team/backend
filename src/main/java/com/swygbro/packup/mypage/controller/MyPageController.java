@@ -77,4 +77,9 @@ public class MyPageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "🎉 Hello from EC2!";
+    }
 }
