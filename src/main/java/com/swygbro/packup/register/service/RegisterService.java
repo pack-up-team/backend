@@ -9,7 +9,9 @@ import com.swygbro.packup.register.mapper.RegisterMapper;
 import com.swygbro.packup.user.vo.UserVo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @Service
 @RequiredArgsConstructor
 public class RegisterService {

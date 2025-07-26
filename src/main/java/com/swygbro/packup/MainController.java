@@ -10,8 +10,7 @@ public class MainController {
 
     @GetMapping("/")
     public String getMethodName() {
-        System.out.println("들어오냐????");
-        return "login/login";
+        return "main";
     }
     
 }

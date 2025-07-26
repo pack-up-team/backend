@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,6 +95,10 @@
             text-align: center;
             margin-top: 30px;
         }
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +116,7 @@
             <div class="message error">${error}</div>
         </c:if>
 
-        <form action="/mypage/updateUser" method="post">
+        <form id="updateForm">
             <div class="form-group">
                 <label for="userId">아이디</label>
                 <input type="text" id="userId" name="userId" value="${userInfo.userId}" disabled>
@@ -137,10 +143,56 @@
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn btn-primary">정보 수정</button>
+                <button type="submit" class="btn btn-primary" id="updateBtn">정보 수정</button>
                 <a href="/dashboard/dashboard" class="btn btn-secondary">대시보드로 돌아가기</a>
             </div>
         </form>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Form 제출 이벤트 처리
+            $('#updateForm').on('submit', function(e) {
+                e.preventDefault(); // 기본 제출 방지
+                updateUser();
+            });
+        });
+
+        function updateUser() {
+            // 버튼 비활성화
+            $('#updateBtn').prop('disabled', true).text('처리 중...');
+            
+            var formData = {
+                userId: $('#userId').val(),
+                userNm: $('#userNm').val(),
+                email: $('#email').val(),
+                phoneNum: $('#phoneNum').val(),
+                userPw: $('#userPw').val()
+            };
+            
+            $.ajax({
+                url: '/mypage/updateUser', // URL 통일
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        window.location.href = '/mypage/mypage';
+                    } else {
+                        alert('오류: ' + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('서버 오류가 발생했습니다.');
+                },
+                complete: function() {
+                    // 버튼 다시 활성화
+                    $('#updateBtn').prop('disabled', false).text('정보 수정');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
