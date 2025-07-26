@@ -78,8 +78,4 @@ public class MyPageController {
         }
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "🎉 Hello from EC2!";
-    }
 }
