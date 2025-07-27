@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/login/*","/register/*","/register","/login").permitAll()     // lgn* → login*
+                        .requestMatchers("/lgn/*","/register/*","/register","/lgn").permitAll()     // lgn* → login*
                         .requestMatchers("/test*").permitAll()
                         .requestMatchers("/sample/**").permitAll()
                         .requestMatchers("/component/**").permitAll()
@@ -37,7 +37,7 @@ public class SecurityConfig {
                 )
                 
                 .formLogin((auth) -> auth
-                        .loginPage("/login/login")                        // lgn → login
+                        .loginPage("/lgn/login")                        // lgn → login
                         .loginProcessingUrl("/loginProcess")        // lgn/lgn → loginProcess
                         .usernameParameter("username")              // mngrId → username
                         .passwordParameter("password")              // pswd → password

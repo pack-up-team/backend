@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swygbro.packup.template.mapper.TemplateMapper">
+	<select id="getCateTemplateObject" parameterType="com.swygbro.packup.template.vo.CateObjVo" resultType="com.swygbro.packup.template.vo.CateObjVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getCateTemplateObject
+		 * 작성자 : 홍섭
+		 * 설명 : 카테고리에 연결된 오브젝트 검색
+		 * 
+		 */
+		 SELECT OBJ_NO,
+                CATE_NO,
+                OBJ_NM,
+                ORG_FILE_NAME
+        FROM TBL_OBJECT A,
+              TBL_ATTCH_FILE B
+        WHRE A.OBJ_NO = B.REF_NO
+        AND A.DELY_YN = 'N'
+        <if test="cateNo != null and cateNo != ''">
+        AND CATE_NO = #{cateNo}
+        </if>
+	</select>
+
+	<insert id="TemplateSave" parameterType="com.swygbro.packup.template.vo.TemplateVo">
+		/**
+		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE
+		* 작성자 : 홍섭
+		* 설명 : 사용자 템플릿 저장
+		* 
+		*/
+
+		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(TEMPLATE_NO), 0) + 1 FROM TBL_USER_TEMPLATE
+		</selectKey>
+
+		INSERT INTO TBL_USER_TEMPLATE (
+			TEMPLATE_NO,
+			USER_NO,
+			USER_ID,
+			REG_DT,
+			REG_ID
+		) VALUES (
+			#{templatNo},
+			#{userNo},
+            #{userId},
+			NOW(),
+            #{userId}
+		)
+	</insert>
+
+    <insert id="templateSaveStep" parameterType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE_STEP
+		* 작성자 : 홍섭
+		* 설명 : 사용자 템플릿 스텝 정보 저장
+		* 
+		*/
+
+		<selectKey keyProperty="templateStepNo" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(TEMPLATE_STEP_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP
+		</selectKey>
+
+		INSERT INTO TBL_USER_TEMPLATE_STEP (
+			TEMPLATE_STEP_NO,
+			TEMPLATE_NO,
+			STEP,
+			REG_DT,
+			REG_ID,
+			ALARM_DT,
+			REPEAT_TYPE,
+			ALARM_REPEAT_DAY,
+			ALARM_TIME,
+			STEP_X,
+			STEP_Y
+		) VALUES (
+			#{templateStepNo},
+			#{templatNo},
+			#{step},
+			NOW(),
+            #{userId},
+			#{alarmDt},
+			#{repeatType},
+			#{alarmRepeatDay},
+			#{alarmTime},
+			#{stepX},
+			#{stepY}
+		)
+	</insert>
+
+	<insert id="templateSaveStep" parameterType="com.swygbro.packup.template.vo.TempStepObjVO">
+		/**
+		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE_STEP_OBJ
+		* 작성자 : 홍섭
+		* 설명 : 사용자 템플릿 스텝 오브젝트 저장
+		* 
+		*/
+
+		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(TEMP_USER_OBJ_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP_OBJ
+		</selectKey>
+
+		INSERT INTO TBL_USER_TEMPLATE_STEP_OBJ (
+			TEMP_USER_OBJ_NO,
+			TEMPLATE_STEP_NO,
+			CATE_NO,
+			OBJ_NO,
+			OBJ_NM,
+			REG_DT,
+			REG_ID,
+			DEL_YN,
+			LOC_NUM,
+			STEP,
+			TEMPLATE_NO
+		) VALUES (
+			#{tempUserObjNo},
+			#{templateStepNo},
+			#{cateNo},
+			#{objNo},
+			#{objNm},
+			NOW(),
+            #{userId},
+			#{delYn},
+			#{locNum},
+			#{step},
+			#{templatNo}
+		)
+	</insert>
+
+	<insert id="getTemplateSave" parameterType="com.swygbro.packup.template.vo.TempStepTextVo">
+		/**
+		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE_STEP_TEXT
+		* 작성자 : 홍섭
+		* 설명 : 사용자 템플릿 스텝 텍스트 저장
+		* 
+		*/
+
+		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(TEXT_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP_TEXT
+		</selectKey>
+
+		INSERT INTO TBL_USER_TEMPLATE (
+			TEXT_NO,
+			TEMPLATE_STEP_NO,
+			TEXT,
+			STEP_TEXT_X,
+			STEP_TEXT_Y,
+			TEMPLATE_NO,
+			REG_DT,
+			REG_ID,
+			TEMPLATE_NO,
+			STEP
+		) VALUES (
+			#{textNo},
+			#{templateStepNo},
+			#{text},
+			#{stepTextX},
+			#{stepTextY},
+			#{templatNo},
+			NOW(),
+            {userId},
+			#{templatNo},
+			#{step}
+		)
+	</insert>
+
+	<select id="getTemplate" parameterType="com.swygbro.packup.template.vo.TemplateVo" resultType="com.swygbro.packup.template.vo.TemplateVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTemplate
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 상세 검색
+		 * 
+		 */
+		 SELECT TEMPLATE_NO,
+		 		USER_NO,
+				USER_ID,
+				REG_DT,
+				REG_ID,
+				UPD_DT,
+				UPD_ID,
+				TEMPLATE_NM,
+				ORG_FILE_NAME
+        FROM TBL_USER_TEMPLATE A,
+              TBL_ATTCH_FILE B
+        WHRE A.TEMPLATE_NO = B.REF_NO
+        AND A.DELY_YN = 'N'
+        AND A.TEMPLATE_NO = #{templateNo}
+		</if>
+	</select>
+
+	<select id="getStepsByTemplateNo" parameterType="com.swygbro.packup.template.vo.TempStepVo" resultType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getStepsByTemplateNo
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 스텝 검색
+		 * 
+		 */
+		 SELECT TEMPLATE_STEP_NO,
+		 		STEP,
+				REG_ID,
+				REG_DT,
+				UPD_ID,
+				UPD_DT,
+				ALARM_DT,
+				REPEAT_TYPE,
+				ALARM_REPEAT_DAY,
+				ALARM_TIME,
+				STEP_X,
+				STEP_Y,
+                ORG_FILE_NAME
+        FROM TBL_USER_TEMPLATE_STEP A
+        AND A.TEMPLATE_NO = #{templateNo}
+	</select>
+
+	<select id="getStepObjByStepNo" parameterType="com.swygbro.packup.template.vo.TempStepObjVo" resultType="com.swygbro.packup.template.vo.TempStepObjVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getStepObjByStepNo
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 스텝에 연결된 오브젝트 검색
+		 * 
+		 */
+		 SELECT TEMP_USER_OBJ_NO,
+		 		TEMPLATE_STEP_NO,
+                CATE_NO,
+				OBJ_NO,
+                OBJ_NM,
+				REG_ID,
+				REG_DT,
+				UPD_ID,
+				UPD_DT,
+				OBJ_CNT,
+				LOC_NUM,
+				STEP,
+				TEMPLATE_NO
+                ORG_FILE_NAME
+        FROM TBL_USER_TEMPLATE_STEP_OBJ A,
+              TBL_ATTCH_FILE B
+        WHRE A.TEMP_USER_OBJ_NO = B.REF_NO
+        AND A.DELY_YN = 'N'
+        AND STEP = #{stepNo}
+		AND TEMPLATE_NO = #{templateNo}
+	</select>
+
+	<select id="getStepTextByStepNo" parameterType="com.swygbro.packup.template.vo.TempStepTextVo" resultType="com.swygbro.packup.template.vo.TempStepTextVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getStepTextByStepNo
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 스텝에 연결된 텍스트 검색
+		 * 
+		 */
+		 SELECT TEXT_NO,
+                TEMPLATE_STEP_NO,
+				TEXT,
+				STEP_TEXT_X,
+				STEP_TEXT_Y,
+				REG_ID,
+				REG_DT,
+				UPD_ID,
+				UPD_DT,
+				TEMPLATE_NO
+        FROM TBL_USER_TEMPLATE_STEP_TEXT A
+        AND TEMPLATE_NO = #{templateNo}
+		AND STEP = #{step}
+	</select>
+
+
+	<select id="getTemplatesByUserId" parameterType="com.swygbro.packup.template.vo.TemplateVo" resultType="com.swygbro.packup.template.vo.TemplateVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTemplatesByUserId
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 아이디 검색
+		 * 
+		 */
+		 SELECT TEMPLATE_NO,
+		 		USER_NO,
+				USER_ID,
+				REG_DT,
+				REG_ID,
+				UPD_DT,
+				UPD_ID,
+				TEMPLATE_NM,
+				ORG_FILE_NAME
+        FROM TBL_USER_TEMPLATE A,
+              TBL_ATTCH_FILE B
+        WHRE A.TEMPLATE_NO = B.REF_NO
+        AND A.DELY_YN = 'N'
+        AND A.REG_ID = #{userId}
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+</mapper>

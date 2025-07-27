@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/lgn")
 public class LoginController {
 
     private final UserService userService;

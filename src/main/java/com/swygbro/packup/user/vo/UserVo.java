@@ -2,6 +2,8 @@ package com.swygbro.packup.user.vo;
 
 import java.util.Date;
 
+import com.swygbro.packup.common.vo.CommonVo;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVo {
+public class UserVo extends CommonVo{
     private int userNo;
     private String userId;
     private String userPw;
@@ -18,10 +20,6 @@ public class UserVo {
     private String phoneNum;
     private String gender;
     private Date lastLoginDt;
-    private Date regDt;
-    private String regId;
-    private Date updDt;
-    private String updId;
     private String role;
     private char useYn;
     private char delYn;
