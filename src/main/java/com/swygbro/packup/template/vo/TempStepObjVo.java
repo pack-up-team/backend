@@ -2,9 +2,12 @@ package com.swygbro.packup.template.vo;
 
 import com.swygbro.packup.common.vo.CommonVo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
+@Setter
+@Getter
 public class TempStepObjVo extends CommonVo{
     private int tempUserObjNo;              // 템플릿 물품 번호
     private int templateStepNo;             // 템플릿 스탭 번호
@@ -14,4 +17,7 @@ public class TempStepObjVo extends CommonVo{
     private String useYn;                   // 사용여부
     private String delYn;                   // 삭제여부
     private int locNum;                     // 스텝에 존재하는 오브젝트 위치 값
+    private int templateNo;
+    private String objNm;
+    private int step;
 }

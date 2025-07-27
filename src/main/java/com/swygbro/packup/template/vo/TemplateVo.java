@@ -4,13 +4,15 @@ import java.util.List;
 
 import com.swygbro.packup.common.vo.CommonVo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class TemplateVo extends CommonVo{
     private int templateNo;
     private int userNo;
-    private String UserId;
+    private String templateNm;
 
     List<TempStepVo> stepsList;
 }

@@ -2,9 +2,11 @@ package com.swygbro.packup.template.vo;
 
 import com.swygbro.packup.common.vo.CommonVo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class CateObjVo extends CommonVo{
     private int objNo;
     private int cateNo;

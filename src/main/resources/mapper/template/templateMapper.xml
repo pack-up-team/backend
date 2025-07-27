@@ -21,7 +21,7 @@
         </if>
 	</select>
 
-	<insert id="TemplateSave" parameterType="com.swygbro.packup.template.vo.TemplateVo">
+	<insert id="templateSave" parameterType="com.swygbro.packup.template.vo.TemplateVo">
 		/**
 		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE
 		* 작성자 : 홍섭
@@ -29,18 +29,20 @@
 		* 
 		*/
 
-		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+		<selectKey keyProperty="templateNo" resultType="Integer" order="BEFORE">
 			SELECT IFNULL(MAX(TEMPLATE_NO), 0) + 1 FROM TBL_USER_TEMPLATE
 		</selectKey>
 
 		INSERT INTO TBL_USER_TEMPLATE (
 			TEMPLATE_NO,
+			TEMPLATE_NM,
 			USER_NO,
 			USER_ID,
 			REG_DT,
 			REG_ID
 		) VALUES (
-			#{templatNo},
+			#{templateNo},
+			#{templateNm},
 			#{userNo},
             #{userId},
 			NOW(),
@@ -74,7 +76,7 @@
 			STEP_Y
 		) VALUES (
 			#{templateStepNo},
-			#{templatNo},
+			#{templateNo},
 			#{step},
 			NOW(),
             #{userId},
@@ -95,7 +97,7 @@
 		* 
 		*/
 
-		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+		<selectKey keyProperty="tempUserObjNo" resultType="Integer" order="BEFORE">
 			SELECT IFNULL(MAX(TEMP_USER_OBJ_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP_OBJ
 		</selectKey>
 
@@ -122,7 +124,7 @@
 			#{delYn},
 			#{locNum},
 			#{step},
-			#{templatNo}
+			#{templateNo}
 		)
 	</insert>
 
@@ -138,7 +140,7 @@
 			SELECT IFNULL(MAX(TEXT_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP_TEXT
 		</selectKey>
 
-		INSERT INTO TBL_USER_TEMPLATE (
+		INSERT INTO TBL_USER_TEMPLATE_STEP_TEXT (
 			TEXT_NO,
 			TEMPLATE_STEP_NO,
 			TEXT,
@@ -147,7 +149,6 @@
 			TEMPLATE_NO,
 			REG_DT,
 			REG_ID,
-			TEMPLATE_NO,
 			STEP
 		) VALUES (
 			#{textNo},
@@ -155,10 +156,9 @@
 			#{text},
 			#{stepTextX},
 			#{stepTextY},
-			#{templatNo},
+			#{templateNo},
 			NOW(),
-            {userId},
-			#{templatNo},
+            #{userId},
 			#{step}
 		)
 	</insert>

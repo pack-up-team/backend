@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbro.packup.template.service.TemplateService;
@@ -22,8 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
+@RequestMapping("/temp")
 public class TemplateController {
 
+    @Autowired
     private TemplateService templateService;
 
     @PostMapping("/getCateTemplateObject")
@@ -42,6 +45,8 @@ public class TemplateController {
     @PostMapping("/templateSave")
     public ResponseEntity<Map<String, Object>> getTemplateSave(@RequestBody TemplateVo tempVo){
         
+        System.out.println("tempVo @@@@@@@@@@@@@@@@@@ : "+tempVo);
+
         Map<String, Object> teplateSaveMap = templateService.TemplateSave(tempVo);
 
         Map<String, Object> response = new HashMap<>();

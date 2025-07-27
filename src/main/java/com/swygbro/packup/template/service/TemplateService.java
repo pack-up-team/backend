@@ -26,11 +26,15 @@ public class TemplateService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String,Object> TemplateSave(TemplateVo tempVo) {
 
+        System.out.println("tempVoService!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : "+tempVo);
+
         Boolean saveStatus = true;
 
         Map<String,Object> responseMap = new HashMap<>();
 
         int templateSave = templateMapper.templateSave(tempVo);
+
+        int newTemplateNo = tempVo.getTemplateNo();
 
         if(templateSave < 1){
             saveStatus = false;
@@ -40,6 +44,7 @@ public class TemplateService {
         }
 
         for(int i=0;i<tempVo.getStepsList().size();i++){
+            tempVo.getStepsList().get(i).setTemplateNo(newTemplateNo);
             int templateSaveStep = templateMapper.templateSaveStep(tempVo.getStepsList().get(i));
 
             if(templateSaveStep < 1){
@@ -52,6 +57,11 @@ public class TemplateService {
             if(tempVo.getStepsList().get(i).getStepObjList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepObjList().size();t++){
+
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateNo(newTemplateNo);
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+
                     int templateSaveStepObj = templateMapper.templateSaveStepObj(tempVo.getStepsList().get(i).getStepObjList().get(t));
 
                     if(templateSaveStepObj < 1){
@@ -70,6 +80,11 @@ public class TemplateService {
             if(tempVo.getStepsList().get(i).getStepTextList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepTextList().size();t++){
+
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateNo(newTemplateNo);
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
                     if(templateSaveStepText < 1){
@@ -86,6 +101,8 @@ public class TemplateService {
 
         responseMap.put("status", saveStatus);
         responseMap.put("resposeText", "템플릿 정상 저장");
+
+        System.out.println("responseMap : "+responseMap);
 
         return responseMap;
     }
