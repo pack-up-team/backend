@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbro.packup.template.service.TemplateService;
 import com.swygbro.packup.template.vo.CateObjVo;
-import com.swygbro.packup.template.vo.StepObjVo;
-import com.swygbro.packup.template.vo.StepTextVo;
-import com.swygbro.packup.template.vo.StepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
 
 import lombok.AllArgsConstructor;
@@ -74,9 +71,9 @@ public class TemplateController {
     @PostMapping("/getUserTemplateDataList")
     public ResponseEntity<Map<String, Object>> getUserTemplateDataList(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
-        tempVo = templateService.getTemplatesByUserId(tempVo);
+        List<TemplateVo> userTempList = templateService.getTemplatesByUserId(tempVo);
 
-        response.put("templateData", tempVo);
+        response.put("templateDataList", userTempList);
         response.put("responseText", "success");
 
         return ResponseEntity.ok(response);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.swygbro.packup.template.mapper.TemplateMapper">
+<mapper namespace="com.swygbro.packup.template.Mapper.TemplateMapper">
 	<select id="getCateTemplateObject" parameterType="com.swygbro.packup.template.vo.CateObjVo" resultType="com.swygbro.packup.template.vo.CateObjVo">
 		/**
 		 * com.swygbro.packup.template.mapper.TemplateMapper > getCateTemplateObject
@@ -87,7 +87,7 @@
 		)
 	</insert>
 
-	<insert id="templateSaveStep" parameterType="com.swygbro.packup.template.vo.TempStepObjVO">
+	<insert id="templateSaveStepObj" parameterType="com.swygbro.packup.template.vo.TempStepObjVo">
 		/**
 		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE_STEP_OBJ
 		* 작성자 : 홍섭
@@ -126,7 +126,7 @@
 		)
 	</insert>
 
-	<insert id="getTemplateSave" parameterType="com.swygbro.packup.template.vo.TempStepTextVo">
+	<insert id="templateSaveStepText" parameterType="com.swygbro.packup.template.vo.TempStepTextVo">
 		/**
 		* com.swygbro.packup.template.mapper.TemplateMapper > TBL_USER_TEMPLATE_STEP_TEXT
 		* 작성자 : 홍섭
@@ -134,7 +134,7 @@
 		* 
 		*/
 
-		<selectKey keyProperty="templatNo" resultType="Integer" order="BEFORE">
+		<selectKey keyProperty="textNo" resultType="Integer" order="BEFORE">
 			SELECT IFNULL(MAX(TEXT_NO), 0) + 1 FROM TBL_USER_TEMPLATE_STEP_TEXT
 		</selectKey>
 
@@ -184,7 +184,6 @@
         WHRE A.TEMPLATE_NO = B.REF_NO
         AND A.DELY_YN = 'N'
         AND A.TEMPLATE_NO = #{templateNo}
-		</if>
 	</select>
 
 	<select id="getStepsByTemplateNo" parameterType="com.swygbro.packup.template.vo.TempStepVo" resultType="com.swygbro.packup.template.vo.TempStepVo">

@@ -20,6 +20,6 @@ public class TempStepVo extends CommonVo{
     private Float stepY;                        // 스텝의 y 위치 값
 
     // 배열 형태의 하위 객체들
-    private List<TempStepObjVO> stepObjList;
+    private List<TempStepObjVo> stepObjList;
     private List<TempStepTextVo> stepTextList;
 }

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.swygbro.packup.template.Mapper.TemplateMapper;
 import com.swygbro.packup.template.vo.CateObjVo;
-import com.swygbro.packup.template.vo.TempStepObjVO;
+import com.swygbro.packup.template.vo.TempStepObjVo;
 import com.swygbro.packup.template.vo.TempStepTextVo;
 import com.swygbro.packup.template.vo.TempStepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
@@ -45,7 +45,7 @@ public class TemplateService {
             if(templateSaveStep < 1){
                 saveStatus = false;
                 responseMap.put("status", saveStatus);
-                responseMap,put("resposeText", "템플릿 스텝 저장시 오류 발생");
+                responseMap.put("resposeText", "템플릿 스텝 저장시 오류 발생");
                 return responseMap;
             }
             
@@ -57,7 +57,7 @@ public class TemplateService {
                     if(templateSaveStepObj < 1){
                         saveStatus = false;
                         responseMap.put("status", saveStatus);
-                        responseMap,put("resposeText", "템플릿 스텝 오브젝트 저장시 오류 발생");
+                        responseMap.put("resposeText", "템플릿 스텝 오브젝트 저장시 오류 발생");
                         return responseMap;
                     }
                 }
@@ -69,7 +69,7 @@ public class TemplateService {
             
             if(tempVo.getStepsList().get(i).getStepTextList().size() > 0){
 
-                for(int t=0;t<tempVo.getStepsList().get(i).getStepTextList().size()){
+                for(int t=0;t<tempVo.getStepsList().get(i).getStepTextList().size();t++){
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
                     if(templateSaveStepText < 1){
@@ -117,7 +117,7 @@ public class TemplateService {
             Integer stepNo = step.getStep();
             
             // 스텝 객체 목록 조회
-            List<TempStepObjVO> stepObjList = templateMapper.getStepObjByStepNo(stepNo,templateNo);
+            List<TempStepObjVo> stepObjList = templateMapper.getStepObjByStepNo(stepNo,templateNo);
             step.setStepObjList(stepObjList);
             
             // 스텝 텍스트 목록 조회
@@ -133,9 +133,11 @@ public class TemplateService {
     /**
      * 사용자별 템플릿 목록 조회
      */
-    public List<TemplateVo> getTemplatesByUserId(TempStepVo tempVo) {
+    public List<TemplateVo> getTemplatesByUserId(TemplateVo tempVo) {
+        
+        int page = tempVo.getPage();
 
-        if(tempVo.getPage() > 0) {
+        if(page > 0) {
             int pageSize = 4;  // 한 페이지당 4개
             int offset = (page - 1) * pageSize;  // 페이지별 시작 위치 계산
             

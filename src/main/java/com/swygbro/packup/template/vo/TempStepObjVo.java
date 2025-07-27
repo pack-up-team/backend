@@ -5,7 +5,7 @@ import com.swygbro.packup.common.vo.CommonVo;
 import lombok.Data;
 
 @Data
-public class TempStepObjVO extends CommonVo{
+public class TempStepObjVo extends CommonVo{
     private int tempUserObjNo;              // 템플릿 물품 번호
     private int templateStepNo;             // 템플릿 스탭 번호
     private int cateNo;                     // 카테고리 번호

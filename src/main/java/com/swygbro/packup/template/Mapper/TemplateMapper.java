@@ -3,11 +3,14 @@ package com.swygbro.packup.template.Mapper;
 import java.util.List;
 
 import com.swygbro.packup.template.vo.CateObjVo;
-import com.swygbro.packup.template.vo.TempStepObjVO;
+import com.swygbro.packup.template.vo.TempStepObjVo;
 import com.swygbro.packup.template.vo.TempStepTextVo;
 import com.swygbro.packup.template.vo.TempStepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
 
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
 public interface TemplateMapper {
 
     int templateSave(TemplateVo tempVo);
@@ -16,7 +19,7 @@ public interface TemplateMapper {
 
     int templateSaveStep(TempStepVo tempVo);
 
-    int templateSaveStepObj(TempStepObjVO tempStepObjVO);
+    int templateSaveStepObj(TempStepObjVo tempStepObjVo);
 
     int templateSaveStepText(TempStepTextVo tempStepTextVo);
 
@@ -24,10 +27,10 @@ public interface TemplateMapper {
 
     List<TempStepVo> getStepsByTemplateNo(Integer templateNo);
 
-    List<TempStepObjVO> getStepObjByStepNo(Integer stepNo, Integer templateNo);
+    List<TempStepObjVo> getStepObjByStepNo(Integer stepNo, Integer templateNo);
 
     List<TempStepTextVo> getStepTextByStepNo(Integer stepNo, Integer templateNo);
 
-    List<TemplateVo> getTemplatesByUserId(TempStepVo tempVo);
+    List<TemplateVo> getTemplatesByUserId(TemplateVo tempVo);
 
 }
