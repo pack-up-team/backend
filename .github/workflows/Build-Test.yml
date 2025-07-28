@@ -21,7 +21,7 @@ jobs:
 
     # secrets.* 접근 불가 pr 시에는 제한
     env:
-      jwt_hashcode: ${{secrets.JWT_SECRET_KEY  || 'dummy_secret_for_ci'}}
+      jwt_hashcode: ${{secrets.JWT_SECRET_KEY  || 'dummy_secret_ci'}}
 
     steps:
       # 1. repository 코드 확인
