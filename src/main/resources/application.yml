@@ -1,44 +1,39 @@
 spring:
-  application:
-    name: PackUp-Backend
+  security:
+    user:
+      name: admin
+      password: 1234
 
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
+  datasource:
+    url: jdbc:log4jdbc:mysql://3.35.147.68:3306/SWYP6?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: swyp6
+    password: Swyp10_6group
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-    static-path-pattern: /static/**
-  
-  web:
-    resources:
-      static-locations:
-      - classpath:/static/
-      - file:${file.upload.path}
-  
-  servlet:
-    multipart:
-      max-file-size: ${file.upload.max-size}
-      max-request-size: ${file.upload.max-request-size}
-      enabled: true
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+file:
+  upload:
+    path: C:/temp/uploads/
+    max-size: 52428800
+    max-request-size: 104857600
+    allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt
 
-mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-  config-location: classpath:mybatis-config.xml
+server:
+  port: 8080
 
 logging:
-  config: classpath:logback-spring.xml
-  charset:
-    console: UTF-8
-    file: UTF-8
   level:
-    com.swygbro.packup.template.Mapper: TRACE
-    org.springframework.jdbc.core: DEBUG
-    jdbc.sqlonly: OFF
-    jdbc.sqltiming: INFO
-    jdbc.resultsettable: INFO
+    org.springframework: DEBUG
+    com.backend: DEBUG
+    org.hibernate: DEBUG
