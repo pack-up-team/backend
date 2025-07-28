@@ -27,6 +27,8 @@ jobs:
       # 1. repository 코드 확인
       - name: Checkout-code
         uses: actions/checkout@v4
+        with:
+          token: '${{ secrets.JWT_SECRET_KEY }}'
 
       # 2. java 환경 설정
       - name: Setup JDK 17
@@ -43,7 +45,7 @@ jobs:
       - name: Build-Test
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build -Djasypt.encryptor.password=${{ secrets.JWT_SECRET_KEY || 'dummy'}}
+          ./gradlew clean build 
 
       # 실패시
       - name: Build Fail Comment
