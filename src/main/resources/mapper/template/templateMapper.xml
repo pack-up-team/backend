@@ -8,13 +8,13 @@
 		 * 설명 : 카테고리에 연결된 오브젝트 검색
 		 * 
 		 */
-		 SELECT OBJ_NO,
-                CATE_NO,
-                OBJ_NM,
-                ORG_FILE_NAME
+		 SELECT A.OBJ_NO,
+                A.CATE_NO,
+                A.OBJ_NM,
+                B.ORG_FILE_NAME
         FROM TBL_OBJECT A,
-              TBL_ATTCH_FILE B
-        WHRE A.OBJ_NO = B.REF_NO
+        LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
+        WHERE 1=1
         AND A.DELY_YN = 'N'
         <if test="cateNo != null and cateNo != ''">
         AND CATE_NO = #{cateNo}
@@ -170,19 +170,19 @@
 		 * 설명 : 템플릿 상세 검색
 		 * 
 		 */
-		 SELECT TEMPLATE_NO,
-		 		USER_NO,
-				USER_ID,
-				REG_DT,
-				REG_ID,
-				UPD_DT,
-				UPD_ID,
-				TEMPLATE_NM,
-				ORG_FILE_NAME
+		 SELECT A.TEMPLATE_NO,
+		 		A.USER_NO,
+				A.USER_ID,
+				A.REG_DT,
+				A.REG_ID,
+				A.UPD_DT,
+				A.UPD_ID,
+				A.TEMPLATE_NM,
+				B.ORG_FILE_NAME
         FROM TBL_USER_TEMPLATE A,
-              TBL_ATTCH_FILE B
-        WHRE A.TEMPLATE_NO = B.REF_NO
-        AND A.DELY_YN = 'N'
+        LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
+        WHERE 1=1
+        AND A.DEL_YN = 'N'
         AND A.TEMPLATE_NO = #{templateNo}
 	</select>
 
@@ -204,9 +204,9 @@
 				ALARM_REPEAT_DAY,
 				ALARM_TIME,
 				STEP_X,
-				STEP_Y,
-                ORG_FILE_NAME
+				STEP_Y
         FROM TBL_USER_TEMPLATE_STEP A
+        WHERE 1=1
         AND A.TEMPLATE_NO = #{templateNo}
 	</select>
 
@@ -217,24 +217,24 @@
 		 * 설명 : 템플릿 스텝에 연결된 오브젝트 검색
 		 * 
 		 */
-		 SELECT TEMP_USER_OBJ_NO,
-		 		TEMPLATE_STEP_NO,
-                CATE_NO,
-				OBJ_NO,
-                OBJ_NM,
-				REG_ID,
-				REG_DT,
-				UPD_ID,
-				UPD_DT,
-				OBJ_CNT,
-				LOC_NUM,
-				STEP,
-				TEMPLATE_NO
-                ORG_FILE_NAME
+		 SELECT A.TEMP_USER_OBJ_NO,
+		 		A.TEMPLATE_STEP_NO,
+                A.CATE_NO,
+				A.OBJ_NO,
+                A.OBJ_NM,
+				A.REG_ID,
+				A.REG_DT,
+				A.UPD_ID,
+				A.UPD_DT,
+				A.OBJ_CNT,
+				A.LOC_NUM,
+				A.STEP,
+				A.TEMPLATE_NO
+                B.ORG_FILE_NAME
         FROM TBL_USER_TEMPLATE_STEP_OBJ A,
-              TBL_ATTCH_FILE B
-        WHRE A.TEMP_USER_OBJ_NO = B.REF_NO
-        AND A.DELY_YN = 'N'
+        LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
+        WHERE 1=1
+        AND A.DEL_YN = 'N'
         AND STEP = #{stepNo}
 		AND TEMPLATE_NO = #{templateNo}
 	</select>
@@ -269,19 +269,18 @@
 		 * 설명 : 템플릿 아이디 검색
 		 * 
 		 */
-		 SELECT TEMPLATE_NO,
-		 		USER_NO,
-				USER_ID,
-				REG_DT,
-				REG_ID,
-				UPD_DT,
-				UPD_ID,
-				TEMPLATE_NM,
-				ORG_FILE_NAME
-        FROM TBL_USER_TEMPLATE A,
-              TBL_ATTCH_FILE B
-        WHRE A.TEMPLATE_NO = B.REF_NO
-        AND A.DELY_YN = 'N'
+		 SELECT A.TEMPLATE_NO, 
+				A.USER_NO, 
+				A.USER_ID, 
+				A.REG_DT, 
+				A.REG_ID, 
+				A.UPD_DT, 
+				A.UPD_ID, 
+				A.TEMPLATE_NM, 
+				B.ORG_FILE_NAME 
+        FROM TBL_USER_TEMPLATE A
+        LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
+        AND A.DEL_YN = 'N'
         AND A.REG_ID = #{userId}
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>

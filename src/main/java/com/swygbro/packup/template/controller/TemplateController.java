@@ -44,8 +44,6 @@ public class TemplateController {
 
     @PostMapping("/templateSave")
     public ResponseEntity<Map<String, Object>> getTemplateSave(@RequestBody TemplateVo tempVo){
-        
-        System.out.println("tempVo @@@@@@@@@@@@@@@@@@ : "+tempVo);
 
         Map<String, Object> teplateSaveMap = templateService.TemplateSave(tempVo);
 

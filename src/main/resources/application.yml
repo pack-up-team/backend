@@ -36,3 +36,9 @@ logging:
   charset:
     console: UTF-8
     file: UTF-8
+  level:
+    com.swygbro.packup.template.Mapper: TRACE
+    org.springframework.jdbc.core: DEBUG
+    jdbc.sqlonly: OFF
+    jdbc.sqltiming: INFO
+    jdbc.resultsettable: INFO
