@@ -47,7 +47,10 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
-
+	// https://mvnrepository.com/artifact/org.apache.tika/tika-core
+	implementation("org.apache.tika:tika-core:3.2.1")
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation("commons-io:commons-io:2.17.0")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
