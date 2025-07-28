@@ -1,6 +1,7 @@
 package com.swygbro.packup.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,16 @@ public class JwtUtill {
 
     // jwt bearer 토큰이 만료 되었는지 확인
     public Boolean isExpired(String jws) {
-        System.out.println(Jwts.parser().verifyWith(key).build().parseSignedClaims(jws).getPayload().getExpiration());
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(jws).getPayload().getExpiration().before(new Date());
+        try{
+            Date expire = Jwts.parser().verifyWith(key).build().parseSignedClaims(jws).getPayload().getExpiration();
+
+            System.out.println("만료 시간: " + expire);
+            return expire.before(new Date());
+
+        }catch (ExpiredJwtException e){
+            System.out.println("JWT가 이미 만료됨: " + e.getMessage());
+            return true;
+        }
     }
 
     /**
