@@ -28,7 +28,7 @@ jobs:
       - name: Checkout-code
         uses: actions/checkout@v4
         with:
-          token: '${{ secrets.JWT_SECRET_KEY }}'
+          token: ${{ secrets.JWT_SECRET_KEY }}
 
       # 2. java 환경 설정
       - name: Setup JDK 17
