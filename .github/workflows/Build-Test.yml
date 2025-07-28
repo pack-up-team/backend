@@ -19,16 +19,14 @@ jobs:
       !(contains(github.base_ref, 'release') && contains(github.head_ref, 'develop'))
     runs-on: ubuntu-latest
 
-    # secrets.* 접근 불가 pr 시에는 제한
     env:
-      jwt_hashcode: ${{secrets.JWT_SECRET_KEY  || 'dummy_secret_ci'}}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+
 
     steps:
       # 1. repository 코드 확인
       - name: Checkout-code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.JWT_SECRET_KEY }}
 
       # 2. java 환경 설정
       - name: Setup JDK 17
@@ -45,7 +43,7 @@ jobs:
       - name: Build-Test
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build 
+          ./gradlew clean build
 
       # 실패시
       - name: Build Fail Comment
