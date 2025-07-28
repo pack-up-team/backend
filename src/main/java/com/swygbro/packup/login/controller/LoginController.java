@@ -3,24 +3,25 @@ package com.swygbro.packup.login.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbro.packup.user.service.UserService;
 import com.swygbro.packup.user.vo.UserVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/lgn")
 public class LoginController {
 
     private final UserService userService;
 
     @GetMapping("/login")
     public String login() {
+        System.out.println("test!!!!!!!!!!!");
         return "login/login";
     }
 
