@@ -9,6 +9,7 @@ import com.swygbro.packup.template.vo.TempStepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface TemplateMapper {
@@ -23,14 +24,34 @@ public interface TemplateMapper {
 
     int templateSaveStepText(TempStepTextVo tempStepTextVo);
 
-    TemplateVo getTemplate(Integer templateNo);
+    TemplateVo getTemplate(@Param("templateNo") Integer templateNo);
 
-    List<TempStepVo> getStepsByTemplateNo(Integer templateNo);
+    List<TempStepVo> getStepsByTemplateNo(@Param("templateNo") Integer templateNo);
 
-    List<TempStepObjVo> getStepObjByStepNo(Integer stepNo, Integer templateNo);
+    List<TempStepObjVo> getStepObjByStepNo(@Param("step") Integer step, @Param("templateNo") Integer templateNo);
 
-    List<TempStepTextVo> getStepTextByStepNo(Integer stepNo, Integer templateNo);
+    List<TempStepTextVo> getStepTextByStepNo(@Param("step") Integer step, @Param("templateNo") Integer templateNo);
 
     List<TemplateVo> getTemplatesByUserId(TemplateVo tempVo);
+
+	int templateUpdate(TemplateVo tempVo);
+	
+	int templateUpdateStep(TempStepVo tempStepVo);
+	
+	int templateUpdateStepObj(TempStepObjVo tempStepObjVo);
+
+	int templateUpdateStepText(TempStepTextVo tempStepTextVo);
+
+	void deleteTempalteStepObj(@Param("templateNo")int templateNo);
+
+	void deleteTempalteStepText(@Param("templateNo")int templateNo);
+
+	int deleteTemplate(int tempateNo);
+
+	int deleteStepTemplate(int tempateNo);
+
+	int deleteTempalteStepObjInt(int tempateNo);
+
+	int deleteTempalteStepTextInt(int tempateNo);
 
 }

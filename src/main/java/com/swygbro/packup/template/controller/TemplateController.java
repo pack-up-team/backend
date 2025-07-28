@@ -43,9 +43,9 @@ public class TemplateController {
     
 
     @PostMapping("/templateSave")
-    public ResponseEntity<Map<String, Object>> getTemplateSave(@RequestBody TemplateVo tempVo){
+    public ResponseEntity<Map<String, Object>> templateSave(@RequestBody TemplateVo tempVo){
 
-        Map<String, Object> teplateSaveMap = templateService.TemplateSave(tempVo);
+        Map<String, Object> teplateSaveMap = templateService.templateSave(tempVo);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -56,7 +56,40 @@ public class TemplateController {
             response.put("status", "fail");
             return ResponseEntity.badRequest().body(response);
         }
+        
+    }
+    
+    @PostMapping("/templateUpdate")
+    public ResponseEntity<Map<String, Object>> templateUpdate(@RequestBody TemplateVo tempVo){
 
+        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if(Boolean.TRUE.equals(teplateSaveMap.get("status"))) {
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        }else{
+            response.put("status", "fail");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+    }
+    
+    @PostMapping("/templateDelete")
+    public ResponseEntity<Map<String, Object>> templateDelete(@RequestBody TemplateVo tempVo){
+
+        Map<String, Object> teplateSaveMap = templateService.templateDelete(tempVo);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if(Boolean.TRUE.equals(teplateSaveMap.get("status"))) {
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        }else{
+            response.put("status", "fail");
+            return ResponseEntity.badRequest().body(response);
+        }
         
     }
 
@@ -64,7 +97,9 @@ public class TemplateController {
     public ResponseEntity<Map<String, Object>> getDetailData(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
         tempVo = templateService.getDetailData(tempVo.getTemplateNo());
-
+        
+        System.out.println("tempVo : "+tempVo);
+        
         response.put("templateData", tempVo);
         response.put("responseText", "success");
 

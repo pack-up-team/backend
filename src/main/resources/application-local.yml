@@ -30,7 +30,7 @@ file:
     allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt
 
 server:
-  port: 8080
+  port: 8081
 
 logging:
   level:
