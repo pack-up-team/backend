@@ -12,7 +12,7 @@ public class FileUploadVo {
     private String savedFileName;
     private String filePath;
     private String fileUrl;
-    private Long fileSize;
+    private long fileSize;
     private String contentType;
     private String category;
     private String uploadDate;
