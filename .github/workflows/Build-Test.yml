@@ -43,7 +43,7 @@ jobs:
       - name: Build-Test
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build
+          ./gradlew clean build -Djasypt.encryptor.password=${{ secrets.JWT_SECRET_KEY || 'dummy'}}
 
       # 실패시
       - name: Build Fail Comment
