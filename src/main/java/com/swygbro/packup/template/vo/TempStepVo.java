@@ -5,11 +5,9 @@ import java.util.List;
 
 import com.swygbro.packup.common.vo.CommonVo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class TempStepVo extends CommonVo{
     private int templateStepNo;                     // 유저 템플릿 스텝 번호
     private int templateNo;

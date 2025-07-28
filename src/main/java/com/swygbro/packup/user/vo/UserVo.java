@@ -5,12 +5,10 @@ import java.util.Date;
 import com.swygbro.packup.common.vo.CommonVo;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVo extends CommonVo{

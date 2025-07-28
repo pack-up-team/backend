@@ -4,11 +4,9 @@ import java.util.List;
 
 import com.swygbro.packup.common.vo.CommonVo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class TemplateVo extends CommonVo{
     private int templateNo;
     private int userNo;
