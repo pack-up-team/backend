@@ -33,7 +33,12 @@ spring:
         minimum-idle: 10
         idle-timeout: 600000
         max-lifetime: 1800000
-    
+
+  # jwt 설정
+  jwt:
+    secret: "${JWT_SECRET_KEY}"
+
+
   # JPA 설정
   jpa:
     hibernate:
