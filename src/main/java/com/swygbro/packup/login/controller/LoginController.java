@@ -11,8 +11,8 @@ import com.swygbro.packup.user.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/lgn")
 public class LoginController {
