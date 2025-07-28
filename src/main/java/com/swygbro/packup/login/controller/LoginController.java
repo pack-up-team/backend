@@ -21,6 +21,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
+        System.out.println("test!!!!!!!!!!!");
         return "login/login";
     }
 
