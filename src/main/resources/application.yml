@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
   security:
     user:
       name: admin
@@ -21,6 +25,24 @@ spring:
     show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
+  data:
+   redis:
+    host: localhost
+    port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: songhongseob0219@gmail.com
+    password: ${MAIL_PASSWORD:your_app_password_here}
+    properties:
+      mail:
+       smtp:
+        auth: true
+        starttls:
+         enable: true
+         required: true
+      debug: true
 
 file:
   upload:
@@ -31,6 +53,9 @@ file:
 
 server:
   port: 8080
+
+app:
+  base-url: ${BASE_URL:http://localhost:8080}
 
 logging:
   level:
