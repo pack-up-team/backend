@@ -33,8 +33,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: songhongseob0219@gmail.com
-    password: ${MAIL_PASSWORD:your_app_password_here}
+    username: ################
+    password: ################
     properties:
       mail:
        smtp:
@@ -62,3 +62,7 @@ logging:
     org.springframework: DEBUG
     com.backend: DEBUG
     org.hibernate: DEBUG
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/**/*.xml

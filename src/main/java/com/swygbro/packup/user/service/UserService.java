@@ -53,7 +53,10 @@ public class UserService {
 
     public void sendPasswordResetEmail(String userId) {
         System.out.println("userId UserService : "+userId);
+        System.out.println("userId length: " + userId.length());
+        System.out.println("userId trim: '" + userId.trim() + "'");
         UserVo user = userMapper.getUserByEmail(userId);
+        System.out.println("Query result: " + user);
         if (user == null) {
             throw new RuntimeException("해당 이메일로 등록된 사용자가 없습니다.");
         }

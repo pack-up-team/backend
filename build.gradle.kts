@@ -43,7 +43,6 @@ dependencies {
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 	implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
 	// 토큰 발급 + 메일 전송
-	implementation("org.springframework.boot:spring-boot-starter-mail:3.5.4")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.5.4")
 	// https://mvnrepository.com/artifact/org.apache.tika/tika-core
 	implementation("org.apache.tika:tika-core:3.2.1")
