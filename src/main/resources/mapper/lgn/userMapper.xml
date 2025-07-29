@@ -69,4 +69,23 @@
 		WHERE USER_ID = #{userId}
 		  AND DEL_YN = 'N'
 	</update>
+
+	<select id="getUserByEmail" parameterType="String" resultType="com.swygbro.packup.user.vo.UserVo">
+		/**
+		 * com.swygbro.packup.user.Mapper.UserMapper > getUserByEmail
+		 * 작성자 : 홍섭
+		 * 설명 : 이메일로 사용자 정보 조회
+		 * 
+		 */
+		SELECT
+			USER_ID,
+			USER_PW,
+			USER_NM,
+			PHONE_NUM,
+			GENDER,
+			ROLE
+		FROM TBL_USER
+		WHERE USER_ID = #{userId}
+		  AND DEL_YN = 'N'
+	</select>
 </mapper>
