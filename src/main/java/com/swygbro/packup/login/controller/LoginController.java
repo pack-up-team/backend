@@ -1,56 +1,55 @@
 package com.swygbro.packup.login.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.swygbro.packup.user.service.UserService;
 import com.swygbro.packup.user.vo.UserVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/lgn")
 public class LoginController {
 
     private final UserService userService;
 
     @GetMapping("/login")
-    public String login() {
-        return "login/login";
+    public ModelAndView login() {
+        return new ModelAndView("login/login");
     }
 
     @GetMapping("/register")
-    public String register() {
-        return "login/register";
+    public ModelAndView register() {
+        return new ModelAndView("login/register");
     }
 
     @GetMapping("/successLogin")
-    public String successLogin() {
-        return "login/successLogin";
+    public ModelAndView successLogin() {
+        return new ModelAndView("login/successLogin");
     }
 
     @GetMapping("/faliureLogin")
-    public String faliureLogin() {
-        return "login/loginError";
+    public ModelAndView faliureLogin() {
+        return new ModelAndView("login/loginError");
     }
 
     @PostMapping("/insertUser")
-    public String insertUser(UserVo userDto) {
+    public ModelAndView insertUser(UserVo userDto) {
         log.info("insertUser ::: {}",userDto);
         int res = userService.insertUser(userDto);
         log.info("res ::: {}",res);
 
         if(res==1){
-            return "redirect:/index";
+            return new ModelAndView("redirect:/index");
         }else{
-            return "redirect:/error/registerError";
+            return new ModelAndView("redirect:/error/registerError");
         }
     }
 

@@ -27,11 +27,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/login/*","/register/*","/register","/login").permitAll()     // lgn* → login*
+                        .requestMatchers("/lgn/*","/register/*","/register","/lgn").permitAll()     // lgn* → login*
                         .requestMatchers("/test*").permitAll()
                         .requestMatchers("/sample/**").permitAll()
                         .requestMatchers("/component/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/temp/**").permitAll()
                         .requestMatchers("/").permitAll()  // 루트 경로 허용
                         .requestMatchers("/mypage/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/**").hasAnyRole("ADMIN", "USER")

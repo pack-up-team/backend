@@ -1,4 +1,4 @@
-package com.swygbro.packup.template.Mapper;
+package com.swygbro.packup.template.mapper;
 
 import java.util.List;
 

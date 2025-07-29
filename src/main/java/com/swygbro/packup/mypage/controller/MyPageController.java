@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.swygbro.packup.user.service.UserService;
@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@Controller
 @RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class MyPageController {
@@ -29,7 +28,7 @@ public class MyPageController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/mypage")
-    public String mypage(Authentication authentication, Model model) {
+    public ModelAndView mypage(Authentication authentication) {
         String userId = authentication.getName();
         log.info("MyPage accessed by user: {}", userId);
         
@@ -38,8 +37,9 @@ public class MyPageController {
             userInfo.setUserPw("");
         }
         
-        model.addAttribute("userInfo", userInfo);
-        return "mypage/mypage";
+        ModelAndView mv = new ModelAndView("mypage/mypage");
+        mv.addObject("userInfo", userInfo);
+        return mv;
     }
 
     @PostMapping("/updateUser")

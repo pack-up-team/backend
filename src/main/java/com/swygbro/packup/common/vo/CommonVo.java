@@ -15,6 +15,7 @@ public class CommonVo {
     private int page;
     private int pageSize;
     private int offset;
+    private String delYn;
 
     private String userId;
 }
