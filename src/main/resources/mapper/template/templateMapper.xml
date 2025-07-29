@@ -325,9 +325,7 @@
 	<update id="templateUpdateStep" parameterType="com.swygbro.packup.template.vo.TempStepVo">
 		UPDATE TBL_USER_TEMPLATE_STEP
 			SET 
-				<if test="alarmDt != null and alarmDt != ''">
 				ALARM_DT = #{alarmDt},
-				</if>
 				<if test="repeatType != null and repeatType != ''">
 				REPEAT_TYPE = #{repeatType},
 				</if>
@@ -407,4 +405,18 @@
 			FROM TBL_USER_TEMPLATE_STEP_TEXT
 		WHERE TEMPLATE_NO = #{templateNo}
 	</delete>
+
+	<select id="getTemplateStepNo" parameterType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTemplateStepNo
+		 * 작성자 : 홍섭
+		 * 설명 : 템플릿 스탭 번호 검색
+		 * 
+		 */
+		 SELECT A.TEMPLATE_STEP_NO
+        FROM TBL_USER_TEMPLATE_STEP A
+        WHERE 1=1
+        AND A.TEMPLATE_NO = #{templateNo}
+        AND A.STEP = #{step}
+	</select>
 </mapper>

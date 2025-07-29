@@ -52,7 +52,7 @@ spring:
 
   # jwt 설정
   jwt:
-    secret: "${JWT_SECRET_KEY}"
+    secret: ############################
 
 
   # JPA 설정

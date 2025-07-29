@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/test*").permitAll()
                         .requestMatchers("/sample/**").permitAll()
                         .requestMatchers("/component/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/temp/**").permitAll()
                         .requestMatchers("/").permitAll()  // 루트 경로 허용
                         .requestMatchers("/mypage/**").hasAnyRole("ADMIN", "USER")

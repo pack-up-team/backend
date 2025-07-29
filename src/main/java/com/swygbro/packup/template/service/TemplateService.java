@@ -190,6 +190,9 @@ public class TemplateService {
         
         for(int i=0;i<tempVo.getStepsList().size();i++){
             tempVo.getStepsList().get(i).setTemplateNo(tempVo.getTemplateNo());
+            int step = i+1;
+            int templateStepNo = templateMapper.getTemplateStepNo(tempVo.getTemplateNo(), step);
+            tempVo.getStepsList().get(i).setTemplateStepNo(templateStepNo);
             int templateSaveStep = templateMapper.templateUpdateStep(tempVo.getStepsList().get(i));
 
             if(templateSaveStep < 1){
@@ -205,7 +208,7 @@ public class TemplateService {
 
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
-                    tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(templateStepNo);
                     
                     int templateSaveStepObj = templateMapper.templateSaveStepObj(tempVo.getStepsList().get(i).getStepObjList().get(t));
 
@@ -228,7 +231,7 @@ public class TemplateService {
 
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
-                    tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(templateStepNo);
                     
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
@@ -252,6 +255,7 @@ public class TemplateService {
         return responseMap;
 	}
 
+    @Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> templateDelete(TemplateVo tempVo) {
 		
 		Boolean saveStatus = true;
@@ -260,22 +264,9 @@ public class TemplateService {
 		
 		int templateNo = tempVo.getTemplateNo();
 		
-		int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
 		
-		if(tempDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
-			return responseMap;
-		}
 		
-		int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
-		if(tempStepDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
-			return responseMap;
-		}
+		
 		
 		int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
 		if(tempObjDeleteCnt < 1){
@@ -290,6 +281,23 @@ public class TemplateService {
 			saveStatus = false;
 			responseMap.put("status", saveStatus);
 			responseMap.put("resposeText", "템플릿 스탭 텍스트 삭제시 오류 발생");
+			return responseMap;
+		}
+
+        int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
+		if(tempStepDeleteCnt < 1){
+			saveStatus = false;
+			responseMap.put("status", saveStatus);
+			responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
+			return responseMap;
+		}
+
+        int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
+		
+		if(tempDeleteCnt < 1){
+			saveStatus = false;
+			responseMap.put("status", saveStatus);
+			responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
 			return responseMap;
 		}
 		

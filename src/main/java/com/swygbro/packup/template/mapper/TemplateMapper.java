@@ -54,4 +54,6 @@ public interface TemplateMapper {
 
 	int deleteTempalteStepTextInt(int tempateNo);
 
+    int getTemplateStepNo(@Param("templateNo") int templateNo,@Param("step") int step);
+
 }
