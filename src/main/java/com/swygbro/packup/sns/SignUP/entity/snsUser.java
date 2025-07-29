@@ -16,18 +16,19 @@ import java.security.PrivateKey;
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class snsUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SOCIAL_NO", nullable = false)
-    private int socialNo;
-
-    @Column(name = "USER_NO", nullable = false)
-    private int userNo;
+    private Long socialNo;
 
     @Column(name = "USER_ID", nullable = false)
     private String userId;
+
+    @Column(name = "USER_NO", nullable = false)
+    private int userNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
@@ -45,10 +46,15 @@ public class snsUser {
     @Column(name = "REG_DT")
     private LocalDateTime regDt;
 
-    public static snsUser join(JoinDto joinDto) {
+    public static snsUser join(JoinDto joinDto, int userNo) {
         return snsUser.builder()
                 .userId(joinDto.getUSER_ID())
-                .userNo(Integer.parseInt(joinDto.getUSER_NO())).build();
+                .userNo(userNo)
+                .loginType(joinDto.getLOGIN_TYPE())
+                .socialId(joinDto.getSOCIAL_ID())
+                .regId("")
+                .regDt(LocalDateTime.now())
+                .build();
     }
 
 }
