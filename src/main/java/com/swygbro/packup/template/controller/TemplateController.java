@@ -4,15 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbro.packup.template.service.TemplateService;
 import com.swygbro.packup.template.vo.CateObjVo;
+import com.swygbro.packup.template.vo.StepObjVo;
+import com.swygbro.packup.template.vo.StepTextVo;
+import com.swygbro.packup.template.vo.StepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
 
 import lombok.AllArgsConstructor;
@@ -23,10 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
-@RequestMapping("/temp")
 public class TemplateController {
 
-    @Autowired
     private TemplateService templateService;
 
     @PostMapping("/getCateTemplateObject")
@@ -43,26 +43,9 @@ public class TemplateController {
     
 
     @PostMapping("/templateSave")
-    public ResponseEntity<Map<String, Object>> templateSave(@RequestBody TemplateVo tempVo){
-
-        Map<String, Object> teplateSaveMap = templateService.templateSave(tempVo);
-
-        Map<String, Object> response = new HashMap<>();
-
-        if(Boolean.TRUE.equals(teplateSaveMap.get("status"))) {
-            response.put("status", "success");
-            return ResponseEntity.ok(response);
-        }else{
-            response.put("status", "fail");
-            return ResponseEntity.badRequest().body(response);
-        }
+    public ResponseEntity<Map<String, Object>> getTemplateSave(@RequestBody TemplateVo tempVo){
         
-    }
-    
-    @PostMapping("/templateUpdate")
-    public ResponseEntity<Map<String, Object>> templateUpdate(@RequestBody TemplateVo tempVo){
-
-        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo);
+        Map<String, Object> teplateSaveMap = templateService.TemplateSave(tempVo);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -73,23 +56,7 @@ public class TemplateController {
             response.put("status", "fail");
             return ResponseEntity.badRequest().body(response);
         }
-        
-    }
-    
-    @PostMapping("/templateDelete")
-    public ResponseEntity<Map<String, Object>> templateDelete(@RequestBody TemplateVo tempVo){
 
-        Map<String, Object> teplateSaveMap = templateService.templateDelete(tempVo);
-
-        Map<String, Object> response = new HashMap<>();
-
-        if(Boolean.TRUE.equals(teplateSaveMap.get("status"))) {
-            response.put("status", "success");
-            return ResponseEntity.ok(response);
-        }else{
-            response.put("status", "fail");
-            return ResponseEntity.badRequest().body(response);
-        }
         
     }
 
@@ -97,9 +64,7 @@ public class TemplateController {
     public ResponseEntity<Map<String, Object>> getDetailData(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
         tempVo = templateService.getDetailData(tempVo.getTemplateNo());
-        
-        System.out.println("tempVo : "+tempVo);
-        
+
         response.put("templateData", tempVo);
         response.put("responseText", "success");
 
@@ -109,9 +74,9 @@ public class TemplateController {
     @PostMapping("/getUserTemplateDataList")
     public ResponseEntity<Map<String, Object>> getUserTemplateDataList(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
-        List<TemplateVo> userTempList = templateService.getTemplatesByUserId(tempVo);
+        tempVo = templateService.getTemplatesByUserId(tempVo);
 
-        response.put("templateDataList", userTempList);
+        response.put("templateData", tempVo);
         response.put("responseText", "success");
 
         return ResponseEntity.ok(response);

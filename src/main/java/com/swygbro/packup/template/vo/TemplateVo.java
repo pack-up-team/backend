@@ -10,7 +10,7 @@ import lombok.Data;
 public class TemplateVo extends CommonVo{
     private int templateNo;
     private int userNo;
-    private String templateNm;
+    private String UserId;
 
     List<TempStepVo> stepsList;
 }
