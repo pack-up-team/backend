@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: PackUp-Backend
+
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -7,6 +10,7 @@ spring:
     user:
       name: admin
       password: 1234
+  
 
   datasource:
     url: jdbc:log4jdbc:mysql://3.35.147.68:3306/SWYP6?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
