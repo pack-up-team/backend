@@ -37,10 +37,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api")
-    implementation("org.glassfish.web:jakarta.servlet.jsp.jstl")
-    implementation("org.mybatis:mybatis:3.5.15")
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
+	implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api")
+	implementation("org.glassfish.web:jakarta.servlet.jsp.jstl")
+	implementation("org.mybatis:mybatis:3.5.15")
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 	implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
 	// 토큰 발급 + 메일 전송
 	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.5.4")
@@ -48,6 +48,10 @@ dependencies {
 	implementation("org.apache.tika:tika-core:3.2.1")
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	implementation("commons-io:commons-io:2.17.0")
+	// jwt 설정
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
