@@ -43,5 +43,7 @@ public class JoinService {
                 .regId("system")
                 .regDt(LocalDateTime.now())
                 .build();
+
+        snsSignUpRepo.save(snsUser);
     }
 }
