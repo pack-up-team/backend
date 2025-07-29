@@ -31,6 +31,25 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
 
+  data:
+   redis:
+    host: localhost
+    port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ################
+    password: ################
+    properties:
+      mail:
+       smtp:
+        auth: true
+        starttls:
+         enable: true
+         required: true
+      debug: true
+
   # jwt 설정
   jwt:
     secret: "${JWT_SECRET_KEY}"
