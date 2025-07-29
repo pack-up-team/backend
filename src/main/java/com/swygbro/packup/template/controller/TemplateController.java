@@ -40,7 +40,7 @@ public class TemplateController {
 
         return ResponseEntity.ok(response);
     }
-    
+
 
     @PostMapping("/templateSave")
     public ResponseEntity<Map<String, Object>> templateSave(@RequestBody TemplateVo tempVo){
@@ -56,9 +56,9 @@ public class TemplateController {
             response.put("status", "fail");
             return ResponseEntity.badRequest().body(response);
         }
-        
+
     }
-    
+
     @PostMapping("/templateUpdate")
     public ResponseEntity<Map<String, Object>> templateUpdate(@RequestBody TemplateVo tempVo){
 
@@ -73,9 +73,9 @@ public class TemplateController {
             response.put("status", "fail");
             return ResponseEntity.badRequest().body(response);
         }
-        
+
     }
-    
+
     @PostMapping("/templateDelete")
     public ResponseEntity<Map<String, Object>> templateDelete(@RequestBody TemplateVo tempVo){
 
@@ -90,16 +90,16 @@ public class TemplateController {
             response.put("status", "fail");
             return ResponseEntity.badRequest().body(response);
         }
-        
+
     }
 
     @PostMapping("/getDetailData")
     public ResponseEntity<Map<String, Object>> getDetailData(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
         tempVo = templateService.getDetailData(tempVo.getTemplateNo());
-        
+
         System.out.println("tempVo : "+tempVo);
-        
+
         response.put("templateData", tempVo);
         response.put("responseText", "success");
 
@@ -116,5 +116,5 @@ public class TemplateController {
 
         return ResponseEntity.ok(response);
     }
-    
+
 }

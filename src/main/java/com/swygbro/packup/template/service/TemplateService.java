@@ -51,7 +51,7 @@ public class TemplateService {
                 responseMap.put("resposeText", "템플릿 스텝 저장시 오류 발생");
                 return responseMap;
             }
-            
+
             if(tempVo.getStepsList().get(i).getStepObjList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepObjList().size();t++){
@@ -70,11 +70,11 @@ public class TemplateService {
                     }
                 }
 
-                
+
             }
 
-            
-            
+
+
             if(tempVo.getStepsList().get(i).getStepTextList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepTextList().size();t++){
@@ -93,7 +93,7 @@ public class TemplateService {
                     }
                 }
 
-                
+
             }
         }
 
@@ -106,7 +106,7 @@ public class TemplateService {
     }
 
     public List<CateObjVo> getCateTemplateObject(CateObjVo objVo) {
-        
+
         List<CateObjVo> objList = templateMapper.getCateTemplateObject(objVo);
 
         return objList;
@@ -116,61 +116,61 @@ public class TemplateService {
      * 템플릿 전체 데이터 조회
      */
     public TemplateVo getDetailData(Integer templateNo) {
-        
+
         // 1. 템플릿 기본 정보 조회
         TemplateVo templateVo = templateMapper.getTemplate(templateNo);
-        
+
         if(templateVo == null) {
             return null;
         }
-        
+
         // 2. 스텝 목록 조회
         List<TempStepVo> stepsList = templateMapper.getStepsByTemplateNo(templateNo);
-        
+
         // 3. 각 스텝의 하위 데이터 조회
         for(TempStepVo step : stepsList) {
             Integer stepNo = step.getStep();
-            
+
             System.out.println("stepNo : "+stepNo);
-            
+
             // 스텝 객체 목록 조회
             List<TempStepObjVo> stepObjList = templateMapper.getStepObjByStepNo(stepNo,templateNo);
             step.setStepObjList(stepObjList);
-            
+
             // 스텝 텍스트 목록 조회
             List<TempStepTextVo> stepTextList = templateMapper.getStepTextByStepNo(stepNo,templateNo);
             step.setStepTextList(stepTextList);
         }
-        
+
         templateVo.setStepsList(stepsList);
-        
+
         return templateVo;
     }
-    
+
     /**
      * 사용자별 템플릿 목록 조회
      */
     public List<TemplateVo> getTemplatesByUserId(TemplateVo tempVo) {
-        
+
         int page = tempVo.getPage();
 
         if(page > 0) {
             int pageSize = 4;  // 한 페이지당 4개
             int offset = (page - 1) * pageSize;  // 페이지별 시작 위치 계산
-            
+
 
             tempVo.setPageSize(pageSize);
             tempVo.setOffset(offset);
         }
-        
+
         List<TemplateVo> templateList = templateMapper.getTemplatesByUserId(tempVo);
-        
+
         return templateList;
     }
-    
+
     @Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> templateUpdate(TemplateVo tempVo) {
-    	Boolean saveStatus = true;
+    public Map<String, Object> templateUpdate(TemplateVo tempVo) {
+        Boolean saveStatus = true;
 
         Map<String,Object> responseMap = new HashMap<>();
 
@@ -184,10 +184,10 @@ public class TemplateService {
             responseMap.put("resposeText", "템플릿 저장시 오류 발생");
             return responseMap;
         }
-        
+
         templateMapper.deleteTempalteStepObj(tempVo.getTemplateNo());
         templateMapper.deleteTempalteStepText(tempVo.getTemplateNo());
-        
+
         for(int i=0;i<tempVo.getStepsList().size();i++){
             tempVo.getStepsList().get(i).setTemplateNo(tempVo.getTemplateNo());
             int templateSaveStep = templateMapper.templateUpdateStep(tempVo.getStepsList().get(i));
@@ -198,7 +198,7 @@ public class TemplateService {
                 responseMap.put("resposeText", "템플릿 스텝 저장시 오류 발생");
                 return responseMap;
             }
-            
+
             if(tempVo.getStepsList().get(i).getStepObjList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepObjList().size();t++){
@@ -206,7 +206,7 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
-                    
+
                     int templateSaveStepObj = templateMapper.templateSaveStepObj(tempVo.getStepsList().get(i).getStepObjList().get(t));
 
                     if(templateSaveStepObj < 1){
@@ -217,11 +217,11 @@ public class TemplateService {
                     }
                 }
 
-                
+
             }
 
-            
-            
+
+
             if(tempVo.getStepsList().get(i).getStepTextList().size() > 0){
 
                 for(int t=0;t<tempVo.getStepsList().get(i).getStepTextList().size();t++){
@@ -229,7 +229,7 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
-                    
+
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
                     if(templateSaveStepText < 1){
@@ -240,7 +240,7 @@ public class TemplateService {
                     }
                 }
 
-                
+
             }
         }
 
@@ -250,54 +250,54 @@ public class TemplateService {
         System.out.println("responseMap : "+responseMap);
 
         return responseMap;
-	}
+    }
 
-	public Map<String, Object> templateDelete(TemplateVo tempVo) {
-		
-		Boolean saveStatus = true;
+    public Map<String, Object> templateDelete(TemplateVo tempVo) {
 
-		Map<String,Object> responseMap = new HashMap<>();
-		
-		int templateNo = tempVo.getTemplateNo();
-		
-		int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
-		
-		if(tempDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
-		if(tempStepDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
-		if(tempObjDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 오브젝트 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		int tempTextDeleteCnt = templateMapper.deleteTempalteStepTextInt(templateNo);
-		if(tempTextDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 텍스트 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		responseMap.put("status", saveStatus);
+        Boolean saveStatus = true;
+
+        Map<String,Object> responseMap = new HashMap<>();
+
+        int templateNo = tempVo.getTemplateNo();
+
+        int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
+
+        if(tempDeleteCnt < 1){
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
+            return responseMap;
+        }
+
+        int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
+        if(tempStepDeleteCnt < 1){
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
+            return responseMap;
+        }
+
+        int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
+        if(tempObjDeleteCnt < 1){
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 스탭 오브젝트 삭제시 오류 발생");
+            return responseMap;
+        }
+
+        int tempTextDeleteCnt = templateMapper.deleteTempalteStepTextInt(templateNo);
+        if(tempTextDeleteCnt < 1){
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 스탭 텍스트 삭제시 오류 발생");
+            return responseMap;
+        }
+
+        responseMap.put("status", saveStatus);
         responseMap.put("resposeText", "템플릿 정상 삭제");
-		
-		return responseMap;
-	}
+
+        return responseMap;
+    }
 
 
 }
