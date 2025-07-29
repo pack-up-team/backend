@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.swygbro.packup.template.Mapper.TemplateMapper;
+import com.swygbro.packup.template.mapper.TemplateMapper;
 import com.swygbro.packup.template.vo.CateObjVo;
 import com.swygbro.packup.template.vo.TempStepObjVo;
 import com.swygbro.packup.template.vo.TempStepTextVo;

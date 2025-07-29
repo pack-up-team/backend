@@ -121,7 +121,7 @@
         <nav class="nav-links">
             <a href="/dashboard">대시보드</a>
             <a href="/mypage">마이페이지</a>
-            <a href="/login/login">로그인</a>
+            <a href="/lgn/login">로그인</a>
         </nav>
     </header>
     
@@ -133,7 +133,7 @@
         
         <div class="action-buttons">
             <a href="/dashboard" class="btn btn-primary">시작하기</a>
-            <a href="/login/login" class="btn btn-secondary">로그인</a>
+            <a href="/lgn/login" class="btn btn-secondary">로그인</a>
         </div>
     </main>
 </body>
