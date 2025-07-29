@@ -3,6 +3,7 @@ package com.swygbro.packup.sns.SignUP.entity;
 import com.swygbro.packup.user.entity.User;
 import jakarta.persistence.*;
 import com.swygbro.packup.sns.SignUP.dto.JoinDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,11 @@ import java.time.*;
 
 import java.security.PrivateKey;
 
+@Builder
 @Table(name ="TBL_SOCIAL_LOGIN_INFO")
 @Data
 @Entity
-@NoArgsConstructor
+@AllArgsConstructor
 public class snsUser {
 
     @Id
@@ -44,8 +46,9 @@ public class snsUser {
     private LocalDateTime regDt;
 
     public static snsUser join(JoinDto joinDto) {
-        return 0;
-                .
+        return snsUser.builder()
+                .userId(joinDto.getUSER_ID())
+                .userNo(Integer.parseInt(joinDto.getUSER_NO())).build();
     }
 
 }

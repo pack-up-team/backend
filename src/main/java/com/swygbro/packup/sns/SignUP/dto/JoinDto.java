@@ -14,6 +14,6 @@ public class JoinDto {
     String USER_ID;
 
     public static JoinDto trnasDTO(User user){
-        return new JoinDto(user.getUserId(), user.getUserId());
+        return new JoinDto(user.getUserNo(), user.getUserId());
     }
 }

@@ -16,6 +16,7 @@ public class User {
     @Id
     private String userId;
 
+    private int userNo;
     private String userPw;
     private String userNm;
     private String email;
@@ -41,5 +42,12 @@ public class User {
         this.delYn = delYn;
         this.personalInfoAcq = personalInfoAcq;
     }
+
+    // sns 로그인
+    public User(int userNo, String userId){
+        this.userId = userId;
+        this.userNo = userNo;
+    }
+
     
 }
