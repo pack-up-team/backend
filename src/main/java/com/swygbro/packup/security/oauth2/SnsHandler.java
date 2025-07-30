@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 @RequiredArgsConstructor
 @Component
-public class SnsHandler implements SimpleUrlAuthenticationSuccessHandler {
+public class SnsHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtUtill jwtUtil;
 
     @Override
