@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -27,6 +28,9 @@ public class SnsSignUpTest {
 
     @Mock
     private SnsSignUpRepo snsSignUpRepo;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void 소셜회원가입_성공() {
@@ -49,13 +53,15 @@ public class SnsSignUpTest {
 
         when(snsSignUpRepo.existsBySocialIdAndLoginType(joinDto.getSOCIAL_ID(), joinDto.getLOGIN_TYPE())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(user);
+        when(passwordEncoder.encode(any())).thenReturn("encodedPassword");
 
         // when
         joinService.joinSocial(joinDto);
 
         // then
-        verify(userRepository, times(1)).save(any(User.class));
+        verify(userRepository, times(2)).save(any(User.class)); // ✅ 수정: 저장 2회
         verify(snsSignUpRepo, times(1)).save(any(SnsUser.class));
+
     }
 
     @Test
