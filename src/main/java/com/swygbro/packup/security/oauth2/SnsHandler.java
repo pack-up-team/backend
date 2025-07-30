@@ -64,4 +64,4 @@ public class SnsHandler extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     }
-}
+
