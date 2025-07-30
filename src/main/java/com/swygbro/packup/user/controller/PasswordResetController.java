@@ -4,6 +4,7 @@ import com.swygbro.packup.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
@@ -14,6 +15,11 @@ public class PasswordResetController {
 
     private final UserService userService;
 
+    @GetMapping("/forgot-password")
+    public ModelAndView showForgotPasswordForm() {
+        return new ModelAndView("auth/forgot-password");
+    }
+    
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         try {
@@ -60,7 +66,24 @@ public class PasswordResetController {
     }
     
     @GetMapping("/reset-password")
-    public ResponseEntity<?> showResetPasswordForm(@RequestParam String token) {
-        return ResponseEntity.ok("토큰: " + token + "을 사용하여 비밀번호를 재설정하세요.");
+    public ModelAndView showResetPasswordForm(@RequestParam String token) {
+        try {
+            // 토큰 유효성 간단 체크 (실제로는 UserService에서 검증)
+            if (token == null || token.trim().isEmpty()) {
+                ModelAndView mv = new ModelAndView("auth/reset-password");
+                mv.addObject("error", "유효하지 않은 토큰입니다.");
+                return mv;
+            }
+            
+            // 토큰을 JSP로 전달
+            ModelAndView mv = new ModelAndView("auth/reset-password");
+            mv.addObject("token", token);
+            return mv;
+            
+        } catch (Exception e) {
+            ModelAndView mv = new ModelAndView("auth/reset-password");
+            mv.addObject("error", "페이지 로드 중 오류가 발생했습니다.");
+            return mv;
+        }
     }
 }

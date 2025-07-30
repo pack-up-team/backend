@@ -20,7 +20,7 @@ public class JwtUtill {
 
     private SecretKey key;
 
-    public JwtUtill(@Value("${JWT_SECRET_KEY}") String secret) {
+    public JwtUtill(@Value("${spring.jwt.secret}") String secret) {
         key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
@@ -72,3 +72,4 @@ public class JwtUtill {
     }
 
 }
+
