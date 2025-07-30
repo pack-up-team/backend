@@ -15,11 +15,14 @@ public class SocialJoinController {
 
     private final JoinService joinService;
 
+    // 회원가입 처리
     @PostMapping("/join")
-    public ResponseEntity<Void> joinSocial( @PathVariable() JoinDto dto) {
+    public ResponseEntity<Void> joinSocial(@RequestBody JoinDto dto) {
         joinService.joinSocial(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    // 소셜 계정 가입 여부 확인 처리 -> OAuth2SuccessHandler에서 처리함. 개별 처리 불필요.
 
 
 }

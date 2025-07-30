@@ -29,8 +29,9 @@ public class User {
     private char personalInfoAcq;
 
     @Builder
-    public User(String userId, String userPw, String userNm, String email, String phoneNum, char gender, String address, String role, char useYn, char delYn, char personalInfoAcq ){
+    public User(String userId, int userNo,  String userPw, String userNm, String email, String phoneNum, char gender, String address, String role, char useYn, char delYn, char personalInfoAcq ){
         this.userId = userId;
+        this.userNo = userNo;
         this.userPw = userPw;
         this.userNm = userNm;
         this.email = email;
@@ -48,6 +49,8 @@ public class User {
         this.userId = userId;
         this.userNo = userNo;
     }
+
+
 
     
 }

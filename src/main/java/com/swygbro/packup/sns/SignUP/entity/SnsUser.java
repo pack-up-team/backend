@@ -9,15 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.*;
 
-import java.security.PrivateKey;
-
 @Builder
 @Table(name ="TBL_SOCIAL_LOGIN_INFO")
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class snsUser {
+public class SnsUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +44,8 @@ public class snsUser {
     @Column(name = "REG_DT")
     private LocalDateTime regDt;
 
-    public static snsUser join(JoinDto joinDto, int userNo) {
-        return snsUser.builder()
+    public static SnsUser join(JoinDto joinDto, int userNo) {
+        return SnsUser.builder()
                 .userId(joinDto.getUSER_ID())
                 .userNo(userNo)
                 .loginType(joinDto.getLOGIN_TYPE())

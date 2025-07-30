@@ -17,4 +17,5 @@ public class JoinDto {
     private String USER_ID;
     private String USER_NM;
     private String EMAIL;
+
 }
