@@ -46,7 +46,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
             // ✅ 카카오: 이메일 없이 처리
             Optional<SnsUser> snsUserOpt = snsSignUpRepo.findBySocialIdAndLoginType(socialId, socialType.name());
             if (snsUserOpt.isPresent()) {
-                user = userRepository.findById((long) snsUserOpt.get().getUserNo()).orElseThrow();
+                user = (User) userRepository.findByUserId(String.valueOf(snsUserOpt.get().getUserNo())).orElseThrow();
             } else {
                 // 자동 회원가입
                 JoinDto dto = JoinDto.builder()
