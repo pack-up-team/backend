@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 
-@SpringBootTest(properties = "JWT_SECRET_KEY=samplejwtsecretwithminimumlength32char!!")
+@SpringBootTest(properties = "JWT_SECRET_KEY=thisIsASecretKeyWithAtLeast32ByteLength123!!")
 public class JwtUtillTest {
 
     @Autowired
