@@ -1,5 +1,7 @@
 package com.swygbro.packup.template.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.swygbro.packup.common.vo.CommonVo;
 
 import lombok.Data;
@@ -18,4 +20,6 @@ public class TempStepObjVo extends CommonVo{
     private int templateNo;
     private String objNm;
     private int step;
+
+    private MultipartFile imageFile; // 업로드되는 이미지 파일
 }

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>대시보드</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,7 +59,21 @@
                 <button type="submit" class="btn logout-btn">로그아웃</button>
             </form>
         </div>
+        <div>
+            <img src="/files/image/${imageRefNo}?fileCate1=${fileCate1}&fileCate2=${fileCate2}" alt="이미지 미리보기" style="max-width: 200px; max-height: 200px;">
+        </div>
     </div>
+
+    <script>
+        // 사용자 정보 체크
+        <c:if test="${empty username}">
+            window.location.href = '/';
+        </c:if>
+        
+        console.log("imageRefNo : "+${imageRefNo});
+        console.log("fileCate1 : "+"${fileCate1}");
+        console.log("fileCate2 : "+"${fileCate2}");
+    </script>
     
     <div>
         <h2>대시보드</h2>

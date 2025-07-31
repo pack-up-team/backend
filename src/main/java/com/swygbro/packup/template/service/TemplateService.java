@@ -264,10 +264,6 @@ public class TemplateService {
 		
 		int templateNo = tempVo.getTemplateNo();
 		
-		
-		
-		
-		
 		int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
 		if(tempObjDeleteCnt < 1){
 			saveStatus = false;
