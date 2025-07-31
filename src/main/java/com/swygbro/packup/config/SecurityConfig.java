@@ -39,7 +39,7 @@ public class SecurityConfig {
                 )
                 
                 .formLogin((auth) -> auth
-                        .loginPage("/login/login")                        // lgn → login
+                        .loginPage("/lgn/login")                        // lgn → login
                         .loginProcessingUrl("/loginProcess")        // lgn/lgn → loginProcess
                         .usernameParameter("username")              // mngrId → username
                         .passwordParameter("password")              // pswd → password
