@@ -22,7 +22,9 @@ public class CustomOAuth2User implements OAuth2User {
                             Map<String, Object> attributes,
                             String userId,
                             String userNm,
-                            String nameKey, int userNo, socialLoginType socialLoginType) {
+                            String nameKey,
+                            int userNo,
+                            socialLoginType socialLoginType) {
         this.authorities = authorities;
         this.attributes = attributes;
         this.userId = userId;

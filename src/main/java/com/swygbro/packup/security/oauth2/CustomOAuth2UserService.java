@@ -88,7 +88,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
                 attributes,
                 "id",
                 user.getUserId(),
-                user.getUserNm()
+                user.getUserNm(),
+                user.getUserNo(),
+                socialType
         );
     }
 
