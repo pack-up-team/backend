@@ -4,13 +4,15 @@ import io.jsonwebtoken.ExpiredJwtException;
 import com.swygbro.packup.security.jwt.JwtUtill;
 import org.aspectj.weaver.patterns.IToken;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 
-@SpringBootTest(properties = "JWT_SECRET_KEY=samplejwtsecretwithminimumlength32char!!")
+
+@SpringBootTest(properties = "JWT_SECRET_KEY=thisIsASecretKeyWithAtLeast32ByteLength123!!")
 public class JwtUtillTest {
 
     @Autowired

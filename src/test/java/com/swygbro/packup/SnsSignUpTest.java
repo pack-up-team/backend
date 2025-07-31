@@ -12,8 +12,6 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -44,7 +42,6 @@ public class SnsSignUpTest {
                 .build();
 
         User user = User.builder()
-                .userNo(1)
                 .userId(joinDto.getUSER_ID())
                 .userNm(joinDto.getUSER_NM())
                 .email(joinDto.getEMAIL())

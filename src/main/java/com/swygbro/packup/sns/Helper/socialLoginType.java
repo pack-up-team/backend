@@ -2,6 +2,6 @@ package com.swygbro.packup.sns.Helper;
 
 public enum socialLoginType {
     GOOGLE,
-    KAKAKO,
+    KAKAO,
     NAVER
 }
