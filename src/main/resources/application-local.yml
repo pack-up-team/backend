@@ -108,3 +108,10 @@ logging:
 
 server:
   port: 8080
+
+file:
+  upload:
+    path: C:/temp/uploads/
+    max-size: 52428800
+    max-request-size: 104857600
+    allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt

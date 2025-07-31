@@ -3,17 +3,17 @@ package com.swygbro.packup.file.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.*;
+import com.swygbro.packup.common.vo.CommonVo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadVo {
-    private String originalFileName;
-    private String savedFileName;
+public class FileUploadVo extends CommonVo{
+    private int objNo;
+    private int cateNo;
+    private String orgFileName;
+    private String saveFileName;
     private String filePath;
-    private String fileUrl;
     private long fileSize;
-    private String contentType;
-    private String category;
-    private String uploadDate;
 }

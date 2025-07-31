@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.swygbro.packup.file.vo.AttachFileVo;
 import com.swygbro.packup.file.vo.FileUploadVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,33 +43,6 @@ public class FileUploadUtil {
         FileUploadUtil.allowedExtensions = allowedExtensions;
     }
 
-    public static FileUploadVo uploadFile(MultipartFile file, String category) throws IOException {
-        validateFile(file);
-        
-        String savedFileName = generateUniqueFileName(file.getOriginalFilename());
-        String categoryPath = createCategoryDirectory(category);
-        String fullPath = categoryPath + File.separator + savedFileName;
-        
-        Path destinationPath = Paths.get(fullPath);
-        Files.copy(file.getInputStream(), destinationPath);
-        
-        log.info("파일 업로드 완료: {}", fullPath);
-        
-        return createFileUploadVo(file, savedFileName, fullPath, category);
-    }
-
-    public static List<FileUploadVo> uploadMultipleFiles(MultipartFile[] files, String category) throws IOException {
-        List<FileUploadVo> uploadResults = new ArrayList<>();
-        
-        for (MultipartFile file : files) {
-            if (!file.isEmpty()) {
-                uploadResults.add(uploadFile(file, category));
-            }
-        }
-        
-        return uploadResults;
-    }
-
     public static boolean deleteFile(String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -84,6 +57,78 @@ public class FileUploadUtil {
             log.error("파일 삭제 중 오류 발생: {}", e.getMessage());
             return false;
         }
+    }
+
+    public static boolean deleteAllFilesInDirectory(String directoryPath) {
+        try {
+            Path path = Paths.get(directoryPath);
+            if (!Files.exists(path) || !Files.isDirectory(path)) {
+                log.warn("디렉토리가 존재하지 않음: {}", directoryPath);
+                return false;
+            }
+            
+            Files.list(path).forEach(file -> {
+                try {
+                    if (Files.isRegularFile(file)) {
+                        Files.delete(file);
+                        log.info("파일 삭제 완료: {}", file.toString());
+                    }
+                } catch (IOException e) {
+                    log.error("파일 삭제 실패: {}, 오류: {}", file.toString(), e.getMessage());
+                }
+            });
+            
+            log.info("디렉토리 내 모든 파일 삭제 완료: {}", directoryPath);
+            return true;
+        } catch (IOException e) {
+            log.error("디렉토리 파일 삭제 중 오류 발생: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean deleteSpecificFilesInDirectory(String directoryPath, List<String> fileNames) {
+        try {
+            Path path = Paths.get(directoryPath);
+            if (!Files.exists(path) || !Files.isDirectory(path)) {
+                log.warn("디렉토리가 존재하지 않음: {}", directoryPath);
+                return false;
+            }
+            
+            for (String fileName : fileNames) {
+                Path filePath = path.resolve(fileName);
+                if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
+                    Files.delete(filePath);
+                    log.info("파일 삭제 완료: {}", filePath.toString());
+                }
+            }
+            
+            log.info("지정된 파일들 삭제 완료: {}", fileNames);
+            return true;
+        } catch (IOException e) {
+            log.error("파일 삭제 중 오류 발생: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public static AttachFileVo uploadObjFileWithDirectoryCleanup(AttachFileVo fileVo) throws IOException {
+        validateFile(fileVo.getFile());
+        
+        // 1. 카테고리 디렉토리 경로 생성
+        String categoryPath = createCategoryDirectory(fileVo);
+        
+        // 2. 기존 파일들 모두 삭제
+        // deleteAllFilesInDirectory(categoryPath);
+        
+        // 3. 새 파일 업로드
+        String savedFileName = generateUniqueFileName(fileVo.getFile().getOriginalFilename());
+        String fullPath = categoryPath + "/" + savedFileName;
+        
+        Path destinationPath = Paths.get(fullPath);
+        Files.copy(fileVo.getFile().getInputStream(), destinationPath);
+        
+        log.info("파일 업로드 완료 (기존 파일 삭제 후): {}", fullPath);
+        
+        return createFileUploadVo(fileVo.getFile(), savedFileName, fullPath, fileVo.getRefNo());
     }
 
     public static boolean isValidFile(MultipartFile file) {
@@ -117,14 +162,19 @@ public class FileUploadUtil {
     private static String generateUniqueFileName(String originalFileName) {
         String extension = getFileExtension(originalFileName);
         String nameWithoutExtension = getFileNameWithoutExtension(originalFileName);
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        String timestamp = String.valueOf(System.currentTimeMillis());
         String uuid = UUID.randomUUID().toString().substring(0, 8);
         
         return String.format("%s_%s_%s.%s", nameWithoutExtension, timestamp, uuid, extension);
     }
 
-    private static String createCategoryDirectory(String category) throws IOException {
-        String categoryPath = uploadPath + File.separator + category;
+    private static String createCategoryDirectory(AttachFileVo fileVo) throws IOException {
+        String categoryPath = "";
+        if(fileVo.getFileCate1().equals("object")){
+            categoryPath = uploadPath + "object";
+        }else if(fileVo.getFileCate1().equals("template")){
+            categoryPath = uploadPath + "template" + "/" + fileVo.getUserId() + "/thumnail/"+fileVo.getRefNo();
+        }
         Path path = Paths.get(categoryPath);
         
         if (!Files.exists(path)) {
@@ -135,16 +185,15 @@ public class FileUploadUtil {
         return categoryPath;
     }
 
-    private static FileUploadVo createFileUploadVo(MultipartFile file, String savedFileName, String fullPath, String category) {
-        FileUploadVo vo = new FileUploadVo();
-        vo.setOriginalFileName(file.getOriginalFilename());
-        vo.setSavedFileName(savedFileName);
+    private static AttachFileVo createFileUploadVo(MultipartFile file, String savedFileName, String fullPath, int refNo) {
+        AttachFileVo vo = new AttachFileVo();
+        vo.setRefNo(refNo);
+        vo.setOrgFileName(file.getOriginalFilename());
+        vo.setSaveFileName(savedFileName);
         vo.setFilePath(fullPath);
-        vo.setFileUrl("/static/" + category + "/" + savedFileName);
         vo.setFileSize(file.getSize());
-        vo.setContentType(file.getContentType());
-        vo.setCategory(category);
-        vo.setUploadDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        vo.setRegDt(new Date());
+        vo.setUpdDt(new Date());
         
         return vo;
     }

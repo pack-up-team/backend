@@ -27,6 +27,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Authentication authentication) throws IOException, ServletException {
         
         String userId = authentication.getName();
+
+        System.out.println("userId : "+userId);
         
         try {
             userMapper.updateLastLoginDate(userId);
