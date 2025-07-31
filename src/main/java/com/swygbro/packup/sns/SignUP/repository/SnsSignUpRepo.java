@@ -15,7 +15,7 @@ public interface SnsSignUpRepo extends JpaRepository<SnsUser, Long> {
 
     int countByUserNo(int userNo);
 
-    boolean existsByUserNoAndloginType(int userNo, String snsType);
+    boolean existsByUserNoAndlogInType(int userNo, String snsType);
 
-    Optional<Object> findByUserNoAndloginType(int userNo, String snsType);
+    Optional<Object> findByUserNoAndlogInType(int userNo, String snsType);
 }
