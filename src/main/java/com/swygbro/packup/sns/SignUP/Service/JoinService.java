@@ -28,7 +28,7 @@ public class JoinService {
     public void joinSocial(JoinDto joinDto) {
 
         // 1. 중복 체크
-        if(snsSignUpRepo.existsByEmailAndLoginType(joinDto.getSOCIAL_ID(), joinDto.getLOGIN_TYPE())){
+        if(snsSignUpRepo.existsBySocialIdAndLoginType(joinDto.getSOCIAL_ID(), joinDto.getLOGIN_TYPE())){
             throw new IllegalStateException("이미 가입된 sns 계정입니다.");
         }
 
@@ -54,7 +54,7 @@ public class JoinService {
         userRepository.save(savedUser);
 
         // 4. snsUser 저장
-        SnsUser snsUser = snsUser.builder()
+        SnsUser snsUser = SnsUser.builder()
                 .userId(savedUser.getUserId())
                 .userNo(savedUser.getUserNo())
                 .loginType(joinDto.getLOGIN_TYPE())

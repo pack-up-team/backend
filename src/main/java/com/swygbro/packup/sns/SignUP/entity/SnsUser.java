@@ -44,6 +44,7 @@ public class SnsUser {
     @Column(name = "REG_DT")
     private LocalDateTime regDt;
 
+    @Builder
     public static SnsUser join(JoinDto joinDto, int userNo) {
         return SnsUser.builder()
                 .userId(joinDto.getUSER_ID())
