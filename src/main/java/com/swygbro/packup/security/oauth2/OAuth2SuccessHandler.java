@@ -1,6 +1,7 @@
 package com.swygbro.packup.security.oauth2;
 
 import com.swygbro.packup.security.jwt.JwtUtill;
+import com.swygbro.packup.sns.Helper.socialLoginType;
 import com.swygbro.packup.sns.SignUP.dto.CustomOAuth2User;
 import com.swygbro.packup.sns.SignUP.entity.SnsUser;
 import com.swygbro.packup.sns.SignUP.repository.SnsSignUpRepo;
@@ -30,10 +31,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // ✅ 사용자 정보 가져오기
         CustomOAuth2User user = (CustomOAuth2User) authentication.getPrincipal();
 
+        int userNo = user.getUserNo();
         String username = user.getUserNm();
         String userId = user.getUserId();
         String socialId = user.getSocialId();
-        String snsType = String.valueOf(user.getSocialLoginType());   // kakao, google, naver
+        socialLoginType loginType = user.getSocialLoginType();  // kakao, google, naver
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.iterator().next().getAuthority();
@@ -42,11 +44,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createToken(username, role, userId, 90L * 24 * 60 * 60 * 1000);
         ResponseCookie responseCookie = createCookie("Authorization", token);
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+
         // ✅ SNS 연동 정보 저장 (중복 방지)
-        if (!snsSignUpRepo.existsByUserNoAndSnsType((user.getUserNo()), snsType)) {
+        if (!snsSignUpRepo.existsByUserNoAndloginType(userNo, loginType)) {
             SnsUser snsUser = SnsUser.builder()
                     .userNo(user.getUserNo())
-                    .loginType(snsType)
+                    .loginType(String.valueOf(loginType))
                     .socialId(socialId)
                     .build();
             snsSignUpRepo.save(snsUser);
