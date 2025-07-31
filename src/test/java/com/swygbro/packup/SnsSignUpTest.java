@@ -44,7 +44,6 @@ public class SnsSignUpTest {
                 .build();
 
         User user = User.builder()
-                .userNo(1)
                 .userId(joinDto.getUSER_ID())
                 .userNm(joinDto.getUSER_NM())
                 .email(joinDto.getEMAIL())

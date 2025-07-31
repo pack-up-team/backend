@@ -3,6 +3,11 @@ package com.swygbro.packup.mypage.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.swygbro.packup.sns.Helper.socialLoginType;
+import com.swygbro.packup.sns.SignUP.entity.SnsUser;
+import com.swygbro.packup.sns.SignUP.repository.SnsSignUpRepo;
+import com.swygbro.packup.user.entity.User;
+import com.swygbro.packup.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,6 +31,8 @@ public class MyPageController {
 
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final SnsSignUpRepo snsSignUpRepo;
 
     @GetMapping("/mypage")
     public ModelAndView mypage(Authentication authentication) {
@@ -77,5 +84,27 @@ public class MyPageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @DeleteMapping("/sns/disconnect/{snsType}")
+    public ResponseEntity<String> disconnectSns(@PathVariable("snsType") socialLoginType snsType,
+                                                Authentication authentication) {
+        String userId = authentication.getName();
+        User user = (User) userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+
+        // 해당 연동 정보 조회
+        SnsUser snsUser = (SnsUser) snsSignUpRepo.findByUserNoAndSnsType(user.getUserNo(), snsType)
+                .orElseThrow(() -> new RuntimeException("해당 SNS 연동 정보가 없습니다."));
+
+        // 연동이 유일한 로그인 수단이라면 해제 불가
+        int linkedCount = snsSignUpRepo.countByUserNo(user.getUserNo());
+        if (linkedCount <= 1) {
+            return ResponseEntity.badRequest().body("최소 하나의 로그인 수단은 유지되어야 합니다.");
+        }
+
+        snsSignUpRepo.delete(snsUser);
+        return ResponseEntity.ok("SNS 연동 해제 완료");
+    }
+
 
 }
