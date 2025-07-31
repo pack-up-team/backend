@@ -34,25 +34,25 @@ public interface TemplateMapper {
 
     List<TemplateVo> getTemplatesByUserId(TemplateVo tempVo);
 
-	int templateUpdate(TemplateVo tempVo);
-	
-	int templateUpdateStep(TempStepVo tempStepVo);
-	
-	int templateUpdateStepObj(TempStepObjVo tempStepObjVo);
+    int templateUpdate(TemplateVo tempVo);
 
-	int templateUpdateStepText(TempStepTextVo tempStepTextVo);
+    int templateUpdateStep(TempStepVo tempStepVo);
 
-	void deleteTempalteStepObj(@Param("templateNo")int templateNo);
+    int templateUpdateStepObj(TempStepObjVo tempStepObjVo);
 
-	void deleteTempalteStepText(@Param("templateNo")int templateNo);
+    int templateUpdateStepText(TempStepTextVo tempStepTextVo);
 
-	int deleteTemplate(int tempateNo);
+    void deleteTempalteStepObj(@Param("templateNo")int templateNo);
 
-	int deleteStepTemplate(int tempateNo);
+    void deleteTempalteStepText(@Param("templateNo")int templateNo);
 
-	int deleteTempalteStepObjInt(int tempateNo);
+    int deleteTemplate(int tempateNo);
 
-	int deleteTempalteStepTextInt(int tempateNo);
+    int deleteStepTemplate(int tempateNo);
+
+    int deleteTempalteStepObjInt(int tempateNo);
+
+	  int deleteTempalteStepTextInt(int tempateNo);
 
     int getTemplateStepNo(@Param("templateNo") int templateNo,@Param("step") int step);
 
