@@ -93,7 +93,7 @@ public class MyPageController {
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
         // 해당 연동 정보 조회
-        SnsUser snsUser = (SnsUser) snsSignUpRepo.findByUserNoAndlogInType(user.getUserNo(), String.valueOf(snsType))
+        SnsUser snsUser = (SnsUser) snsSignUpRepo.findByUserNoAndLoginType(user.getUserNo(), String.valueOf(snsType))
                 .orElseThrow(() -> new RuntimeException("해당 SNS 연동 정보가 없습니다."));
 
         // 연동이 유일한 로그인 수단이라면 해제 불가

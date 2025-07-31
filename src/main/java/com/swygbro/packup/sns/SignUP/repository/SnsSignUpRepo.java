@@ -1,6 +1,5 @@
 package com.swygbro.packup.sns.SignUP.repository;
 
-import com.swygbro.packup.sns.Helper.socialLoginType;
 import com.swygbro.packup.sns.SignUP.entity.SnsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,7 +14,7 @@ public interface SnsSignUpRepo extends JpaRepository<SnsUser, Long> {
 
     int countByUserNo(int userNo);
 
-    boolean existsByUserNoAndlogInType(int userNo, String snsType);
+    boolean existsByUserNoAndLoginType(int userNo, String snsType);
 
-    Optional<Object> findByUserNoAndlogInType(int userNo, String snsType);
+    Optional<Object> findByUserNoAndLoginType(int userNo, String snsType);
 }

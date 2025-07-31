@@ -46,7 +46,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
         // ✅ SNS 연동 정보 저장 (중복 방지)
-        if (!snsSignUpRepo.existsByUserNoAndlogInType(userNo, String.valueOf(loginType))) {
+        if (!snsSignUpRepo.existsByUserNoAndLoginType(userNo, String.valueOf(loginType))) {
             SnsUser snsUser = SnsUser.builder()
                     .userNo(user.getUserNo())
                     .loginType(String.valueOf(loginType))
