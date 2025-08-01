@@ -22,26 +22,12 @@ public interface TemplateMapper {
 
     TemplateVo getTemplate(Integer templateNo);
 
-    int templateUpdate(TemplateVo tempVo);
+    List<TempStepVo> getStepsByTemplateNo(Integer templateNo);
 
-    int templateUpdateStep(TempStepVo tempStepVo);
+    List<TempStepObjVO> getStepObjByStepNo(Integer stepNo, Integer templateNo);
 
-    int templateUpdateStepObj(TempStepObjVo tempStepObjVo);
+    List<TempStepTextVo> getStepTextByStepNo(Integer stepNo, Integer templateNo);
 
-    int templateUpdateStepText(TempStepTextVo tempStepTextVo);
-
-    void deleteTempalteStepObj(@Param("templateNo")int templateNo);
-
-    void deleteTempalteStepText(@Param("templateNo")int templateNo);
-
-    int deleteTemplate(int tempateNo);
-
-    int deleteStepTemplate(int tempateNo);
-
-    int deleteTempalteStepObjInt(int tempateNo);
-
-	  int deleteTempalteStepTextInt(int tempateNo);
-
-    int getTemplateStepNo(@Param("templateNo") int templateNo,@Param("step") int step);
+    List<TemplateVo> getTemplatesByUserId(TempStepVo tempVo);
 
 }

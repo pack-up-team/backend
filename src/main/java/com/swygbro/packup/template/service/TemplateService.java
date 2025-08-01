@@ -256,52 +256,49 @@ public class TemplateService {
 	}
 
     @Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> templateDelete(TemplateVo tempVo) {
-		
-		Boolean saveStatus = true;
+    public Map<String, Object> templateDelete(TemplateVo tempVo) {
 
-		Map<String,Object> responseMap = new HashMap<>();
-		
-		int templateNo = tempVo.getTemplateNo();
-		
-		int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
-		if(tempObjDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 오브젝트 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		int tempTextDeleteCnt = templateMapper.deleteTempalteStepTextInt(templateNo);
-		if(tempTextDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 텍스트 삭제시 오류 발생");
-			return responseMap;
-		}
+      Boolean saveStatus = true;
 
-        int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
-		if(tempStepDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
-			return responseMap;
-		}
+      Map<String,Object> responseMap = new HashMap<>();
 
-        int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
-		
-		if(tempDeleteCnt < 1){
-			saveStatus = false;
-			responseMap.put("status", saveStatus);
-			responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
-			return responseMap;
-		}
-		
-		responseMap.put("status", saveStatus);
-        responseMap.put("resposeText", "템플릿 정상 삭제");
-		
-		return responseMap;
-	}
+      int templateNo = tempVo.getTemplateNo();
 
+      int tempObjDeleteCnt = templateMapper.deleteTempalteStepObjInt(templateNo);
+      if(tempObjDeleteCnt < 1){
+        saveStatus = false;
+        responseMap.put("status", saveStatus);
+        responseMap.put("resposeText", "템플릿 스탭 오브젝트 삭제시 오류 발생");
+        return responseMap;
+      }
 
+      int tempTextDeleteCnt = templateMapper.deleteTempalteStepTextInt(templateNo);
+      if(tempTextDeleteCnt < 1){
+        saveStatus = false;
+        responseMap.put("status", saveStatus);
+        responseMap.put("resposeText", "템플릿 스탭 텍스트 삭제시 오류 발생");
+        return responseMap;
+      }
+
+      int tempStepDeleteCnt = templateMapper.deleteStepTemplate(templateNo);
+      if(tempStepDeleteCnt < 1){
+        saveStatus = false;
+        responseMap.put("status", saveStatus);
+        responseMap.put("resposeText", "템플릿 스탭 삭제시 오류 발생");
+        return responseMap;
+      }
+
+      int tempDeleteCnt = templateMapper.deleteTemplate(templateNo);
+      if(tempDeleteCnt < 1){
+        saveStatus = false;
+        responseMap.put("status", saveStatus);
+        responseMap.put("resposeText", "템플릿 삭제시 오류 발생");
+        return responseMap;
+      }
+
+      responseMap.put("status", saveStatus);
+          responseMap.put("resposeText", "템플릿 정상 삭제");
+
+      return responseMap;
+  }
 }

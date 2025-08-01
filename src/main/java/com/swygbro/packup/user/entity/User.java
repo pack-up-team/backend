@@ -1,8 +1,6 @@
 package com.swygbro.packup.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,13 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_NO")
+    private int userNo;
+
+    @Column(name = "USER_ID")
     private String userId;
+
 
     private String userPw;
     private String userNm;
@@ -28,7 +32,7 @@ public class User {
     private char personalInfoAcq;
 
     @Builder
-    public User(String userId, String userPw, String userNm, String email, String phoneNum, char gender, String address, String role, char useYn, char delYn, char personalInfoAcq ){
+    public User(String userId,  String userPw, String userNm, String email, String phoneNum, char gender, String address, String role, char useYn, char delYn, char personalInfoAcq ){
         this.userId = userId;
         this.userPw = userPw;
         this.userNm = userNm;
@@ -41,5 +45,14 @@ public class User {
         this.delYn = delYn;
         this.personalInfoAcq = personalInfoAcq;
     }
+
+    // sns 로그인
+    public User(int userNo, String userId){
+        this.userId = userId;
+        this.userNo = userNo;
+    }
+
+
+
     
 }
