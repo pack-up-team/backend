@@ -3,7 +3,7 @@ package com.swygbro.packup.template.mapper;
 import java.util.List;
 
 import com.swygbro.packup.template.vo.CateObjVo;
-import com.swygbro.packup.template.vo.TempStepObjVO;
+import com.swygbro.packup.template.vo.TempStepObjVo;
 import com.swygbro.packup.template.vo.TempStepTextVo;
 import com.swygbro.packup.template.vo.TempStepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
