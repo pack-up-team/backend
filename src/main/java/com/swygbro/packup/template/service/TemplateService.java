@@ -34,8 +34,6 @@ public class TemplateService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String,Object> templateSave(TemplateVo tempVo, @RequestParam("imgFile") MultipartFile imgFile) throws IOException {
 
-        System.out.println("들어오냐????");
-
         Boolean saveStatus = true;
 
         Map<String,Object> responseMap = new HashMap<>();

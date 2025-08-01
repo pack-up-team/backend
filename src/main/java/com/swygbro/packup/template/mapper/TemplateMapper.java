@@ -1,9 +1,11 @@
-package com.swygbro.packup.template.Mapper;
+package com.swygbro.packup.template.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.swygbro.packup.template.vo.CateObjVo;
-import com.swygbro.packup.template.vo.TempStepObjVO;
+import com.swygbro.packup.template.vo.TempStepObjVo;
 import com.swygbro.packup.template.vo.TempStepTextVo;
 import com.swygbro.packup.template.vo.TempStepVo;
 import com.swygbro.packup.template.vo.TemplateVo;
@@ -16,7 +18,7 @@ public interface TemplateMapper {
 
     int templateSaveStep(TempStepVo tempVo);
 
-    int templateSaveStepObj(TempStepObjVO tempStepObjVO);
+    int templateSaveStepObj(TempStepObjVo tempStepObjVO);
 
     int templateSaveStepText(TempStepTextVo tempStepTextVo);
 
