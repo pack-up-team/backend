@@ -1,5 +1,6 @@
 package com.swygbro.packup.template.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.swygbro.packup.file.service.FileService;
+import com.swygbro.packup.file.vo.AttachFileVo;
 import com.swygbro.packup.template.mapper.TemplateMapper;
 import com.swygbro.packup.template.vo.CateObjVo;
 import com.swygbro.packup.template.vo.TempStepObjVo;
@@ -23,8 +28,13 @@ public class TemplateService {
     @Autowired
     private TemplateMapper templateMapper;
 
+    @Autowired
+    private FileService fileService;
+
     @Transactional(rollbackFor = Exception.class)
-    public Map<String,Object> templateSave(TemplateVo tempVo) {
+    public Map<String,Object> templateSave(TemplateVo tempVo, @RequestParam("imgFile") MultipartFile imgFile) throws IOException {
+
+        System.out.println("들어오냐????");
 
         Boolean saveStatus = true;
 
@@ -33,6 +43,18 @@ public class TemplateService {
         int templateSave = templateMapper.templateSave(tempVo);
 
         int newTemplateNo = tempVo.getTemplateNo();
+
+        AttachFileVo fileVo = new AttachFileVo();
+
+        fileVo.setFile(imgFile);
+        fileVo.setRefNo(newTemplateNo);
+        fileVo.setDelYn("N");
+        fileVo.setUseYn("Y");
+        fileVo.setFileCate1("template");
+        fileVo.setFileCate2("thumnail");
+        fileVo.setUserId(tempVo.getUserId());
+
+        fileService.insertFile(fileVo);
 
         if(templateSave < 1){
             saveStatus = false;

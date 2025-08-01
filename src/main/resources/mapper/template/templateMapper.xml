@@ -39,14 +39,22 @@
 		USER_NO,
 		USER_ID,
 		REG_DT,
-		REG_ID
+		REG_ID,
+		ALARM_DT,
+		REPEAT_TYPE,
+		ALARM_REPEAT_DAY,
+		ALARM_TIME
 		) VALUES (
 		#{templateNo},
 		#{templateNm},
 		#{userNo},
 		#{userId},
 		NOW(),
-		#{userId}
+		#{userId},
+		#{alarmDt},
+		#{repeatType},
+		#{alarmRepeatDay},
+		#{alarmTime}
 		)
 	</insert>
 
@@ -63,31 +71,23 @@
 		</selectKey>
 
 		INSERT INTO TBL_USER_TEMPLATE_STEP (
-		TEMPLATE_STEP_NO,
-		TEMPLATE_NO,
-		STEP,
-		REG_DT,
-		REG_ID,
-		ALARM_DT,
-		REPEAT_TYPE,
-		ALARM_REPEAT_DAY,
-		ALARM_TIME,
-		STEP_X,
-		STEP_Y,
-		DEL_YN
+			TEMPLATE_STEP_NO,
+			TEMPLATE_NO,
+			STEP,
+			REG_DT,
+			REG_ID,
+			STEP_X,
+			STEP_Y,
+			DEL_YN
 		) VALUES (
-		#{templateStepNo},
-		#{templateNo},
-		#{step},
-		NOW(),
-		#{userId},
-		#{alarmDt},
-		#{repeatType},
-		#{alarmRepeatDay},
-		#{alarmTime},
-		#{stepX},
-		#{stepY},
-		#{delYn}
+			#{templateStepNo},
+			#{templateNo},
+			#{step},
+			NOW(),
+			#{userId},
+			#{stepX},
+			#{stepY},
+			#{delYn}
 		)
 	</insert>
 

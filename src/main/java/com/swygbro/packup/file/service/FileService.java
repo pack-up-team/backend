@@ -54,7 +54,7 @@ public class FileService {
         uploadResult.setRegId(fileVo.getUserId());
         uploadResult.setUpdId(fileVo.getUserId());
         uploadResult.setDelYn(fileVo.getDelYn());
-        uploadResult.setUseYn(fileVo.getDelYn());
+        uploadResult.setUseYn(fileVo.getUseYn());
         uploadResult.setFileCate1(fileVo.getFileCate1());
         uploadResult.setFileCate2(fileVo.getFileCate2());
 

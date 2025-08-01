@@ -115,6 +115,7 @@ public class FileUploadUtil {
         
         // 1. 카테고리 디렉토리 경로 생성
         String categoryPath = createCategoryDirectory(fileVo);
+        System.out.println("categoryPath : "+categoryPath);
         
         // 2. 기존 파일들 모두 삭제
         // deleteAllFilesInDirectory(categoryPath);
