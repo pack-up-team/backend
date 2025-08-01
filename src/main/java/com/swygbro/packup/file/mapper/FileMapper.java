@@ -1,11 +1,9 @@
 package com.swygbro.packup.file.mapper;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.swygbro.packup.file.vo.AttachFileVo;
-import com.swygbro.packup.file.vo.FileUploadVo;
 
 @Mapper
 public interface FileMapper {
@@ -17,6 +15,6 @@ public interface FileMapper {
     int updateFileDelYn(int fileNo);
     
     int deleteFile(int fileNo);
-    
-    int updateAttachFile(AttachFileVo fileVo);
+
+    int updateAttachFile(AttachFileVo uploadResult);
 }
