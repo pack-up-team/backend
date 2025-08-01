@@ -65,9 +65,10 @@ public class TemplateController {
     }
 
     @PostMapping("/templateUpdate")
-    public ResponseEntity<Map<String, Object>> templateUpdate(@RequestBody TemplateVo tempVo){
+    public ResponseEntity<Map<String, Object>> templateUpdate(TemplateVo tempVo,
+                                                                @RequestParam("imgFile") MultipartFile imgFile){
 
-        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo);
+        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo, imgFile);
 
         Map<String, Object> response = new HashMap<>();
 

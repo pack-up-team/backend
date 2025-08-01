@@ -68,4 +68,31 @@ public class FileService {
         log.info("파일 업데이트 완료: {}", uploadResult.getOrgFileName());
         return uploadResult;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public AttachFileVo updateFile(AttachFileVo fileVo) throws IOException {
+        
+        System.out.println("fileVo : "+fileVo);
+
+        // 기존 파일들 모두 삭제하고 새 파일 업로드
+        AttachFileVo uploadResult = FileUploadUtil.uploadObjFileWithDirectoryCleanup(fileVo);
+        
+        uploadResult.setRefNo(fileVo.getRefNo());
+        uploadResult.setRegId(fileVo.getUserId());
+        uploadResult.setUpdId(fileVo.getUserId());
+        uploadResult.setDelYn(fileVo.getDelYn());
+        uploadResult.setUseYn(fileVo.getUseYn());
+        uploadResult.setFileCate1(fileVo.getFileCate1());
+        uploadResult.setFileCate2(fileVo.getFileCate2());
+
+        System.out.println("uploadResult : "+uploadResult);
+
+        int insertResult = fileMapper.updateAttachFile(uploadResult);
+        if (insertResult < 1) {
+            throw new RuntimeException("파일 정보 수정 실패: " + uploadResult.getOrgFileName());
+        }
+        
+        log.info("파일 업데이트 완료: {}", uploadResult.getOrgFileName());
+        return uploadResult;
+    }
 }

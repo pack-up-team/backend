@@ -189,7 +189,7 @@ public class TemplateService {
     }
     
     @Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> templateUpdate(TemplateVo tempVo) {
+	public Map<String, Object> templateUpdate(TemplateVo tempVo, @RequestParam("imgFile") MultipartFile imgFile) {
     	Boolean saveStatus = true;
 
         Map<String,Object> responseMap = new HashMap<>();
@@ -197,6 +197,25 @@ public class TemplateService {
         int templateSave = templateMapper.templateUpdate(tempVo);
 
         int newTemplateNo = tempVo.getTemplateNo();
+
+        AttachFileVo fileVo = new AttachFileVo();
+
+        fileVo.setFile(imgFile);
+        fileVo.setRefNo(newTemplateNo);
+        fileVo.setDelYn("N");
+        fileVo.setUseYn("Y");
+        fileVo.setFileCate1("template");
+        fileVo.setFileCate2("thumnail");
+        fileVo.setUserId(tempVo.getUserId());
+
+        try {
+            fileService.updateFile(fileVo);
+        } catch (IOException e) {
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "파일 업로드 중 오류 발생: " + e.getMessage());
+            return responseMap;
+        }
 
         if(templateSave < 1){
             saveStatus = false;

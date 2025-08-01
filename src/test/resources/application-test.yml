@@ -12,7 +12,7 @@ spring:
 
 
   jwt:
-    secret: JWT_SECRET_KEY = samplejwtsecret
+    secret: thisIsASecretKeyWithAtLeast32ByteLength123!!
 
   # 데이터소스 설정
   datasource:

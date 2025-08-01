@@ -17,4 +17,6 @@ public interface FileMapper {
     int updateFileDelYn(int fileNo);
     
     int deleteFile(int fileNo);
+    
+    int updateAttachFile(AttachFileVo fileVo);
 }

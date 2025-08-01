@@ -88,7 +88,7 @@ spring:
 
   # jwt 설정
   jwt:
-    secret: "${JWT_SECRET_KEY}"
+    secret: thisIsASecretKeyWithAtLeast32ByteLength123!!
 
 
   # JPA 설정

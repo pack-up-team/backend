@@ -72,4 +72,20 @@
         WHERE FILE_NO = #{fileNo}
     </delete>
 
+    <update id="updateAttachFile" parameterType="com.swygbro.packup.file.vo.AttachFileVo">
+        UPDATE TBL_ATTCH_FILE 
+        SET 
+            ORG_FILE_NAME = #{orgFileName},
+            SAVE_FILE_NAME = #{saveFileName},
+            FILE_PATH = #{filePath},
+            FILE_SIZE = #{fileSize},
+            DEL_YN = #{delYn},
+            UPD_DT = NOW(),
+            UPD_ID = #{updId}
+        WHERE REF_NO = #{refNo} 
+        AND FILE_CATE1 = #{fileCate1}
+        AND FILE_CATE2 = #{fileCate2}
+        AND DEL_YN = 'N'
+    </update>
+
 </mapper>

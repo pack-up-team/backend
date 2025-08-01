@@ -129,6 +129,28 @@ public class FileUploadUtil {
         return createFileUploadVo(fileVo.getFile(), savedFileName, fullPath, fileVo.getRefNo());
     }
 
+    public static AttachFileVo updateObjFileWithDirectoryCleanup(AttachFileVo fileVo) throws IOException {
+        validateFile(fileVo.getFile());
+        
+        // 1. 카테고리 디렉토리 경로 생성
+        String categoryPath = createCategoryDirectory(fileVo);
+        System.out.println("categoryPath : "+categoryPath);
+        
+        // 2. 기존 파일들 모두 삭제
+        // deleteAllFilesInDirectory(categoryPath);
+        
+        // 3. 새 파일 업로드
+        String savedFileName = generateUniqueFileName(fileVo.getFile().getOriginalFilename());
+        String fullPath = categoryPath + "/" + savedFileName;
+        
+        Path destinationPath = Paths.get(fullPath);
+        Files.copy(fileVo.getFile().getInputStream(), destinationPath);
+        
+        log.info("파일 업로드 완료 (기존 파일 삭제 후): {}", fullPath);
+        
+        return createFileUploadVo(fileVo.getFile(), savedFileName, fullPath, fileVo.getRefNo());
+    }
+
     public static boolean isValidFile(MultipartFile file) {
         try {
             validateFile(file);
