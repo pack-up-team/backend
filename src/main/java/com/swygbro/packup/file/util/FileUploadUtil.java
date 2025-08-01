@@ -1,12 +1,10 @@
 package com.swygbro.packup.file.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.swygbro.packup.file.vo.AttachFileVo;
-import com.swygbro.packup.file.vo.FileUploadVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -115,6 +112,29 @@ public class FileUploadUtil {
         
         // 1. 카테고리 디렉토리 경로 생성
         String categoryPath = createCategoryDirectory(fileVo);
+        System.out.println("categoryPath : "+categoryPath);
+        
+        // 2. 기존 파일들 모두 삭제
+        // deleteAllFilesInDirectory(categoryPath);
+        
+        // 3. 새 파일 업로드
+        String savedFileName = generateUniqueFileName(fileVo.getFile().getOriginalFilename());
+        String fullPath = categoryPath + "/" + savedFileName;
+        
+        Path destinationPath = Paths.get(fullPath);
+        Files.copy(fileVo.getFile().getInputStream(), destinationPath);
+        
+        log.info("파일 업로드 완료 (기존 파일 삭제 후): {}", fullPath);
+        
+        return createFileUploadVo(fileVo.getFile(), savedFileName, fullPath, fileVo.getRefNo());
+    }
+
+    public static AttachFileVo updateObjFileWithDirectoryCleanup(AttachFileVo fileVo) throws IOException {
+        validateFile(fileVo.getFile());
+        
+        // 1. 카테고리 디렉토리 경로 생성
+        String categoryPath = createCategoryDirectory(fileVo);
+        System.out.println("categoryPath : "+categoryPath);
         
         // 2. 기존 파일들 모두 삭제
         // deleteAllFilesInDirectory(categoryPath);

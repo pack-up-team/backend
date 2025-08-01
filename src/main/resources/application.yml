@@ -59,6 +59,8 @@ file:
 
 server:
   port: 8080
+  tomcat:
+   max-part-count: -1
 
 app:
   base-url: ${BASE_URL:http://localhost:8080}

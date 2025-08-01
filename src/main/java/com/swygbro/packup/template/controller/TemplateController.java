@@ -1,5 +1,6 @@
 package com.swygbro.packup.template.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.swygbro.packup.file.vo.AttachFileVo;
 import com.swygbro.packup.template.service.TemplateService;
 import com.swygbro.packup.template.vo.CateObjVo;
 import com.swygbro.packup.template.vo.TemplateVo;
@@ -43,9 +47,10 @@ public class TemplateController {
 
 
     @PostMapping("/templateSave")
-    public ResponseEntity<Map<String, Object>> templateSave(@RequestBody TemplateVo tempVo){
+    public ResponseEntity<Map<String, Object>> templateSave(TemplateVo tempVo,
+                                                                @RequestParam("imgFile") MultipartFile imgFile) throws IOException{
 
-        Map<String, Object> teplateSaveMap = templateService.templateSave(tempVo);
+        Map<String, Object> teplateSaveMap = templateService.templateSave(tempVo,imgFile);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -60,9 +65,10 @@ public class TemplateController {
     }
 
     @PostMapping("/templateUpdate")
-    public ResponseEntity<Map<String, Object>> templateUpdate(@RequestBody TemplateVo tempVo){
+    public ResponseEntity<Map<String, Object>> templateUpdate(TemplateVo tempVo,
+                                                                @RequestParam("imgFile") MultipartFile imgFile){
 
-        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo);
+        Map<String, Object> teplateSaveMap = templateService.templateUpdate(tempVo, imgFile);
 
         Map<String, Object> response = new HashMap<>();
 
