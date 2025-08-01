@@ -1,12 +1,10 @@
 package com.swygbro.packup.file.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.swygbro.packup.file.vo.AttachFileVo;
-import com.swygbro.packup.file.vo.FileUploadVo;
 
 import lombok.extern.slf4j.Slf4j;
 
