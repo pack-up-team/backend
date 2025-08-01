@@ -54,6 +54,6 @@ public interface TemplateMapper {
 
     List<TempStepObjVo> getStepObjByStepNo(Integer stepNo, Integer templateNo);
 
-    List<TempStepTextVo> getStepTextByStepNo(Integer stepNo, Integer templateNo);
+    List<TempStepTextVo> getStepTextByStepNo(Integer stepNo, Integer templateNo);      
 
 }
