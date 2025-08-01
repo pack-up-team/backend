@@ -22,12 +22,11 @@
 		* 
 		*/
 
-		<selectKey keyProperty="userNo" resultType="Integer" order="BEFORE">
-			SELECT IFNULL(MAX(USER_NO), 0) + 1 AS userNo FROM TBL_USER
-		</selectKey>
+<!--		<selectKey keyProperty="userNo" resultType="Integer" order="BEFORE">-->
+<!--			SELECT IFNULL(MAX(USER_NO), 0) + 1 AS userNo FROM TBL_USER-->
+<!--		</selectKey>-->
 
 		INSERT INTO TBL_USER (
-			USER_NO,
 			USER_ID,
 			USER_PW,
 			USER_NM,

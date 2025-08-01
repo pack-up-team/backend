@@ -1,7 +1,11 @@
 package com.swygbro.packup.config;
 
+import com.swygbro.packup.security.oauth2.CustomAuthenticationEntryPoint;
+import com.swygbro.packup.security.oauth2.CustomOAuth2UserService;
+import com.swygbro.packup.security.oauth2.OAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -13,9 +17,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final OAuth2SuccessHandler OAuth2SuccessHandler;
+    private final @Lazy CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+
+    public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                          OAuth2SuccessHandler OAuth2SuccessHandler,
+                          @Lazy CustomOAuth2UserService customOAuth2UserService,
+                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.OAuth2SuccessHandler = OAuth2SuccessHandler;
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
 
     @Bean
@@ -40,13 +54,21 @@ public class SecurityConfig {
                 )
                 
                 .formLogin((auth) -> auth
-                        .loginPage("/login/login")                        // lgn → login
+                        .loginPage("/lgn/login")                        // lgn → login
                         .loginProcessingUrl("/loginProcess")        // lgn/lgn → loginProcess
                         .usernameParameter("username")              // mngrId → username
                         .passwordParameter("password")              // pswd → password
                         .successHandler(customAuthenticationSuccessHandler)
                         .failureUrl("/login/login?error=true")
                         .permitAll()
+                )
+
+                // 소셜 로그인 관련 설정 추가
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(OAuth2SuccessHandler)   // 리다이렉트 및 토큰 발급
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService) // provider 응답 처리
+                        )
                 )
                 
                 .logout(logout -> logout

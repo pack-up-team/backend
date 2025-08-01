@@ -4,6 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.swygbro.packup.user.entity.User;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Long> {
-    
+
+    boolean existsByUserId(String userId);
+    boolean existsByUserNo(int userNo);
+
+    Optional<Object> findByEmail(String email);
+
+    Optional<Object> findByUserId(String userId);
 }
