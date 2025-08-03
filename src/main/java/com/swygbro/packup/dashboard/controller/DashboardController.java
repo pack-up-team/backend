@@ -3,9 +3,11 @@ package com.swygbro.packup.dashboard.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -58,16 +60,15 @@ public class DashboardController {
     }
 
     @PostMapping("/getUserData")
-    public ModelAndView getUserData(@RequestBody TemplateVo tempVo) {
+    @ResponseBody
+    public List<TemplateVo> getUserData(@ModelAttribute TemplateVo tempVo) {
 
         List<TemplateVo> templateList = new ArrayList<>();
+        int page = tempVo.getPage();
+        tempVo.setPage(page);
 
         templateList = templateService.getTemplatesByUserId(tempVo);
         
-        ModelAndView mv = new ModelAndView("dashboard/dashboard");
-        mv.addObject("tempList", templateList);
-        mv.addObject("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        
-        return mv;
+        return templateList;
     }
 }
