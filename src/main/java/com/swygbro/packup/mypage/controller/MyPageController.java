@@ -34,7 +34,7 @@ public class MyPageController {
     private final UserRepository userRepository;
     private final SnsSignUpRepo snsSignUpRepo;
 
-    @GetMapping("/mypage")
+    @PostMapping("/mypage")
     public ModelAndView mypage(Authentication authentication) {
         String userId = authentication.getName();
         log.info("MyPage accessed by user: {}", userId);

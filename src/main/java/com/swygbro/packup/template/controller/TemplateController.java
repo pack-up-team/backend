@@ -1,11 +1,13 @@
 package com.swygbro.packup.template.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,15 +36,43 @@ public class TemplateController {
     private TemplateService templateService;
 
     @PostMapping("/getCateTemplateObject")
-    public ResponseEntity<Map<String,Object>> getCateTemplateObject(@RequestBody CateObjVo ObjVo){
-        List<CateObjVo> teplateObj = templateService.getCateTemplateObject(ObjVo);
-
+    public ResponseEntity<Map<String, Object>> getCateTemplateObject(@RequestBody(required = false) CateObjVo ObjVo) {
         Map<String, Object> response = new HashMap<>();
+        
+        try {
+            System.out.println("ObjVo : " + ObjVo);
+                        
+            // 서비스 호출
+            List<CateObjVo> teplateObj = templateService.getCateTemplateObject(ObjVo);
 
-        response.put("objList", teplateObj);
-        response.put("responseText", "success");
-
-        return ResponseEntity.ok(response);
+            System.out.println("teplateObj@#@#@#@#@ : "+teplateObj);
+            
+            // 결과 검증
+            if (teplateObj.size() != 0) {
+                // 성공
+                response.put("objList", teplateObj);
+                response.put("responseText", "success");
+                response.put("message", "카테고리의 오브젝트 조회가 완료되었습니다.");
+                return ResponseEntity.ok(response);
+            } else {
+                // 데이터 없음
+                response.put("objList", new ArrayList<>());
+                response.put("responseText", "fail");
+                response.put("message", "조회된 오브젝트가 없습니다.");
+                return ResponseEntity.ok(response);
+            }
+            
+        } catch (Exception e) {
+            log.error("카테고리 템플릿 조회 중 오류 발생 - ObjVo: {}, error: {}", 
+                    ObjVo, e.getMessage(), e);
+            
+            // 서버 오류
+            response.put("objList", new ArrayList<>());
+            response.put("responseText", "fail");
+            response.put("message", "서버 오류가 발생했습니다: " + e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 
@@ -102,14 +132,46 @@ public class TemplateController {
     @PostMapping("/getDetailData")
     public ResponseEntity<Map<String, Object>> getDetailData(@RequestBody TemplateVo tempVo) {
         Map<String, Object> response = new HashMap<>();
-        tempVo = templateService.getDetailData(tempVo.getTemplateNo());
-
-        System.out.println("tempVo : "+tempVo);
-
-        response.put("templateData", tempVo);
-        response.put("responseText", "success");
-
-        return ResponseEntity.ok(response);
+        
+        try {
+            // 입력 검증
+            if (tempVo.getTemplateNo() <= 0) {
+                response.put("templateData", null);
+                response.put("responseText", "fail");
+                response.put("message", "유효하지 않은 템플릿 번호입니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            // 서비스 호출
+            tempVo = templateService.getDetailData(tempVo.getTemplateNo());
+            
+            System.out.println("tempVo : " + tempVo);
+            
+            // 조회 결과 검증
+            if (tempVo == null) {
+                response.put("templateData", null);
+                response.put("responseText", "fail");
+                response.put("message", "해당 템플릿을 찾을 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+            
+            // 성공 응답
+            response.put("templateData", tempVo);
+            response.put("responseText", "success");
+            response.put("message", "템플릿 조회가 완료되었습니다.");
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            log.error("템플릿 상세 조회 중 오류 발생 - templateNo: {}, error: {}", 
+                    tempVo.getTemplateNo(), e.getMessage(), e);
+            
+            response.put("templateData", null);
+            response.put("responseText", "fail");
+            response.put("message", "서버 오류가 발생했습니다: " + e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @PostMapping("/getUserTemplateDataList")

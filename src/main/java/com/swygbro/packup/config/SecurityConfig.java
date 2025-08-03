@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/temp/**").permitAll()
                         .requestMatchers("/files/**").permitAll()
+                        .requestMatchers("/notifications/**").permitAll()
+                        .requestMatchers("/dashboard/**").permitAll()
                         .requestMatchers("/").permitAll()  // 루트 경로 허용
                         .requestMatchers("/mypage/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/**").hasAnyRole("ADMIN", "USER")
@@ -59,7 +61,7 @@ public class SecurityConfig {
                         .usernameParameter("username")              // mngrId → username
                         .passwordParameter("password")              // pswd → password
                         .successHandler(customAuthenticationSuccessHandler)
-                        .failureUrl("/login/login?error=true")
+                        .failureUrl("/lgn/login?error=true")
                         .permitAll()
                 )
 
@@ -73,7 +75,7 @@ public class SecurityConfig {
                 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login/login?logout=true")
+                        .logoutSuccessUrl("/lgn/login?logout=true")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()

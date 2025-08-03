@@ -11,11 +11,16 @@
 		SELECT A.OBJ_NO,
 		A.CATE_NO,
 		A.OBJ_NM,
+		A.REG_ID,
+		A.REG_DT,
+		A.DEL_YN,
 		B.ORG_FILE_NAME
 		FROM TBL_OBJECT A
 		LEFT JOIN TBL_ATTCH_FILE B ON A.OBJ_NO = B.REF_NO
 		WHERE 1=1
 		AND A.DEL_YN = 'N'
+		AND B.FILE_CATE1 = 'object'
+		AND B.FILE_CATE2 = 'default'
 		<if test="cateNo != null and cateNo != ''">
 			AND CATE_NO = #{cateNo}
 		</if>
@@ -280,6 +285,10 @@
 			   A.UPD_DT,
 			   A.UPD_ID,
 			   A.TEMPLATE_NM,
+			   A.ALARM_DT,
+			   A.REPEAT_TYPE,
+			   A.ALARM_REPEAT_DAY,
+			   A.ALARM_TIME,
 			   B.ORG_FILE_NAME
 		FROM TBL_USER_TEMPLATE A
 				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
