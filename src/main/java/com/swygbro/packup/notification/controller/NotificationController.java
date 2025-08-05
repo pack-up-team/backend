@@ -1,5 +1,6 @@
 package com.swygbro.packup.notification.controller;
 
+import com.swygbro.packup.config.CustomUserDetails;
 import com.swygbro.packup.notification.service.NotificationService;
 import com.swygbro.packup.notification.service.SseEmitterService;
 import com.swygbro.packup.notification.vo.NotificationVo;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -95,8 +97,8 @@ public class NotificationController {
             String webhookUrl = (String) incomingWebhook.get("url");
 
             // 현재 로그인한 유저 정보 가져오기
-            String userId = "kei01105@naver.com";
-//            String userId = getLoggedInUserId(); // 로그인정보 가져오기
+            String userId = ((CustomUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal()).getUsername();
 
             // DB 업데이트
             notificationService.updateWebhookUrl(userId, webhookUrl);
