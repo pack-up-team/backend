@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.swygbro.packup.config.CustomUserDetails;
 import com.swygbro.packup.user.Mapper.UserMapper;
 import com.swygbro.packup.user.entity.User;
 import com.swygbro.packup.user.entity.PasswordResetToken;
@@ -101,6 +102,35 @@ public class UserService {
 
     public UserVo getUserByEmail(String email) {
         return userMapper.getUserByEmail(email);
+    }
+
+    public UserVo authenticateUser(String userId, String rawPassword) {
+        try {
+            // Get user details from database
+            CustomUserDetails userDetails = userMapper.selectUserById(userId);
+            
+            if (userDetails == null) {
+                return null; // User not found
+            }
+            
+            // Check if user is enabled
+            if (!userDetails.isEnabled()) {
+                return null; // User is disabled
+            }
+            
+            // Verify password
+            if (!passwordEncoder.matches(rawPassword, userDetails.getPassword())) {
+                return null; // Invalid password
+            }
+            
+            // Get full user info and return as UserVo
+            UserVo userVo = userMapper.getUserInfo(userId);
+            return userVo;
+            
+        } catch (Exception e) {
+            System.err.println("Authentication error for user: " + userId + ", Error: " + e.getMessage());
+            return null;
+        }
     }
 
 }
