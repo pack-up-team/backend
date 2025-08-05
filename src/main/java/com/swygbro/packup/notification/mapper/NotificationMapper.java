@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface NotificationMapper {
@@ -20,4 +21,7 @@ public interface NotificationMapper {
 
     List<NotificationVo> selectRecentNotifications(@Param("userId") String userId, @Param("limit") int limit);
 
+    void updateWebhookUrl(@Param("userId") String userId, @Param("webhookUrl") String webhookUrl);
+
+    Optional<String> getWebhookUrl(String userId);
 }

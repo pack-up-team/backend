@@ -41,4 +41,17 @@
          ORDER BY SENT_AT DESC
          LIMIT #{limit}
     </select>
+
+    <update id="updateWebhookUrl">
+        UPDATE TBL_USER SET
+            SLACK_WEBHOOK_URL = #{webhookUrl}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <select id="getWebhookUrl" resultType="java.lang.String">
+        SELECT SLACK_WEBHOOK_URL
+         FROM TBL_USER
+        WHERE USER_ID = #{userId}
+          AND (SLACK_WEBHOOK_URL IS NOT NULL AND SLACK_WEBHOOK_URL != '')
+    </select>
 </mapper>
