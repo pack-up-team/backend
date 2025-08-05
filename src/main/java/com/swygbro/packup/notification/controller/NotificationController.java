@@ -6,6 +6,7 @@ import com.swygbro.packup.notification.vo.NotificationVo;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -28,6 +29,13 @@ public class NotificationController {
 
     private final SseEmitterService sseEmitterService;
     private final NotificationService notificationService;
+
+    // Slack OAuth 환경변수 주입
+    @Value("${spring.security.oauth2.client.registration.slack.client-id}")
+    private String clientId;
+
+    @Value("${spring.security.oauth2.client.registration.slack.client-secret}")
+    private String clientSecret;
 
     /**
      * 클라이언트에서 SSE 연결 요청
@@ -63,8 +71,6 @@ public class NotificationController {
 
     @GetMapping("/slack/callback")
     public void slackCallback(@RequestParam String code, HttpServletResponse response) throws IOException {
-        String clientId = "9295140282630.9303732803938";
-        String clientSecret = "dde2fdbcc5da43315dfe0bcf9d4efa52";
         String redirectUri = "https://packupapi.xyz/notifications/slack/callback";
 
         RestTemplate restTemplate = new RestTemplate();
