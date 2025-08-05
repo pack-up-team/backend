@@ -11,17 +11,12 @@
 		SELECT A.OBJ_NO,
 		A.CATE_NO,
 		A.OBJ_NM,
-		A.REG_ID,
-		A.REG_DT,
-		A.DEL_YN,
 		B.ORG_FILE_NAME
 		FROM TBL_OBJECT A
 		LEFT JOIN TBL_ATTCH_FILE B ON A.OBJ_NO = B.REF_NO
 		WHERE 1=1
 		AND A.DEL_YN = 'N'
-		AND B.FILE_CATE1 = 'object'
-		AND B.FILE_CATE2 = 'default'
-		<if test="cateNo != null and cateNo != ''">
+		<if test='cateNo != null and cateNo != ""'>
 			AND CATE_NO = #{cateNo}
 		</if>
 	</select>
@@ -39,27 +34,27 @@
 		</selectKey>
 
 		INSERT INTO TBL_USER_TEMPLATE (
-		TEMPLATE_NO,
-		TEMPLATE_NM,
-		USER_NO,
-		USER_ID,
-		REG_DT,
-		REG_ID,
-		ALARM_DT,
-		REPEAT_TYPE,
-		ALARM_REPEAT_DAY,
-		ALARM_TIME
+			TEMPLATE_NO,
+			TEMPLATE_NM,
+			USER_NO,
+			USER_ID,
+			REG_DT,
+			REG_ID,
+			ALARM_DT,
+			REPEAT_TYPE,
+			ALARM_REPEAT_DAY,
+			ALARM_TIME,
 		) VALUES (
-		#{templateNo},
-		#{templateNm},
-		#{userNo},
-		#{userId},
-		NOW(),
-		#{userId},
-		#{alarmDt},
-		#{repeatType},
-		#{alarmRepeatDay},
-		#{alarmTime}
+			#{templateNo},
+			#{templateNm},
+			#{userNo},
+			#{userId},
+			NOW(),
+			#{userId},
+			#{alarmDt},
+			#{repeatType},
+			#{alarmRepeatDay},
+			#{alarmTime},
 		)
 	</insert>
 
@@ -109,29 +104,29 @@
 		</selectKey>
 
 		INSERT INTO TBL_USER_TEMPLATE_STEP_OBJ (
-		TEMP_USER_OBJ_NO,
-		TEMPLATE_STEP_NO,
-		CATE_NO,
-		OBJ_NO,
-		OBJ_NM,
-		REG_DT,
-		REG_ID,
-		DEL_YN,
-		LOC_NUM,
-		STEP,
-		TEMPLATE_NO
+			TEMP_USER_OBJ_NO,
+			TEMPLATE_STEP_NO,
+			CATE_NO,
+			OBJ_NO,
+			OBJ_NM,
+			REG_DT,
+			REG_ID,
+			DEL_YN,
+			LOC_NUM,
+			STEP,
+			TEMPLATE_NO
 		) VALUES (
-		#{tempUserObjNo},
-		#{templateStepNo},
-		#{cateNo},
-		#{objNo},
-		#{objNm},
-		NOW(),
-		#{userId},
-		#{delYn},
-		#{locNum},
-		#{step},
-		#{templateNo}
+			#{tempUserObjNo},
+			#{templateStepNo},
+			#{cateNo},
+			#{objNo},
+			#{objNm},
+			NOW(),
+			#{userId},
+			#{delYn},
+			#{locNum},
+			#{step},
+			#{templateNo}
 		)
 	</insert>
 
@@ -148,25 +143,25 @@
 		</selectKey>
 
 		INSERT INTO TBL_USER_TEMPLATE_STEP_TEXT (
-		TEXT_NO,
-		TEMPLATE_STEP_NO,
-		TEXT,
-		STEP_TEXT_X,
-		STEP_TEXT_Y,
-		TEMPLATE_NO,
-		REG_DT,
-		REG_ID,
-		STEP
+			TEXT_NO,
+			TEMPLATE_STEP_NO,
+			TEXT,
+			STEP_TEXT_X,
+			STEP_TEXT_Y,
+			TEMPLATE_NO,
+			REG_DT,
+			REG_ID,
+			STEP
 		) VALUES (
-		#{textNo},
-		#{templateStepNo},
-		#{text},
-		#{stepTextX},
-		#{stepTextY},
-		#{templateNo},
-		NOW(),
-		#{userId},
-		#{step}
+			#{textNo},
+			#{templateStepNo},
+			#{text},
+			#{stepTextX},
+			#{stepTextY},
+			#{templateNo},
+			NOW(),
+			#{userId},
+			#{step}
 		)
 	</insert>
 
@@ -185,6 +180,10 @@
 			   A.UPD_DT,
 			   A.UPD_ID,
 			   A.TEMPLATE_NM,
+			   ALARM_DT,
+			   REPEAT_TYPE,
+			   ALARM_REPEAT_DAY,
+			   ALARM_TIME,
 			   B.ORG_FILE_NAME
 		FROM TBL_USER_TEMPLATE A
 				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
@@ -206,10 +205,6 @@
 			   REG_DT,
 			   UPD_ID,
 			   UPD_DT,
-			   ALARM_DT,
-			   REPEAT_TYPE,
-			   ALARM_REPEAT_DAY,
-			   ALARM_TIME,
 			   STEP_X,
 			   STEP_Y
 		FROM TBL_USER_TEMPLATE_STEP A
@@ -241,7 +236,7 @@
 		FROM TBL_USER_TEMPLATE_STEP_OBJ A
 				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
 		WHERE 1=1
-		  AND A.DEL_YN = 'N'
+		  AND A.USE_YN = 'Y'
 		  AND STEP = #{step}
 		  AND TEMPLATE_NO = #{templateNo}
 	</select>
@@ -285,10 +280,6 @@
 			   A.UPD_DT,
 			   A.UPD_ID,
 			   A.TEMPLATE_NM,
-			   A.ALARM_DT,
-			   A.REPEAT_TYPE,
-			   A.ALARM_REPEAT_DAY,
-			   A.ALARM_TIME,
 			   B.ORG_FILE_NAME
 		FROM TBL_USER_TEMPLATE A
 				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
@@ -324,7 +315,15 @@
 	<update id="templateUpdate" parameterType="com.swygbro.packup.template.vo.TemplateVo">
 		UPDATE TBL_USER_TEMPLATE
 		SET
+			<if test='alarmDt != null and alarmDt != ""'>
+			ALARM_DT = #{alarmDt},
+			</if>
+			<if test='repeatType != null and repeatType != ""'>
+			REPEAT_TYPE = #{repeatType},
+			</if>
+			<if test='templateNm != null and templateNm != ""'>
 			TEMPLATE_NM = #{templateNm},
+			</if>
 			DEL_YN = #{delYn},
 			UPD_ID = #{userId},
 			UPD_DT = NOW()
@@ -334,10 +333,6 @@
 	<update id="templateUpdateStep" parameterType="com.swygbro.packup.template.vo.TempStepVo">
 		UPDATE TBL_USER_TEMPLATE_STEP
 			SET 
-				ALARM_DT = #{alarmDt},
-				<if test="repeatType != null and repeatType != ''">
-				REPEAT_TYPE = #{repeatType},
-				</if>
 				STEP_X = #{stepX},
 				STEP_Y = #{stepY},
 				DEL_YN = #{delYn},

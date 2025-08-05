@@ -44,7 +44,7 @@ public interface TemplateMapper {
 
     int deleteTempalteStepObjInt(int tempateNo);
 
-	int deleteTempalteStepTextInt(int tempateNo);
+	  int deleteTempalteStepTextInt(int tempateNo);
 
     int getTemplateStepNo(@Param("templateNo") int templateNo,@Param("step") int step);
 
@@ -52,8 +52,8 @@ public interface TemplateMapper {
 
     List<TempStepVo> getStepsByTemplateNo(Integer templateNo);
 
-    List<TempStepObjVo> getStepObjByStepNo(Integer step, Integer templateNo);
+    List<TempStepObjVo> getStepObjByStepNo(@Param("step") Integer step,@Param("templateNo") Integer templateNo);
 
-    List<TempStepTextVo> getStepTextByStepNo(Integer step, Integer templateNo);      
+    List<TempStepTextVo> getStepTextByStepNo(@Param("step") Integer step,@Param("templateNo") Integer templateNo);   
 
 }
