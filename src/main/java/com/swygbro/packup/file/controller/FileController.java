@@ -43,8 +43,8 @@ public class FileController {
         }
     }
 
-    @GetMapping("/image/{refNo}")
-    public ResponseEntity<Resource> getImage(@PathVariable int refNo, @RequestParam String fileCate1, @RequestParam String fileCate2) {
+    @GetMapping("/getImage")
+    public ResponseEntity<Resource> getImage(@RequestParam int refNo, @RequestParam String fileCate1, @RequestParam String fileCate2) {
 
         // 1. DB에서 refNo로 파일 정보 조회
         AttachFileVo files = fileService.getFilesByRefNo(refNo,fileCate1,fileCate2);
@@ -58,9 +58,8 @@ public class FileController {
         return ResponseEntity.ok().body(resource);
     }
 
-    @GetMapping("/download/{refNo}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int refNo, @RequestParam String fileCate1, @RequestParam String fileCate2) {
-        System.out.println("들어오냐????");
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam int refNo, @RequestParam String fileCate1, @RequestParam String fileCate2) {
         try {
             // 1. DB에서 refNo로 파일 정보 조회
             AttachFileVo fileInfo = fileService.getFilesByRefNo(refNo, fileCate1, fileCate2);

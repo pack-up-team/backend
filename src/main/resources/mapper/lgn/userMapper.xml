@@ -63,7 +63,7 @@
 			PHONE_NUM = #{phoneNum},
 			UPD_DT = NOW(),
 			UPD_ID = #{updId}
-			<if test="userPw != null and userPw != ''">
+			<if test='userPw != null and userPw != ""'>
 			, USER_PW = #{userPw}
 			</if>
 		WHERE USER_ID = #{userId}

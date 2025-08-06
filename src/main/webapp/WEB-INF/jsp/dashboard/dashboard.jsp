@@ -70,7 +70,7 @@
             </form>
         </div>
         <div>
-            <img src="/files/image/${imageRefNo}?fileCate1=${fileCate1}&fileCate2=${fileCate2}" alt="이미지 미리보기" style="max-width: 200px; max-height: 200px;">
+            <img src="/files/getImage?refNo=6&fileCate1=template&fileCate2=thumnail" alt="이미지 미리보기" style="max-width: 200px; max-height: 200px;">
         </div>
     </div>
 
@@ -80,9 +80,9 @@
             window.location.href = '/';
         </c:if>
         
-        console.log("imageRefNo : "+${imageRefNo});
-        console.log("fileCate1 : "+"${fileCate1}");
-        console.log("fileCate2 : "+"${fileCate2}");
+        console.log("imageRefNo : "+$('#refNo').val());
+        console.log("fileCate1 : "+$('#fileCate1').val());
+        console.log("fileCate2 : "+$('#fileCate2').val());
         
         // 파일 다운로드 함수
         function downloadFile() {
@@ -96,7 +96,7 @@
             }
             
             // 다운로드 URL 생성
-            const downloadUrl = '/files/download/' + refNo + '?fileCate1=' + fileCate1 + '&fileCate2=' + fileCate2;
+            const downloadUrl = '/files/download?refNo=' + refNo + '&fileCate1=' + fileCate1 + '&fileCate2=' + fileCate2;
 
             console.log("downloadUrl : "+downloadUrl);
             
@@ -151,13 +151,13 @@
             <h3>파일 다운로드 테스트</h3>
             <form style="margin-bottom: 15px;">
                 <label>REF_NO: </label>
-                <input type="number" id="refNo" value="1" style="margin-right: 10px;">
+                <input type="number" id="refNo" value="6" style="margin-right: 10px;">
                 
                 <label>FILE_CATE1: </label>
-                <input type="text" id="fileCate1" value="object" style="margin-right: 10px;">
+                <input type="text" id="fileCate1" value="template" style="margin-right: 10px;">
                 
                 <label>FILE_CATE2: </label>
-                <input type="text" id="fileCate2" value="default" style="margin-right: 10px;">
+                <input type="text" id="fileCate2" value="thumnail" style="margin-right: 10px;">
                 
                 <button type="button" onclick="downloadFile()" class="btn" style="background-color: #17a2b8; color: white;">파일 다운로드</button>
             </form>

@@ -22,37 +22,38 @@
 		* 
 		*/
 
-<!--		<selectKey keyProperty="userNo" resultType="Integer" order="BEFORE">-->
-<!--			SELECT IFNULL(MAX(USER_NO), 0) + 1 AS userNo FROM TBL_USER-->
-<!--		</selectKey>-->
+		<selectKey keyProperty="userNo" resultType="Integer" order="BEFORE">
+			SELECT IFNULL(MAX(USER_NO), 0) + 1 AS userNo FROM TBL_USER
+		</selectKey>
 
 		INSERT INTO TBL_USER (
+			USER_NO,
 			USER_ID,
 			USER_PW,
 			USER_NM,
 			EMAIL,
 			PHONE_NUM,
-			GENDER,
 			PERSONAL_INFO_ACQ,
 			REG_ID,
 			REG_DT,
 			DEL_YN,
 			INFO_ACQ,
-			ROLE
+			ROLE,
+			MKT_AGREE
 		) VALUES (
 			#{userNo},
 			#{userId},
 			#{userPw},
-			#{userNm},
+			CONCAT('packUp#', #{userNo}),  <!-- 여기서 조합 -->
 			#{email},
 			#{phoneNum},
-			#{gender},
 			#{personalInfoAcq},
 			#{userId},
 			NOW(),
 			'N',
 			#{infoAcq},
-			#{role}
+			#{role},
+			#{mktAgree}
 		)
 	</insert>
 </mapper>

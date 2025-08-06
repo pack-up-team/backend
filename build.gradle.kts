@@ -48,6 +48,8 @@ dependencies {
 	implementation("org.apache.tika:tika-core:3.2.1")
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	implementation("commons-io:commons-io:2.17.0")
+	// https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload 파일업로드
+	implementation("commons-fileupload:commons-fileupload:1.5")
 	// jwt 설정
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")

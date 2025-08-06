@@ -30,4 +30,5 @@ public class UserVo {
     private int lgnFailCnt;
     private String personalInfoAcq;
     private String infoAcq;
+    private String mktAgree;
 }

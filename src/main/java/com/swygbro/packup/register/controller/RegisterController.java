@@ -35,8 +35,6 @@ public class RegisterController {
 
             userVo.setUserPw(encoder.encode(userVo.getUserPw()));
             userVo.setRole("USER");
-            
-            System.out.println("userVo1212121212 : "+userVo);
 
             // 회원가입 처리 로직
             registerService.registerUser(userVo);
