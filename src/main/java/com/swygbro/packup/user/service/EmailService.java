@@ -16,14 +16,14 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    @Value("${app.base-url:http://localhost:8080}")
-    private String baseUrl;
+    @Value("${app.frontend-url:http://localhost:5173}")
+    private String frontendUrl;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
 
     public void sendPasswordResetEmail(String toEmail, String token) {
-        String resetUrl = baseUrl + "/auth/reset-password?token=" + token;
+        String resetUrl = frontendUrl + "/reset-password?token=" + token;
 
         System.out.println("resetUrl : "+resetUrl);
         
