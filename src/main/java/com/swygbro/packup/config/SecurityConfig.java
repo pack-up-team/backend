@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/dashboard/**").permitAll()
                         .requestMatchers("/").permitAll()  // 루트 경로 허용
                         .requestMatchers("/mypage/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/**").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().hasAnyRole("ADMIN", "USER")
                 )
                 
                 .formLogin((auth) -> auth
