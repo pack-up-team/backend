@@ -58,9 +58,13 @@
 		 * 
 		 */
 		UPDATE TBL_USER
-		SET USER_NM = #{userNm},
-			EMAIL = #{email},
+		SET 
+			<if test='userNm != null and userNm != ""'>
+			USER_NM = #{userNm},
+			</if>
+			<if test='phoneNum != null and phoneNum != ""'>
 			PHONE_NUM = #{phoneNum},
+			</if>
 			UPD_DT = NOW(),
 			UPD_ID = #{updId}
 			<if test='userPw != null and userPw != ""'>

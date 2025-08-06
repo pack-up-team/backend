@@ -75,8 +75,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ################
-    password: ################
+    username: 0219songhongseob@gmail.com
+    password: wwrugfhcaenqtptn
     properties:
       mail:
        smtp:
@@ -117,3 +117,7 @@ file:
     max-size: 52428800
     max-request-size: 104857600
     allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt
+    
+app:
+  base-url: ${BASE_URL:http://localhost:8080}
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}

@@ -50,7 +50,6 @@ public class MyPageController {
     }
 
     @PostMapping("/updateUser")
-    @ResponseBody
     public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserVo userVo, Authentication authentication) {
         Map<String, Object> response = new HashMap<>();
         

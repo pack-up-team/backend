@@ -48,16 +48,11 @@ public class UserService {
     }
 
     public int updateUser(UserVo userVo) {
-        System.out.println("userVO : "+userVo);
         return userMapper.updateUser(userVo);
     }
 
     public void sendPasswordResetEmail(String userId) {
-        System.out.println("userId UserService : "+userId);
-        System.out.println("userId length: " + userId.length());
-        System.out.println("userId trim: '" + userId.trim() + "'");
         UserVo user = userMapper.getUserByEmail(userId);
-        System.out.println("Query result: " + user);
         if (user == null) {
             throw new RuntimeException("해당 이메일로 등록된 사용자가 없습니다.");
         }
@@ -74,6 +69,26 @@ public class UserService {
         passwordResetTokenRepository.save(resetToken);
         
         emailService.sendPasswordResetEmail(userId, token);
+    }
+
+    public boolean validateResetToken(String token) {
+        try {
+            Optional<PasswordResetToken> tokenOpt = passwordResetTokenRepository.findByTokenAndUsedFalse(token);
+            
+            if (tokenOpt.isEmpty()) {
+                return false;
+            }
+            
+            PasswordResetToken resetToken = tokenOpt.get();
+            
+            if (resetToken.isExpired()) {
+                return false;
+            }
+            
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void resetPassword(String token, String newPassword) {

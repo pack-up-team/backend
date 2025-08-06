@@ -15,11 +15,6 @@ public class PasswordResetController {
 
     private final UserService userService;
 
-    @GetMapping("/forgot-password")
-    public ModelAndView showForgotPasswordForm() {
-        return new ModelAndView("auth/forgot-password");
-    }
-    
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         try {
@@ -41,6 +36,7 @@ public class PasswordResetController {
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
         try {
+        	
             String token = request.get("token");
             String newPassword = request.get("newPassword");
             
@@ -65,25 +61,22 @@ public class PasswordResetController {
         }
     }
     
-    @GetMapping("/reset-password")
-    public ModelAndView showResetPasswordForm(@RequestParam String token) {
+    @GetMapping("/verify-token")
+    public ResponseEntity<?> verifyResetToken(@RequestParam("token") String token) {
         try {
-            // 토큰 유효성 간단 체크 (실제로는 UserService에서 검증)
             if (token == null || token.trim().isEmpty()) {
-                ModelAndView mv = new ModelAndView("auth/reset-password");
-                mv.addObject("error", "유효하지 않은 토큰입니다.");
-                return mv;
+                return ResponseEntity.badRequest().body("유효하지 않은 토큰입니다.");
             }
             
-            // 토큰을 JSP로 전달
-            ModelAndView mv = new ModelAndView("auth/reset-password");
-            mv.addObject("token", token);
-            return mv;
+            // 토큰 유효성 검증
+            if (!userService.validateResetToken(token)) {
+                return ResponseEntity.badRequest().body("토큰이 만료되었거나 유효하지 않습니다.");
+            }
+            
+            return ResponseEntity.ok("토큰이 유효합니다.");
             
         } catch (Exception e) {
-            ModelAndView mv = new ModelAndView("auth/reset-password");
-            mv.addObject("error", "페이지 로드 중 오류가 발생했습니다.");
-            return mv;
+            return ResponseEntity.badRequest().body("토큰이 만료되었거나 유효하지 않습니다.");
         }
     }
 }
