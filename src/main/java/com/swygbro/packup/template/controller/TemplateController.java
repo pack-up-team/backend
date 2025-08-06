@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -172,9 +173,25 @@ public class TemplateController {
     }
 
     @PostMapping("/getUserTemplateDataList")
-    public ResponseEntity<Map<String, Object>> getUserTemplateDataList(@RequestBody TemplateVo tempVo) {
+    public ResponseEntity<Map<String, Object>> getUserTemplateDataList(@RequestBody TemplateVo tempVo, Authentication authentication) {
         Map<String, Object> response = new HashMap<>();
+
+        System.out.println("authentication template : "+authentication.getName());
+        
+        if (authentication == null || authentication.getName() == null) {
+            response.put("success", false);
+            response.put("message", "인증되지 않은 사용자입니다.");
+            return ResponseEntity.status(401).body(response);
+        }
+
+        String userId = authentication.getName();
+        log.info("Getting user tempateInfo for: {}", userId);
+
+        tempVo.setUserId(userId);
+        
         List<TemplateVo> userTempList = templateService.getTemplatesByUserId(tempVo);
+
+        System.out.println("userTempList @#@#@#@#@#@#@#@ : "+userTempList);
 
         response.put("templateDataList", userTempList);
         response.put("responseText", "success");

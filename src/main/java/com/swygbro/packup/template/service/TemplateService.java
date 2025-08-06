@@ -175,7 +175,7 @@ public class TemplateService {
         int page = tempVo.getPage();
 
         if(page > 0) {
-            int pageSize = 8;  // 한 페이지당 4개
+            int pageSize = 8;  // 한 페이지당 8개
             int offset = (page - 1) * pageSize;  // 페이지별 시작 위치 계산
             
 

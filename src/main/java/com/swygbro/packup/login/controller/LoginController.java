@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 import com.swygbro.packup.security.jwt.JwtUtill;
 import com.swygbro.packup.user.service.UserService;
 import com.swygbro.packup.user.vo.UserVo;
@@ -21,14 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/lgn")
+@RequestMapping("/api/lgn")
 public class LoginController {
 
     private final UserService userService;
     private final JwtUtill jwtUtill;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody UserVo loginUser) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserVo loginUser, HttpServletResponse response) {
         try {        	
             // 사용자 인증 로직 (UserService에 메서드 추가 필요)
             UserVo authenticatedUser = userService.authenticateUser(loginUser.getUserId(), loginUser.getUserPw());
@@ -41,29 +44,38 @@ public class LoginController {
                     authenticatedUser.getUserId(),
                     90L * 24 * 60 * 60 * 1000
                 );
+
+                System.out.println("token@#@#@#@#@@#@#@ : "+token);
                 
-                Map<String, Object> response = new HashMap<>();
-                response.put("success", true);
-                response.put("token", token);
-                response.put("userId", authenticatedUser.getUserId());
-                response.put("username", authenticatedUser.getUserNm());
-                response.put("role", authenticatedUser.getRole());
+                // JWT 토큰을 쿠키에 저장
+                Cookie jwtCookie = new Cookie("authorization", token);
+                jwtCookie.setHttpOnly(true);  // XSS 공격 방지
+                jwtCookie.setSecure(false);    // HTTPS에서만 전송
+                jwtCookie.setPath("/");       // 모든 경로에서 사용 가능
+                jwtCookie.setMaxAge(90 * 24 * 60 * 60); // 90일 (초 단위)
+                response.addCookie(jwtCookie);
                 
-                return ResponseEntity.ok(response);
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("success", true);
+                responseBody.put("userId", authenticatedUser.getUserId());
+                responseBody.put("username", authenticatedUser.getUserNm());
+                responseBody.put("role", authenticatedUser.getRole());
+                
+                return ResponseEntity.ok(responseBody);
             } else {
-                Map<String, Object> response = new HashMap<>();
-                response.put("success", false);
-                response.put("message", "Invalid credentials");
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("success", false);
+                responseBody.put("message", "Invalid credentials");
                 
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.badRequest().body(responseBody);
             }
         } catch (Exception e) {
             log.error("Login error: ", e);
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("message", "Login failed");
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("success", false);
+            responseBody.put("message", "Login failed");
             
-            return ResponseEntity.internalServerError().body(response);
+            return ResponseEntity.internalServerError().body(responseBody);
         }
     }
 
