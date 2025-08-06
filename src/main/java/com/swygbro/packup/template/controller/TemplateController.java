@@ -40,12 +40,9 @@ public class TemplateController {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            System.out.println("ObjVo : " + ObjVo);
                         
             // 서비스 호출
             List<CateObjVo> teplateObj = templateService.getCateTemplateObject(ObjVo);
-
-            System.out.println("teplateObj@#@#@#@#@ : "+teplateObj);
             
             // 결과 검증
             if (teplateObj.size() != 0) {
