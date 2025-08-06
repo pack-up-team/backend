@@ -33,10 +33,10 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     // Slack OAuth 환경변수 주입
-    @Value("${spring.security.oauth2.client.registration.slack.client-id}")
+    @Value("${slack.client-id}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.registration.slack.client-secret}")
+    @Value("${slack.client-secret}")
     private String clientSecret;
 
     /**
