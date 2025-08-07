@@ -176,7 +176,9 @@ public class TemplateController {
     public ResponseEntity<Map<String, Object>> getUserTemplateDataList(@RequestBody TemplateVo tempVo, Authentication authentication) {
         Map<String, Object> response = new HashMap<>();
 
-        System.out.println("authentication template : "+authentication.getName());
+        System.out.println("tempVo : "+tempVo);
+        System.out.println("tempVo.getSortOptions() : "+tempVo.getSort());
+        System.out.println("authentication : "+authentication);
         
         if (authentication == null || authentication.getName() == null) {
             response.put("success", false);
@@ -190,10 +192,13 @@ public class TemplateController {
         tempVo.setUserId(userId);
         
         List<TemplateVo> userTempList = templateService.getTemplatesByUserId(tempVo);
+        Map<String, Integer> templateCnt = templateService.getTemplateCnt(tempVo);
 
         System.out.println("userTempList @#@#@#@#@#@#@#@ : "+userTempList);
+        System.out.println("tempVo123123123 : "+tempVo);
 
         response.put("templateDataList", userTempList);
+        response.put("templateCntList", templateCnt);
         response.put("responseText", "success");
 
         return ResponseEntity.ok(response);

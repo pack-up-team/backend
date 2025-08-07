@@ -45,18 +45,10 @@ public class LoginController {
                     90L * 24 * 60 * 60 * 1000
                 );
 
-                System.out.println("token@#@#@#@#@@#@#@ : "+token);
-                
-                // JWT 토큰을 쿠키에 저장
-                Cookie jwtCookie = new Cookie("authorization", token);
-                jwtCookie.setHttpOnly(true);  // XSS 공격 방지
-                jwtCookie.setSecure(false);    // HTTPS에서만 전송
-                jwtCookie.setPath("/");       // 모든 경로에서 사용 가능
-                jwtCookie.setMaxAge(90 * 24 * 60 * 60); // 90일 (초 단위)
-                response.addCookie(jwtCookie);
-                
+                // JWT 토큰을 response body에 포함
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("success", true);
+                responseBody.put("token", token);
                 responseBody.put("userId", authenticatedUser.getUserId());
                 responseBody.put("username", authenticatedUser.getUserNm());
                 responseBody.put("role", authenticatedUser.getRole());
