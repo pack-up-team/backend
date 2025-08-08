@@ -48,14 +48,19 @@ public class NotificationService {
             notification.setSent(true);
             notification.setReadYn(false);
 
-            // 알림 테이블에 저장
-            notificationMapper.insertNotification(notification);
-            log.info("Notification save success : userId={}, templateNo={}", notification.getUserId(), notification.getTemplateNo());
+            // 알림테이블 중복 검사
+            boolean alreadySent = notificationMapper.existsNotification(notification);
+            log.info("alreadySent :@: " + alreadySent);
+            if (!alreadySent) {
+                // 알림 테이블에 저장
+                notificationMapper.insertNotification(notification);
+                log.info("Notification save success : userId={}, templateNo={}", notification.getUserId(), notification.getTemplateNo());
 
-            // SSE 알림 전송
-            sseEmitterService.send(notification.getUserId(), notification.getMessage());
+                // SSE 알림 전송
+                sseEmitterService.send(notification.getUserId(), notification.getMessage());
 
-            sendSlackNotification(notification.getUserId(), notification.getTemplateNm() + "의 알림시각입니다.");
+                sendSlackNotification(notification.getUserId(), notification.getTemplateNm() + "의 알림시각입니다.");
+            }
         }
     }
 
