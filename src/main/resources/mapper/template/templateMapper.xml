@@ -40,6 +40,8 @@
 			USER_ID,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			ALARM_DT,
 			REPEAT_TYPE,
 			ALARM_REPEAT_DAY,
@@ -48,6 +50,8 @@
 			#{templateNo},
 			#{templateNm},
 			#{userNo},
+			#{userId},
+			NOW(),
 			#{userId},
 			NOW(),
 			#{userId},
@@ -76,6 +80,8 @@
 			STEP,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			STEP_X,
 			STEP_Y,
 			DEL_YN
@@ -84,7 +90,9 @@
 			#{templateNo},
 			#{step},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{stepX},
 			#{stepY},
 			#{delYn}
@@ -111,6 +119,8 @@
 			OBJ_NM,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			DEL_YN,
 			LOC_NUM,
 			STEP,
@@ -122,7 +132,9 @@
 			#{objNo},
 			#{objNm},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{delYn},
 			#{locNum},
 			#{step},
@@ -151,6 +163,8 @@
 			TEMPLATE_NO,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			STEP
 		) VALUES (
 			#{textNo},
@@ -160,7 +174,9 @@
 			#{stepTextY},
 			#{templateNo},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{step}
 		)
 	</insert>

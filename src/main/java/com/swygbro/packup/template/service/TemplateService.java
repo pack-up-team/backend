@@ -43,6 +43,8 @@ public class TemplateService {
 
         int newTemplateNo = tempVo.getTemplateNo();
 
+        String userId = tempVo.getUserId();
+
         AttachFileVo fileVo = new AttachFileVo();
 
         fileVo.setFile(imgFile);
@@ -64,6 +66,8 @@ public class TemplateService {
 
         for(int i=0;i<tempVo.getStepsList().size();i++){
             tempVo.getStepsList().get(i).setTemplateNo(newTemplateNo);
+            tempVo.getStepsList().get(i).setRegId(userId);
+            tempVo.getStepsList().get(i).setUpdId(userId);
             int templateSaveStep = templateMapper.templateSaveStep(tempVo.getStepsList().get(i));
 
             if(templateSaveStep < 1){
@@ -80,6 +84,8 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateNo(newTemplateNo);
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setRegId(userId);
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setUpdId(userId);
 
                     int templateSaveStepObj = templateMapper.templateSaveStepObj(tempVo.getStepsList().get(i).getStepObjList().get(t));
 
@@ -103,6 +109,8 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateNo(newTemplateNo);
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(tempVo.getStepsList().get(i).getTemplateStepNo());
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setRegId(userId);
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setUpdId(userId);
 
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
@@ -201,6 +209,8 @@ public class TemplateService {
 
         AttachFileVo fileVo = new AttachFileVo();
 
+        String userId = tempVo.getUserId();
+
         fileVo.setFile(imgFile);
         fileVo.setRefNo(newTemplateNo);
         fileVo.setDelYn("N");
@@ -233,6 +243,7 @@ public class TemplateService {
             int step = i+1;
             int templateStepNo = templateMapper.getTemplateStepNo(tempVo.getTemplateNo(), step);
             tempVo.getStepsList().get(i).setTemplateStepNo(templateStepNo);
+            tempVo.getStepsList().get(i).setUpdId(userId);
             int templateSaveStep = templateMapper.templateUpdateStep(tempVo.getStepsList().get(i));
 
             if(templateSaveStep < 1){
@@ -249,6 +260,8 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepObjList().get(t).setTemplateStepNo(templateStepNo);
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setUpdId(userId);
+                    tempVo.getStepsList().get(i).getStepObjList().get(t).setRegId(userId);
                     
                     int templateSaveStepObj = templateMapper.templateSaveStepObj(tempVo.getStepsList().get(i).getStepObjList().get(t));
 
@@ -272,6 +285,8 @@ public class TemplateService {
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateNo(tempVo.getTemplateNo());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setStep(tempVo.getStepsList().get(i).getStep());
                     tempVo.getStepsList().get(i).getStepTextList().get(t).setTemplateStepNo(templateStepNo);
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setUpdId(userId);
+                    tempVo.getStepsList().get(i).getStepTextList().get(t).setRegId(userId);
                     
                     int templateSaveStepText = templateMapper.templateSaveStepText(tempVo.getStepsList().get(i).getStepTextList().get(t));
 
