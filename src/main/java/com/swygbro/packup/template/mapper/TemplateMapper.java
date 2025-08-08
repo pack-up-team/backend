@@ -62,4 +62,6 @@ public interface TemplateMapper {
 
     Integer getTotalCateCnt(TemplateVo tempVo);
 
+    int templateStatusUpdate(TemplateVo tempVo);
+
 }

@@ -372,4 +372,23 @@ public class TemplateService {
 
         return getTemplateCnt;
     }
+
+    public Map<String, Object> templateStatusUpdate(TemplateVo tempVo) {
+        Boolean saveStatus = true;
+
+        Map<String,Object> responseMap = new HashMap<>();
+
+        int templateSave = templateMapper.templateStatusUpdate(tempVo);
+
+        if(templateSave < 1){
+            saveStatus = false;
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 즐겨찾기 수정시 오류 발생");
+            return responseMap;
+        }else{
+            responseMap.put("status", saveStatus);
+            responseMap.put("resposeText", "템플릿 정상 저장");
+            return responseMap;
+        }
+    }
 }

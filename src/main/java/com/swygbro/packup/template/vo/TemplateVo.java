@@ -23,7 +23,7 @@ public class TemplateVo extends CommonVo{
     
     private String isFavorite;						// 즐겨찾기 체크용('Y' , 'N')
     private String cateNm;
-    private int cateNo;
+    private Integer cateNo;
 
     List<TempStepVo> stepsList;
 }
