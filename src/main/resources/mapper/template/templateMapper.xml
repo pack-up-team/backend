@@ -346,6 +346,9 @@
 			<if test='templateNm != null and templateNm != ""'>
 			TEMPLATE_NM = #{templateNm},
 			</if>
+			<if test='alarmRepeatDay != null and alarmRepeatDay != ""'>
+			ALARM_REPEAT_DAY = #{alarmRepeatDay},
+			</if>
 			DEL_YN = #{delYn},
 			UPD_ID = #{userId},
 			UPD_DT = NOW()
