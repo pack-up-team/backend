@@ -46,6 +46,7 @@
 			REPEAT_TYPE,
 			ALARM_REPEAT_DAY,
 			ALARM_TIME,
+			CATE_NO
 		) VALUES (
 			#{templateNo},
 			#{templateNm},
@@ -59,6 +60,7 @@
 			#{repeatType},
 			#{alarmRepeatDay},
 			#{alarmTime},
+			#[cateNo]
 		)
 	</insert>
 
@@ -364,6 +366,9 @@
 			</if>
 			<if test='alarmRepeatDay != null and alarmRepeatDay != ""'>
 			ALARM_REPEAT_DAY = #{alarmRepeatDay},
+			</if>
+			<if test='cateNo != null and cateNo != ""'>
+			CATE_NO = #{cateNo},
 			</if>
 			DEL_YN = #{delYn},
 			UPD_ID = #{userId},
