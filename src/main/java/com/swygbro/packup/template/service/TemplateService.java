@@ -1,6 +1,7 @@
 package com.swygbro.packup.template.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -340,4 +341,20 @@ public class TemplateService {
 
       return responseMap;
   }
+
+    public Map<String, Integer> getTemplateCnt(TemplateVo tempVo) {
+        
+        Map<String, Integer> getTemplateCnt = new HashMap<>();
+
+        getTemplateCnt.put("totalCnt", templateMapper.getTotalCnt(tempVo));
+        getTemplateCnt.put("totalFavoriteCnt", templateMapper.getTotalFavoriteCnt(tempVo));
+        tempVo.setCateNo(1);
+        getTemplateCnt.put("totalOfficeCnt", templateMapper.getTotalCateCnt(tempVo));
+        tempVo.setCateNo(2);
+        getTemplateCnt.put("totalDailyCnt", templateMapper.getTotalCateCnt(tempVo));
+        tempVo.setCateNo(3);
+        getTemplateCnt.put("totalTripCnt", templateMapper.getTotalCateCnt(tempVo));
+
+        return getTemplateCnt;
+    }
 }
