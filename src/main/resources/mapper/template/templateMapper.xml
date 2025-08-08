@@ -281,12 +281,33 @@
 			   A.UPD_ID,
 			   A.TEMPLATE_NM,
 			   A.IS_FAVORITE,
-			   B.ORG_FILE_NAME
+			   B.ORG_FILE_NAME,
+			   A.CATE_NO,
+			   CASE 
+			   	WHEN T.CATE_NM = 'office' then '업무'
+			   	WHEN T.CATE_NM = 'daily' then '생활'
+			   	WHEN T.CATE_NM = 'trip' then '여행'
+			   	ELSE ''
+			   END AS CATE_NM
 		FROM TBL_USER_TEMPLATE A
 				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
+			 , TBL_CATE T
 		WHERE 1=1
 		  AND A.DEL_YN = 'N'
+		  AND T.CATE_NO = A.CATE_NO
 		  AND A.USER_ID = #{userId}
+		<if test='sort == 0'>
+		ORDER BY UPD_DT DESC
+		</if>
+		<if test='sort == 1'>
+		ORDER BY REG_DT DESC
+		</if>
+		<if test='sort == 2'>
+		ORDER BY ALARM_DT DESC
+		</if>
+		<if test='sort == 3'>
+		ORDER BY TEMPLATE_NM DESC
+		</if>
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 
@@ -424,4 +445,50 @@
         AND A.TEMPLATE_NO = #{templateNo}
         AND A.STEP = #{step}
 	</select>
+
+
+	<select id="getTotalCnt" parameterType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTotalCnt
+		 * 작성자 : 홍섭
+		 * 설명 : 사용자의 템플릿 전체 개수
+		 * 
+		 */
+		 SELECT COUNT(1)
+        FROM TBL_USER_TEMPLATE A
+        WHERE 1=1
+        AND A.USER_ID = #{userId}
+        AND A.DEL_YN = 'N'
+	</select>
+
+	<select id="getTotalFavoriteCnt" parameterType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTotalFavoriteCnt
+		 * 작성자 : 홍섭
+		 * 설명 : 사용자의 템플릿 즐겨찾기 전체 개수
+		 * 
+		 */
+		 SELECT COUNT(1)
+        FROM TBL_USER_TEMPLATE A
+        WHERE 1=1
+        AND A.USER_ID = #{userId}
+		AND A.IS_FAVORITE = 'Y'
+        AND A.DEL_YN = 'N'
+	</select>
+
+	<select id="getTotalCateCnt" parameterType="com.swygbro.packup.template.vo.TempStepVo">
+		/**
+		 * com.swygbro.packup.template.mapper.TemplateMapper > getTotalOfficeCnt
+		 * 작성자 : 홍섭
+		 * 설명 : 사용자의 템플릿 즐겨찾기 전체 개수
+		 * 
+		 */
+		 SELECT COUNT(1)
+        FROM TBL_USER_TEMPLATE A
+        WHERE 1=1
+        AND A.USER_ID = #{userId}
+		AND A.CATE_NO = #{cateNo}
+        AND A.DEL_YN = 'N'
+	</select>
+
 </mapper>

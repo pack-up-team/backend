@@ -35,10 +35,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = extractTokenFromCookie(request);
+        // Authorization 헤더에서 토큰 추출 시도
+        String token = extractTokenFromHeader(request);
+        
+        // 헤더에서 토큰이 없으면 쿠키에서 추출 시도 (하위 호환성)
+        if (token == null) {
+            token = extractTokenFromCookie(request);
+        }
+        
+        log.info("JWT Filter - Path: {}, Token found: {}", path, token != null);
         
         if (token == null) {
-            log.debug("No JWT token found in cookies");
+            log.debug("No JWT token found in Authorization header or cookies for path: {}", path);
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                log.debug("Available cookies:");
+                for (Cookie cookie : cookies) {
+                    log.debug("Cookie: {} = {}", cookie.getName(), cookie.getValue());
+                }
+            }
             filterChain.doFilter(request, response);
             return;
         }
@@ -77,6 +92,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    private String extractTokenFromHeader(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7); // "Bearer " 제거
+        }
+        return null;
+    }
+
     private String extractTokenFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
@@ -99,7 +122,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                path.startsWith("/test") ||
                path.startsWith("/sample/") ||
                path.startsWith("/component/") ||
-               path.startsWith("/temp/") ||
                path.startsWith("/files/") ||
                path.startsWith("/notifications/") ||
                path.startsWith("/dashboard/") ||

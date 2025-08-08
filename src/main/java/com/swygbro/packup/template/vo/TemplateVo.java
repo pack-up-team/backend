@@ -22,6 +22,8 @@ public class TemplateVo extends CommonVo{
     private Date alarmTime;                         // 알람 요청 시간, REPEAT_TYPE이 단발성(FALSE)일때 저장
     
     private String isFavorite;						// 즐겨찾기 체크용('Y' , 'N')
+    private String cateNm;
+    private int cateNo;
 
     List<TempStepVo> stepsList;
 }

@@ -25,9 +25,8 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<Map<String, Object>> getCurrentUser(Authentication authentication) {
         Map<String, Object> response = new HashMap<>();
-
-        System.out.println("authentication : "+authentication);
         
+        System.out.println("authentication : "+authentication);
         try {
             if (authentication == null || authentication.getName() == null) {
                 response.put("success", false);
