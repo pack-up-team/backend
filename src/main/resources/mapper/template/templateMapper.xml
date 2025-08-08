@@ -40,10 +40,13 @@
 			USER_ID,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			ALARM_DT,
 			REPEAT_TYPE,
 			ALARM_REPEAT_DAY,
 			ALARM_TIME,
+			CATE_NO
 		) VALUES (
 			#{templateNo},
 			#{templateNm},
@@ -51,10 +54,13 @@
 			#{userId},
 			NOW(),
 			#{userId},
+			NOW(),
+			#{userId},
 			#{alarmDt},
 			#{repeatType},
 			#{alarmRepeatDay},
 			#{alarmTime},
+			#[cateNo]
 		)
 	</insert>
 
@@ -76,6 +82,8 @@
 			STEP,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			STEP_X,
 			STEP_Y,
 			DEL_YN
@@ -84,7 +92,9 @@
 			#{templateNo},
 			#{step},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{stepX},
 			#{stepY},
 			#{delYn}
@@ -111,6 +121,8 @@
 			OBJ_NM,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			DEL_YN,
 			LOC_NUM,
 			STEP,
@@ -122,7 +134,9 @@
 			#{objNo},
 			#{objNm},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{delYn},
 			#{locNum},
 			#{step},
@@ -151,6 +165,8 @@
 			TEMPLATE_NO,
 			REG_DT,
 			REG_ID,
+			UPD_DT,
+			UPD_ID,
 			STEP
 		) VALUES (
 			#{textNo},
@@ -160,7 +176,9 @@
 			#{stepTextY},
 			#{templateNo},
 			NOW(),
-			#{userId},
+			#{regId},
+			NOW(),
+			#{updId},
 			#{step}
 		)
 	</insert>
@@ -345,6 +363,12 @@
 			</if>
 			<if test='templateNm != null and templateNm != ""'>
 			TEMPLATE_NM = #{templateNm},
+			</if>
+			<if test='alarmRepeatDay != null and alarmRepeatDay != ""'>
+			ALARM_REPEAT_DAY = #{alarmRepeatDay},
+			</if>
+			<if test='cateNo != null and cateNo != ""'>
+			CATE_NO = #{cateNo},
 			</if>
 			DEL_YN = #{delYn},
 			UPD_ID = #{userId},
