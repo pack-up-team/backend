@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.swygbro.packup.security.jwt.JwtUtill;
@@ -96,6 +98,43 @@ public class LoginController {
             return new ModelAndView("redirect:/index");
         }else{
             return new ModelAndView("redirect:/error/registerError");
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // JWT 쿠키 제거 (authorization)
+            Cookie authCookie = new Cookie("authorization", null);
+            authCookie.setMaxAge(0);
+            authCookie.setPath("/");
+            authCookie.setDomain("packup.swygbro.com");
+            response.addCookie(authCookie);
+
+            // JWT 쿠키 제거 (jwt)
+            Cookie jwtCookie = new Cookie("jwt", null);
+            jwtCookie.setMaxAge(0);
+            jwtCookie.setPath("/");
+            jwtCookie.setDomain("packup.swygbro.com");
+            response.addCookie(jwtCookie);
+
+            // 세션 무효화
+            if (request.getSession(false) != null) {
+                request.getSession().invalidate();
+            }
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("success", true);
+            responseBody.put("message", "로그아웃 성공");
+            
+            return ResponseEntity.ok(responseBody);
+        } catch (Exception e) {
+            log.error("Logout error: ", e);
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("success", false);
+            responseBody.put("message", "로그아웃 실패");
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
         }
     }
 

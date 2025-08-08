@@ -299,7 +299,6 @@
 			   A.UPD_ID,
 			   A.TEMPLATE_NM,
 			   A.IS_FAVORITE,
-			   B.ORG_FILE_NAME,
 			   A.CATE_NO,
 			   CASE 
 			   	WHEN T.CATE_NM = 'office' then '업무'
@@ -308,23 +307,28 @@
 			   	ELSE ''
 			   END AS CATE_NM
 		FROM TBL_USER_TEMPLATE A
-				 LEFT JOIN TBL_ATTCH_FILE B ON A.TEMPLATE_NO = B.REF_NO
 			 , TBL_CATE T
 		WHERE 1=1
 		  AND A.DEL_YN = 'N'
 		  AND T.CATE_NO = A.CATE_NO
 		  AND A.USER_ID = #{userId}
+		  <if test='cateNo == ""'>
+			AND IS_FAVORITE = 'Y'
+		  </if>
+		  <if test='cateNo > 0'>
+			AND A.CATE_NO = #{cateNo}
+		  </if>
 		<if test='sort == 0'>
-		ORDER BY UPD_DT DESC
+		ORDER BY A.UPD_DT DESC
 		</if>
 		<if test='sort == 1'>
-		ORDER BY REG_DT DESC
+		ORDER BY A.REG_DT DESC
 		</if>
 		<if test='sort == 2'>
-		ORDER BY ALARM_DT DESC
+		ORDER BY A.ALARM_DT DESC
 		</if>
 		<if test='sort == 3'>
-		ORDER BY TEMPLATE_NM DESC
+		ORDER BY A.TEMPLATE_NM DESC
 		</if>
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
@@ -369,6 +373,9 @@
 			</if>
 			<if test='cateNo != null and cateNo != ""'>
 			CATE_NO = #{cateNo},
+			</if>
+			<if test='templateNm != null and templateNm != ""'>
+			TEMPLATE_NM = #{templateNm},
 			</if>
 			DEL_YN = #{delYn},
 			UPD_ID = #{userId},
@@ -514,5 +521,19 @@
 		AND A.CATE_NO = #{cateNo}
         AND A.DEL_YN = 'N'
 	</select>
+
+	<update id="templateStatusUpdate" parameterType="com.swygbro.packup.template.vo.TemplateVo">
+		UPDATE TBL_USER_TEMPLATE
+		SET
+			<if test='isFavorite != null and isFavorite != ""'>
+			IS_FAVORITE = #{isFavorite},
+			</if>
+			<if test='templateNm != null and templateNm != ""'>
+			TEMPLATE_NM = #{templateNm},
+			</if>
+			UPD_ID = #{userId},
+			UPD_DT = NOW()
+		WHERE TEMPLATE_NO = #{templateNo}
+	</update>
 
 </mapper>
