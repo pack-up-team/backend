@@ -31,6 +31,76 @@ public class JoinService {
     @Lazy
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    // OAuth2SuccessHandler에서 호출: 소셜 연동을 idempotent 하게 보장
+    @Transactional
+    public void ensureSnsUserLinked(String provider, String socialId, String email, String candidateName) {
+        // 0) 이미 해당 socialId+provider 링크가 있으면 종료
+        if (snsSignUpRepo.findBySocialIdAndLoginType(socialId, provider).isPresent()) {
+            return;
+        }
+
+        // 1) email 기준 기존 사용자 찾기 (있으면 그 사용자에 링크)
+        User user = null;
+        if (email != null && !email.trim().isEmpty()) {
+            var byEmail = userRepository.findByEmail(email.trim());
+            if (byEmail.isPresent()) {
+                user = byEmail.get();
+
+                // 기존 사용자가 이미 다른 SNS에 연동돼 있다면 정책상 차단
+                int snsCount = snsSignUpRepo.countByUserNo(user.getUserNo());
+                if (snsCount > 0) {
+                    throw new IllegalStateException("이미 다른 SNS 계정으로 가입된 이메일입니다. 기존 계정으로 로그인해주세요.");
+                }
+            }
+        }
+
+        // 2) 없으면 신규 User 생성
+        if (user == null) {
+            String userId = (email != null && !email.trim().isEmpty())
+                    ? email.trim()
+                    : (provider.toLowerCase() + "_" + extractIdSuffix(socialId));
+
+            String encodedPw = passwordEncoder.encode(generateSecurePassword());
+
+            user = User.builder()
+                    .userId(userId)
+                    .userNm((candidateName != null && !candidateName.isBlank()) ? candidateName : "packUp#temp")
+                    .email((email != null && !email.isBlank()) ? email.trim() : null)
+                    .userPw(encodedPw)
+                    .role("ROLE_USER")
+                    .useYn('Y')
+                    .delYn('N')
+                    .personalInfoAcq('Y')
+                    .build();
+
+            user = userRepository.save(user);
+
+            // 닉네임을 packUp#회원번호로 업데이트
+            user.setUserNm("packUp#" + user.getUserNo());
+            userRepository.save(user);
+        }
+
+        // 3) SNS 링크 저장 (idempotent 체크)
+        if (!snsSignUpRepo.existsByUserNoAndLoginType(user.getUserNo(), provider)) {
+            SnsUser snsUser = SnsUser.builder()
+                    .userNo(user.getUserNo())
+                    .userId(user.getUserId())
+                    .loginType(provider) // "KAKAO" / "NAVER" / "GOOGLE"
+                    .socialId(socialId)  // "kakao_123..." 등
+                    .regId("system")
+                    .regDt(LocalDateTime.now())
+                    .build();
+            snsSignUpRepo.save(snsUser);
+        }
+    }
+
+    // "kakao_12345" -> "12345" 같이 suffix만 추출
+    private String extractIdSuffix(String socialId) {
+        if (socialId == null) return "unknown";
+        int idx = socialId.lastIndexOf('_');
+        return (idx >= 0 && idx + 1 < socialId.length()) ? socialId.substring(idx + 1) : socialId;
+    }
+
     @Transactional
     public void joinSocial(JoinDto joinDto) {
         log.info("SNS 회원가입 시작: userId={}, loginType={}, socialId={}", 

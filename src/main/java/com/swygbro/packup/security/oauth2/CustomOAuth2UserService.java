@@ -1,8 +1,6 @@
 package com.swygbro.packup.security.oauth2;
 
 import com.swygbro.packup.sns.Helper.socialLoginType;
-import com.swygbro.packup.sns.SignUP.Service.JoinService;
-import com.swygbro.packup.sns.SignUP.dto.JoinDto;
 import com.swygbro.packup.sns.SignUP.entity.SnsUser;
 import com.swygbro.packup.sns.SignUP.repository.SnsSignUpRepo;
 import com.swygbro.packup.user.entity.User;
@@ -24,7 +22,6 @@ import java.util.*;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{
 
-    private final JoinService joinService;
     private final UserRepository userRepository;
     private final SnsSignUpRepo snsSignUpRepo;
 
@@ -53,16 +50,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
                     .orElseThrow(() -> new RuntimeException("연결된 사용자 정보를 찾을 수 없습니다."));
             
             log.info("기존 SNS 사용자 로그인: userId={}, userNo={}", user.getUserId(), user.getUserNo());
-        } else {
+        }
+       /* else {
             // 신규 SNS 사용자 - 일반 회원과 중복 체크 후 처리
             user = handleNewSnsUser(socialType, socialId, email, phoneNum);
-        }
+        }*/
 
         String role = user.getRole();
         if(role == null || role.trim().isEmpty()){
             role = "ROLE_USER";
         }
 
+        // 2) 신규 sns 사용자: 여기서는 "생성 안함" -> 의존성 주입 오류 발생
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(role)),
                 attributes,
@@ -70,13 +69,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
                 user.getUserNm(),
                 "name",
                 user.getUserNo(),
-                socialType
+                socialType,
+                false,
+                socialId,
+                email
         );
     }
 
     /**
      * 신규 SNS 사용자 처리 로직
-     */
+
     private User handleNewSnsUser(socialLoginType socialType, String socialId, String email, String phoneNum) {
         log.info("신규 SNS 사용자 처리 시작: socialType={}, email={}, phoneNum={}", socialType, email, phoneNum);
 
@@ -108,7 +110,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
 
     /**
      * 신규 SNS 사용자 생성
-     */
+
     private User createNewSnsUser(socialLoginType socialType, String socialId, String email) {
         String userId;
         
@@ -139,6 +141,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
             throw new RuntimeException("SNS 회원가입 처리 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
+     */
 
     /**
      * 핸드폰번호로 일반 회원 중복 체크 (추가 정보 입력 시 사용)

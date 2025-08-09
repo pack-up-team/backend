@@ -3,6 +3,7 @@ package com.swygbro.packup.security.oauth2;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swygbro.packup.security.jwt.JwtUtill;
 import com.swygbro.packup.sns.Helper.socialLoginType;
+import com.swygbro.packup.sns.SignUP.Service.JoinService;
 import com.swygbro.packup.sns.SignUP.dto.CustomOAuth2User;
 import com.swygbro.packup.sns.SignUP.dto.SnsAuthResponseDto;
 import com.swygbro.packup.sns.SignUP.entity.SnsUser;
@@ -12,6 +13,8 @@ import com.swygbro.packup.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
@@ -32,6 +35,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final SnsSignUpRepo snsSignUpRepo;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private final @Lazy JoinService joinService;
     
     @Value("${app.frontend-url:https://packup.swygbro.com}")
     private String frontendUrl;
@@ -54,9 +58,30 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.iterator().next().getAuthority();
 
+        // 신규 사용자면 가입/연동 먼저 보장 (idempotent)
+        if (user.isNewUser()) {
+            joinService.ensureSnsUserLinked(
+                    loginType.name(),
+                    socialId,
+                    user.getEmail(),
+                    username // null 가능; 서비스에서 닉네임/임시비번 생성
+            );
+        }
+
+        // SNS 링크 기준으로 최종 User 재조회 (신규 생성되었을 수 있음)
+        SnsUser link = snsSignUpRepo.findBySocialIdAndLoginType(socialId, loginType.name())
+                .orElseThrow(() -> new IllegalStateException("SNS 연동 정보를 찾을 수 없습니다."));
+        User userEntity = userRepository.findByUserNo(link.getUserNo())
+                .orElseThrow(() -> new IllegalStateException("사용자 정보를 찾을 수 없습니다."));
+
+        // 재조회한 엔티티 값으로 변수 재할당 (변수명 유지)
+        userNo = userEntity.getUserNo();
+        username = userEntity.getUserNm();
+        userId = userEntity.getUserId();
+
         // ✅ 사용자 정보 조회
-        User userEntity = userRepository.findByUserNo(userNo).orElse(null);
-        
+        //User userEntity = userRepository.findByUserNo(userNo).orElse(null);
+
         // ✅ 추가 정보 입력 필요 여부 확인 (전화번호와 비밀번호가 없으면 추가 정보 필요)
         boolean needsAdditionalInfo = userEntity == null || 
                                      userEntity.getPhoneNum() == null || 
@@ -82,9 +107,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // ✅ SNS 연동 정보 저장 (중복 방지)
         if (!snsSignUpRepo.existsByUserNoAndLoginType(userNo, String.valueOf(loginType))) {
             SnsUser snsUser = SnsUser.builder()
-                    .userNo(user.getUserNo())
+                    .userNo(userNo)
                     .userId(userId)
-                    .loginType(String.valueOf(loginType))
+                    .loginType(loginType.name())
                     .socialId(socialId)
                     .build();
             snsSignUpRepo.save(snsUser);

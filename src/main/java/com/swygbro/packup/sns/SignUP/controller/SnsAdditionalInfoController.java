@@ -4,6 +4,7 @@ import com.swygbro.packup.sns.SignUP.Service.JoinService;
 import com.swygbro.packup.sns.SignUP.dto.SnsAdditionalInfoDto;
 import com.swygbro.packup.sns.SignUP.dto.SnsAuthResponseDto;
 import com.swygbro.packup.security.jwt.JwtUtill;
+import com.swygbro.packup.sns.SignUP.repository.SnsSignUpRepo;
 import com.swygbro.packup.user.entity.User;
 import com.swygbro.packup.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,7 @@ public class SnsAdditionalInfoController {
 
     private final JoinService joinService;
     private final UserRepository userRepository;
+    private final SnsSignUpRepo  snsSignUpRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtill jwtUtil;
 
