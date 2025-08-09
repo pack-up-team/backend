@@ -6,10 +6,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ActiveProfiles("test")
 @TestPropertySource(properties = {
     "spring.jwt.secret=thisIsASecretKeyWithAtLeast32ByteLength123!!",
-    "spring.datasource.url=jdbc:h2:mem:testdb",
-    "spring.jpa.hibernate.ddl-auto=create-drop"
+    "spring.datasource.url=jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.data.redis.repositories.enabled=false",
+    "spring.cache.type=none",
+    "spring.mail.host=localhost"
 })
 class PackUpApplicationTests {
 

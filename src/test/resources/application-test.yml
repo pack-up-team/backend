@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password: ""
@@ -12,15 +12,40 @@ spring:
     properties:
       hibernate:
         format_sql: false
+        dialect: org.hibernate.dialect.H2Dialect
         
   h2:
     console:
-      enabled: true
+      enabled: false
       
   jwt:
     secret: thisIsASecretKeyWithAtLeast32ByteLength123!!
 
+  # Redis 비활성화 (CI 환경에서 Redis 없음)
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+  # 메일 설정 비활성화 (CI 환경)
+  mail:
+    host: localhost
+    port: 25
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: false
+          auth: false
+
+  # 캐시 비활성화
+  cache:
+    type: none
+
 logging:
   level:
-    org.springframework.security: DEBUG
-    com.swygbro.packup: DEBUG
+    org.springframework.security: ERROR
+    com.swygbro.packup: ERROR
+    org.hibernate: ERROR
+    org.springframework.web: ERROR
+    root: ERROR

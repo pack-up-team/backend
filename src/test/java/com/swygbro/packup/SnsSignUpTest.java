@@ -18,6 +18,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * SNS 회원가입 서비스 단위 테스트 - Mock 기반
+ */
 @ExtendWith(MockitoExtension.class)
 public class SnsSignUpTest {
 
@@ -60,7 +63,7 @@ public class SnsSignUpTest {
         when(passwordEncoder.encode(any())).thenReturn("encodedPassword");
 
         // when
-        joinService.joinSocial(joinDto);
+        assertDoesNotThrow(() -> joinService.joinSocial(joinDto));
 
         // then
         verify(userRepository, times(2)).save(any(User.class)); // 저장 2회 (초기 저장 + 닉네임 업데이트)
@@ -111,7 +114,7 @@ public class SnsSignUpTest {
         when(snsSignUpRepo.existsByUserNoAndLoginType(anyInt(), eq(provider))).thenReturn(false);
 
         // when
-        joinService.ensureSnsUserLinked(provider, socialId, email, candidateName);
+        assertDoesNotThrow(() -> joinService.ensureSnsUserLinked(provider, socialId, email, candidateName));
 
         // then
         verify(userRepository, times(2)).save(any(User.class)); // 초기 저장 + 닉네임 업데이트

@@ -69,6 +69,8 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	systemProperty("spring.profiles.active", "test")
+	environment("SPRING_PROFILES_ACTIVE", "test")
 }
 
 tasks.test {
