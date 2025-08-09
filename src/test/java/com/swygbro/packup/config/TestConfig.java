@@ -10,6 +10,8 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCacheManager;
 
 import jakarta.mail.internet.MimeMessage;
 import java.io.InputStream;
@@ -62,5 +64,11 @@ public class TestConfig {
                 // Mock implementation - do nothing
             }
         };
+    }
+
+    @Bean
+    @Primary
+    public CacheManager cacheManager() {
+        return new NoOpCacheManager();
     }
 }

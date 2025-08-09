@@ -21,13 +21,17 @@ spring:
   jwt:
     secret: thisIsASecretKeyWithAtLeast32ByteLength123!!
 
-  # Redis 비활성화 (CI 환경에서 Redis 없음)
+  # Redis 완전 비활성화
   data:
     redis:
       repositories:
         enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
-  # 메일 설정 비활성화 (CI 환경)
+  # 메일 설정 비활성화 (CI 환경에서 SMTP 없음)
   mail:
     host: localhost
     port: 25
@@ -42,10 +46,47 @@ spring:
   cache:
     type: none
 
+  # Security 기본 설정
+  security:
+    user:
+      name: admin
+      password: 1234
+
+# 파일 업로드 테스트 설정
+file:
+  upload:
+    path: /tmp/test-uploads/
+    max-size: 52428800
+    max-request-size: 104857600
+    allowed-extensions: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt
+
+# 서버 설정
+server:
+  port: 0  # 랜덤 포트
+
+# 앱 설정
+app:
+  base-url: http://localhost:8080
+  frontend-url: http://localhost:3000
+  cookie-domain: localhost
+
+# 로깅 최소화
 logging:
   level:
     org.springframework.security: ERROR
     com.swygbro.packup: ERROR
     org.hibernate: ERROR
     org.springframework.web: ERROR
+    org.springframework.data: ERROR
+    org.springframework.cache: ERROR
     root: ERROR
+
+# MyBatis 설정 (있는 경우)
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/**/*.xml
+
+# Slack 설정 (테스트용)
+slack:
+  client-id: test_client_id
+  client-secret: test_client_secret
