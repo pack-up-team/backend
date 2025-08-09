@@ -60,7 +60,7 @@
 			#{repeatType},
 			#{alarmRepeatDay},
 			#{alarmTime},
-			#[cateNo]
+			#{cateNo}
 		)
 	</insert>
 
