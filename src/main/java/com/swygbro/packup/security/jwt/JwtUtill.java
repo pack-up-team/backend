@@ -203,7 +203,7 @@ public class JwtUtill {
     public String getUsernameFromToken(String token) {
         return getUsername(token);
     }
-     * @param token JWT 토큰
+     /* @param token JWT 토큰
      * @return 자동로그인 결과
      */
     public AutoLoginResult checkAutoLogin(String token) {
