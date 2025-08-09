@@ -27,7 +27,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-@RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -35,7 +34,17 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final SnsSignUpRepo snsSignUpRepo;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    private final @Lazy JoinService joinService;
+    private final JoinService joinService;
+
+    public OAuth2SuccessHandler(JwtUtill jwtUtil, SnsSignUpRepo snsSignUpRepo, 
+                               UserRepository userRepository, ObjectMapper objectMapper,
+                               @Lazy JoinService joinService) {
+        this.jwtUtil = jwtUtil;
+        this.snsSignUpRepo = snsSignUpRepo;
+        this.userRepository = userRepository;
+        this.objectMapper = objectMapper;
+        this.joinService = joinService;
+    }
     
     @Value("${app.frontend-url:https://packup.swygbro.com}")
     private String frontendUrl;

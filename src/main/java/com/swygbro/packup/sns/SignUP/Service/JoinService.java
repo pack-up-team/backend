@@ -20,16 +20,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class JoinService {
     private final UserRepository userRepository;
     private final SnsSignUpRepo snsSignUpRepo;
     private final PasswordEncoder passwordEncoder;
-    
-    // 순환 참조 방지를 위한 @Lazy
-    @Lazy
     private final CustomOAuth2UserService customOAuth2UserService;
+    
+    public JoinService(UserRepository userRepository, SnsSignUpRepo snsSignUpRepo, 
+                      PasswordEncoder passwordEncoder, @Lazy CustomOAuth2UserService customOAuth2UserService) {
+        this.userRepository = userRepository;
+        this.snsSignUpRepo = snsSignUpRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.customOAuth2UserService = customOAuth2UserService;
+    }
 
     // OAuth2SuccessHandler에서 호출: 소셜 연동을 idempotent 하게 보장
     @Transactional

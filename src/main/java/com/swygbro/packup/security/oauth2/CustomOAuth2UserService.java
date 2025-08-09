@@ -51,17 +51,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
             
             log.info("기존 SNS 사용자 로그인: userId={}, userNo={}", user.getUserId(), user.getUserNo());
         }
-       /* else {
-            // 신규 SNS 사용자 - 일반 회원과 중복 체크 후 처리
-            user = handleNewSnsUser(socialType, socialId, email, phoneNum);
-        }*/
+        else {
+            // 신규 SNS 사용자 - 가입 없이 임시 사용자 객체 반환
+            log.info("신규 SNS 사용자 감지: socialType={}, socialId={}, email={}", socialType, socialId, email);
+            
+            // 임시 사용자 정보로 CustomOAuth2User 반환 (가입은 OAuth2SuccessHandler에서 처리)
+            return new CustomOAuth2User(
+                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+                    attributes,
+                    email != null ? email : (socialType.name().toLowerCase() + "_" + extractIdFromSocialId(socialId)),
+                    "신규사용자",
+                    "name",
+                    0,  // 임시 userNo
+                    socialType,
+                    true,  // 신규 사용자 플래그
+                    socialId,
+                    email
+            );
+        }
 
-        String role = user.getRole();
+        String role = user != null ? user.getRole() : "ROLE_USER";
         if(role == null || role.trim().isEmpty()){
             role = "ROLE_USER";
         }
 
-        // 2) 신규 sns 사용자: 여기서는 "생성 안함" -> 의존성 주입 오류 발생
+        // 기존 사용자인 경우에만 실제 사용자 정보로 반환
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(role)),
                 attributes,
@@ -70,7 +84,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
                 "name",
                 user.getUserNo(),
                 socialType,
-                false,
+                false,  // 기존 사용자
                 socialId,
                 email
         );

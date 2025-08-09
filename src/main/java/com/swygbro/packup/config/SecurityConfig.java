@@ -26,14 +26,13 @@ public class SecurityConfig {
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final OAuth2SuccessHandler OAuth2SuccessHandler;
-    private final @Lazy CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final JwtUtill jwtUtill;
 
-
     public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
                           OAuth2SuccessHandler OAuth2SuccessHandler,
-                          @Lazy CustomOAuth2UserService customOAuth2UserService,
+                          CustomOAuth2UserService customOAuth2UserService,
                           CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
                           JwtUtill jwtUtill) {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
