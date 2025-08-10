@@ -19,7 +19,6 @@ public class RegisterService {
     private final RegisterMapper registerMapper;
 
     public int registerUser(UserVo userVo) {
-        System.out.println("service userVo : "+userVo);
         return registerMapper.insertUser(userVo);
     }
 

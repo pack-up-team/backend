@@ -33,27 +33,27 @@
 			USER_NM,
 			EMAIL,
 			PHONE_NUM,
-			GENDER,
 			PERSONAL_INFO_ACQ,
 			REG_ID,
 			REG_DT,
 			DEL_YN,
 			INFO_ACQ,
-			ROLE
+			ROLE,
+			MKT_AGREE
 		) VALUES (
 			#{userNo},
 			#{userId},
 			#{userPw},
-			#{userNm},
+			CONCAT('packUp#', #{userNo}),  <!-- 여기서 조합 -->
 			#{email},
 			#{phoneNum},
-			#{gender},
 			#{personalInfoAcq},
 			#{userId},
 			NOW(),
 			'N',
 			#{infoAcq},
-			#{role}
+			#{role},
+			#{mktAgree}
 		)
 	</insert>
 </mapper>

@@ -1,6 +1,8 @@
 package com.swygbro.packup.user.vo;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +30,5 @@ public class UserVo {
     private int lgnFailCnt;
     private String personalInfoAcq;
     private String infoAcq;
+    private String mktAgree;
 }
